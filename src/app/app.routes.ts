@@ -13,11 +13,17 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
+import { JimmyComponent } from './pages/jimmy/jimmy.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'jimmy',
+    component: JimmyComponent,
     canActivate: [GuestGuard],
   },
   {
