@@ -1,0 +1,18 @@
+<div class="container mt-4">
+  <h2>Gestión de Productos</h2>
+
+  @if (areActionsAvailable) {
+  <app-product-form
+    [form]="form"
+    (callSaveMethod)="saveProduct($event)"
+    (callUpdateMethod)="updateProduct($event)"
+  ></app-product-form>
+  }
+
+  <app-product-list
+    [productList]="(productList$ | async) || []"
+    [areActionsAvailable]="areActionsAvailable"
+    (callUpdateMethod)="openEditProductModal($event)"
+    (callDeleteMethod)="deleteProduct($event)"
+  ></app-product-list>
+</div>
