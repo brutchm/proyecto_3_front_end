@@ -1,0 +1,16 @@
+<p>Categorías</p>
+
+@if (areActionsAvailable) {
+  <app-category-form
+    [form]="categoryForm"
+    (callSaveMethod)="saveCategory($event)"
+    (callUpdateMethod)="updateCategory($event)"
+  />
+}
+
+<app-category-list
+  [pCategoryList]="categories"
+  [areActionsAvailable]="areActionsAvailable"
+  (callUpdateModalMethod)="openEditCategoryModal($event)"
+  (callDeleteMethod)="deleteCategory($event)"
+/>
