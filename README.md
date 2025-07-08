@@ -7,3 +7,8 @@ npm install
 
 # install node modules
 npm start
+
+# install leaftlet
+
+npm install leaflet
+npm install --save-dev @types/leaflet

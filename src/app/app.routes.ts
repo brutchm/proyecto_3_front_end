@@ -14,11 +14,18 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
+import { CorporationComponent } from './pages/users/corporation/corporation.component';
+import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'corporation',
+    component: CorporationComponent,
     canActivate: [GuestGuard],
   },
   {
@@ -38,7 +45,7 @@ export const routes: Routes = [
   {
     path: 'app',
     component: AppLayoutComponent,
-    canActivate: [AuthGuard],
+   canActivate: [AuthGuard],
     children: [
       {
         path: 'app',
@@ -84,6 +91,21 @@ export const routes: Routes = [
           showInSidebar: false
         }
       },
+
+      {
+        path: 'profileCorporation',
+        component: ProfileCorporationComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'profileCorporation',
+          showInSidebar: false
+        }
+      },
+
       {
         path: 'games',
         component: GamesComponent,
