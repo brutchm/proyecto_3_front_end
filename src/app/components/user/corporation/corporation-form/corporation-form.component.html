@@ -48,33 +48,29 @@
         </div>
       </div>
   
-      <div class="row">
-        <div class="col-1-2 mb-3">
-          <label for="businessCountry" class="form-label">País*</label>
-          <select id="businessCountry" formControlName="businessCountry" class="form-control">
-            <option value="Costa Rica">Costa Rica</option>
-          </select>
-          @if (form.controls['businessCountry'].invalid && (form.controls['businessCountry'].dirty || form.controls['businessCountry'].touched)) {
-            <div class="text-danger mt-1">El país es requerido</div>
-          }
-        </div>
-        <div class="col-1-2 mb-3">
-          <label for="businessStateProvince" class="form-label">Provincia*</label>
-          <select id="businessStateProvince" formControlName="businessStateProvince" class="form-control">
-            <option value="" disabled selected>Seleccione una provincia</option>
-            <option>San José</option>
-            <option>Alajuela</option>
-            <option>Heredia</option>
-            <option>Cartago</option>
-            <option>Guanacaste</option>
-            <option>Puntarenas</option>
-            <option>Limón</option>
-          </select>
-          @if (form.controls['businessStateProvince'].invalid && (form.controls['businessStateProvince'].dirty || form.controls['businessStateProvince'].touched)) {
-            <div class="text-danger mt-1">La provincia es requerida</div>
-          }
-        </div>
-      </div>
+<div class="row">
+  <div class="col-1-2 mb-3">
+    <label for="businessCountry" class="form-label">País*</label>
+    <select id="businessCountry" formControlName="businessCountry" class="form-control">
+      <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+    </select>
+    @if (form.controls['businessCountry'].invalid && (form.controls['businessCountry'].dirty || form.controls['businessCountry'].touched)) {
+      <div class="text-danger mt-1">El país es requerido</div>
+    }
+  </div>
+
+  <div class="col-1-2 mb-3">
+    <label for="businessStateProvince" class="form-label">Provincia*</label>
+    <select id="businessStateProvince" formControlName="businessStateProvince" class="form-control">
+      <option value="" disabled selected>Seleccione una provincia</option>
+      <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+    </select>
+    @if (form.controls['businessStateProvince'].invalid && (form.controls['businessStateProvince'].dirty || form.controls['businessStateProvince'].touched)) {
+      <div class="text-danger mt-1">La provincia es requerida</div>
+    }
+  </div>
+</div>
+
   
       <div class="row">
         <div class="col-1-2 mb-3">

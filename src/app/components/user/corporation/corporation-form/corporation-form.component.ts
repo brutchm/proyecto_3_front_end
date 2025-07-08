@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ICorporation } from "../../../../interfaces/corporation.interface";
 import * as L from 'leaflet';
+import { CountryEnum, ProvinceEnum } from "../../../../enums/location.enum";
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -46,7 +47,10 @@ L.Icon.Default.mergeOptions({
     @Input() form!: FormGroup;
     @Output() callSaveMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
     @Output() callUpdateMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
-
+    countryEnum = CountryEnum;
+    provinceEnum = ProvinceEnum;
+    countries = Object.values(CountryEnum);
+    provinces = Object.values(ProvinceEnum);
     callSave() {
         let item: ICorporation = {
             id: this.form.controls["id"]?.value,
