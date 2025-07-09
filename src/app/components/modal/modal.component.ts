@@ -4,15 +4,14 @@ import { LoaderComponent } from '../loader/loader.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-modal',
-  standalone: true,
-  imports: [
-    LoaderComponent,
-    CommonModule
-  ],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    selector: 'app-modal',
+    imports: [
+        LoaderComponent,
+        CommonModule
+    ],
+    templateUrl: './modal.component.html',
+    styleUrl: './modal.component.scss',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ModalComponent{
   @Input() title?: string;

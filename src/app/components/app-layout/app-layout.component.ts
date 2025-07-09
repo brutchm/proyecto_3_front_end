@@ -7,16 +7,15 @@ import { LayoutService } from '../../services/layout.service';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 
 @Component({
-  selector: 'app-layout',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    TopbarComponent,
-    SidebarComponent,
-    SvgIconComponent
-  ],
-  templateUrl: './app-layout.component.html',
+    selector: 'app-layout',
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        TopbarComponent,
+        SidebarComponent,
+        SvgIconComponent
+    ],
+    templateUrl: './app-layout.component.html'
 })
 export class AppLayoutComponent {
   public title?: string;

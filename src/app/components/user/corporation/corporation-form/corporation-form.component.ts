@@ -17,12 +17,11 @@ L.Icon.Default.mergeOptions({
     selector: "app-corporation-form",
     templateUrl: "./corporation-form.component.html",
     styleUrls: ["./corporation-form.component.scss"],
-    standalone: true,
     imports: [
-      ReactiveFormsModule,
-      CommonModule
-    ],
-  })
+        ReactiveFormsModule,
+        CommonModule
+    ]
+})
   export class CorporationFormComponent implements AfterViewInit{
    
     ngAfterViewInit(): void {

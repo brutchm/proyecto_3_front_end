@@ -9,13 +9,12 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @Component({
-  selector: 'app-user-list',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+    selector: 'app-user-list',
+    imports: [
+        CommonModule
+    ],
+    templateUrl: './user-list.component.html',
+    styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
   @Input() title: string  = '';

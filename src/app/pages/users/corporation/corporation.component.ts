@@ -26,13 +26,12 @@ export const passwordMatchValidator: ValidatorFn = (form: AbstractControl): Vali
     selector: "app-corporation",
     templateUrl: "./corporation.component.html",
     styleUrls: ["./corporation.component.scss"],
-    standalone: true,
     imports: [
-      CorporationFormComponent,
-      PaginationComponent,
-      ModalComponent
+        CorporationFormComponent,
+        PaginationComponent,
+        ModalComponent
     ]
-  })
+})
   export class CorporationComponent {
     public corporationList: ICorporation[] = [];
   

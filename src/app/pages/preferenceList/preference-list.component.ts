@@ -11,18 +11,17 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { IPreferenceList } from '../../interfaces';
 
 @Component({
-  standalone: true,
-  selector: 'app-preference-list-page',
-  templateUrl: './preference-list.component.html',
-  styleUrls: ['./preference-list.component.scss'],
-  imports: [
-    CommonModule,
-    LoaderComponent,
-    PaginationComponent,
-    PreferenceListComponent,
-    ModalComponent,
-    PreferenceListFormComponent
-  ]
+    selector: 'app-preference-list-page',
+    templateUrl: './preference-list.component.html',
+    styleUrls: ['./preference-list.component.scss'],
+    imports: [
+        CommonModule,
+        LoaderComponent,
+        PaginationComponent,
+        PreferenceListComponent,
+        ModalComponent,
+        PreferenceListFormComponent
+    ]
 })
 export class PreferenceListPageComponent {
   public preferenceListService: PreferenceListService = inject(PreferenceListService);

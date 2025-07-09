@@ -4,14 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule, 
-  ],
-  templateUrl: './user-form.component.html',
-  styleUrl: './user-form.component.scss'
+    selector: 'app-user-form',
+    imports: [
+        ReactiveFormsModule,
+        CommonModule,
+    ],
+    templateUrl: './user-form.component.html',
+    styleUrl: './user-form.component.scss'
 })
 export class UserFormComponent {
   public fb: FormBuilder = inject(FormBuilder);

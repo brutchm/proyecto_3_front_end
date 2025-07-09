@@ -10,16 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-games',
-  standalone: true,
-  imports: [
-    LoaderComponent,
-    GamesListComponent,
-    ModalComponent,
-    GamesFormComponent
+    selector: 'app-games',
+    imports: [
+        LoaderComponent,
+        GamesListComponent,
+        ModalComponent,
+        GamesFormComponent
     ],
-  templateUrl: './games.component.html',
-  styleUrl: './games.component.scss'
+    templateUrl: './games.component.html',
+    styleUrl: './games.component.scss'
 })
 export class GamesComponent implements OnInit{
   public gameService: GameService = inject(GameService);

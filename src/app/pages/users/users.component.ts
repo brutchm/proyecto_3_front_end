@@ -10,17 +10,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { IUser } from '../../interfaces';
 
 @Component({
-  selector: 'app-users',
-  standalone: true,
-  imports: [
-    UserListComponent,
-    PaginationComponent,
-    ModalComponent,
-    LoaderComponent,
-    UserFormComponent
-  ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+    selector: 'app-users',
+    imports: [
+        UserListComponent,
+        PaginationComponent,
+        ModalComponent,
+        LoaderComponent,
+        UserFormComponent
+    ],
+    templateUrl: './users.component.html',
+    styleUrl: './users.component.scss'
 })
 export class UsersComponent {
   public userService: UserService = inject(UserService);

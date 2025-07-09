@@ -8,16 +8,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
-  selector: 'app-games-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ModalComponent,
-    GamesFormComponent,
-    PickerComponent
-  ],
-  templateUrl: './games-list.component.html',
-  styleUrl: './games-list.component.scss'
+    selector: 'app-games-list',
+    imports: [
+        CommonModule,
+        ModalComponent,
+        GamesFormComponent,
+        PickerComponent
+    ],
+    templateUrl: './games-list.component.html',
+    styleUrl: './games-list.component.scss'
 })
 export class GamesListComponent implements OnChanges{
   @Input() itemList: IGame[] = [];

@@ -4,14 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IPreferenceList } from '../../../interfaces';
 
 @Component({
-  selector: 'app-preference-list-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule
-  ],
-  templateUrl: './preference-list-form.component.html',
-  styleUrl: './preference-list-form.component.scss'
+    selector: 'app-preference-list-form',
+    imports: [
+        ReactiveFormsModule,
+        CommonModule
+    ],
+    templateUrl: './preference-list-form.component.html',
+    styleUrl: './preference-list-form.component.scss'
 })
 export class PreferenceListFormComponent {
   public fb: FormBuilder = inject(FormBuilder);

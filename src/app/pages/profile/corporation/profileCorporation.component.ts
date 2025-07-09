@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ProfileCorporationService } from '../../../services/profileCorporation.service';
 
 @Component({
-  selector: 'app-profileCorporation',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './profileCorporation.component.html',
-  styleUrl: './profileCorporation.component.scss'
+    selector: 'app-profileCorporation',
+    imports: [
+        CommonModule
+    ],
+    templateUrl: './profileCorporation.component.html',
+    styleUrl: './profileCorporation.component.scss'
 })
 export class ProfileCorporationComponent {
   public profileService = inject(ProfileCorporationService);

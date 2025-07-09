@@ -3,13 +3,12 @@ import { IPreferenceList } from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-preference-list',
-  standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './preference-list.component.html',
-  styleUrl: './preference-list.component.scss'
+    selector: 'app-preference-list',
+    imports: [
+        CommonModule
+    ],
+    templateUrl: './preference-list.component.html',
+    styleUrl: './preference-list.component.scss'
 })
 export class PreferenceListComponent {
   @Input() title: string  = '';

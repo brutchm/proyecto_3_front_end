@@ -4,14 +4,13 @@ import { ISportTeam } from "../../../interfaces";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: "app-sport-team-form",
-  templateUrl: "./sport-team-form.component.html",
-  styleUrls: ["./sport-team-form.component.scss"],
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule
-  ],
+    selector: "app-sport-team-form",
+    templateUrl: "./sport-team-form.component.html",
+    styleUrls: ["./sport-team-form.component.scss"],
+    imports: [
+        ReactiveFormsModule,
+        CommonModule
+    ]
 })
 export class SportTeamFormComponent {
   public fb: FormBuilder = inject(FormBuilder);

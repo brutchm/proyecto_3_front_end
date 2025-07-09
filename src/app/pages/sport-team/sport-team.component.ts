@@ -11,16 +11,15 @@ import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: "app-sport-team",
-  templateUrl: "./sport-team.component.html",
-  styleUrls: ["./sport-team.component.scss"],
-  standalone: true,
-  imports: [
-    SportTeamFormComponent,
-    SportTeamListComponent,
-    PaginationComponent,
-    ModalComponent
-  ]
+    selector: "app-sport-team",
+    templateUrl: "./sport-team.component.html",
+    styleUrls: ["./sport-team.component.scss"],
+    imports: [
+        SportTeamFormComponent,
+        SportTeamListComponent,
+        PaginationComponent,
+        ModalComponent
+    ]
 })
 export class SportTeamComponent {
   public teamList: ISportTeam[] = []

@@ -6,11 +6,10 @@ import { AuthService } from '../../../services/auth.service';
 import { IUser } from '../../../interfaces';
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+    selector: 'app-signup',
+    imports: [CommonModule, FormsModule, RouterLink],
+    templateUrl: './signup.component.html',
+    styleUrl: './signup.component.scss'
 })
 export class SigUpComponent {
   public signUpError!: String;

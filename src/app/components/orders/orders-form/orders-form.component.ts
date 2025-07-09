@@ -4,14 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IOrder } from '../../../interfaces';
 
 @Component({
-  selector: 'app-orders-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule
-  ],
-  templateUrl: './orders-form.component.html',
-  styleUrl: './orders-form.component.scss'
+    selector: 'app-orders-form',
+    imports: [
+        ReactiveFormsModule,
+        CommonModule
+    ],
+    templateUrl: './orders-form.component.html',
+    styleUrl: './orders-form.component.scss'
 })
 export class OrdersFormComponent {
   public fb: FormBuilder = inject(FormBuilder);

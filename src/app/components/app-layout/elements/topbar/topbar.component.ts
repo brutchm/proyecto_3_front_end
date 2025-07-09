@@ -7,10 +7,9 @@ import { LayoutService } from '../../../../services/layout.service';
 import { MyAccountComponent } from '../../../my-account/my-account.component';
 
 @Component({
-  selector: 'app-topbar',
-  standalone: true,
-  imports: [CommonModule, RouterLink, MyAccountComponent],
-  templateUrl: './topbar.component.html',
+    selector: 'app-topbar',
+    imports: [CommonModule, RouterLink, MyAccountComponent],
+    templateUrl: './topbar.component.html'
 })
 export class TopbarComponent implements OnInit {
   public user?: IUser;

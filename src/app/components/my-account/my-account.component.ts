@@ -3,12 +3,11 @@ import { Router, RouterLink } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
-  selector: "app-my-account",
-  standalone: true,
-  imports: [
-    RouterLink
-  ],
-  templateUrl: "./my-account.component.html",
+    selector: "app-my-account",
+    imports: [
+        RouterLink
+    ],
+    templateUrl: "./my-account.component.html"
 })
 export class MyAccountComponent implements OnInit {
   public userName: string = '';

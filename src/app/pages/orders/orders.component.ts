@@ -11,17 +11,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-orders',
-  standalone: true,
-  imports: [
-    OrdersListComponent,
-    PaginationComponent,
-    ModalComponent,
-    LoaderComponent,
-    OrdersFormComponent
-  ],
-  templateUrl: './orders.component.html',
-  styleUrl: './orders.component.scss'
+    selector: 'app-orders',
+    imports: [
+        OrdersListComponent,
+        PaginationComponent,
+        ModalComponent,
+        LoaderComponent,
+        OrdersFormComponent
+    ],
+    templateUrl: './orders.component.html',
+    styleUrl: './orders.component.scss'
 })
 export class OrdersComponent {
   public ordersService: OrdersService = inject(OrdersService);
