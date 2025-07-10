@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   inject,
@@ -195,16 +194,38 @@ export class LoginComponent {
 
   public switchToRequestReset(): void {
     this.currentForm = "request-reset";
+    // Reset form values and messages
+    this.requestResetForm.email = "";
+    this.resetForm = { email: "", code: "", newPassword: "", confirmPassword: "" };
+    this.loginError = "";
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
   }
 
   public switchToReset(): void {
     this.currentForm = "reset";
     // Copy the last entered email from requestResetForm
     this.resetForm.email = this.requestResetForm.email;
+    this.resetForm.code = "";
+    this.resetForm.newPassword = "";
+    this.resetForm.confirmPassword = "";
+    this.loginError = "";
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
   }
 
   public switchToLogin(): void {
     this.currentForm = "login";
+    // Reset form values and messages
+    this.loginForm = { userEmail: "", userPassword: "" };
+    this.requestResetForm.email = "";
+    this.resetForm = { email: "", code: "", newPassword: "", confirmPassword: "" };
+    this.loginError = "";
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
   }
 
   public toggleLoginPassword(): void {
