@@ -55,7 +55,7 @@
                 Email Address
               </label>
               <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-                placeholder="agent@gmail.com" [(ngModel)]="user.email" [ngClass]="{
+                placeholder="agent@gmail.com" [(ngModel)]="user.userEmail" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
                 }" required />
@@ -68,7 +68,7 @@
               <label for="password" class="form-label mb-2">Password</label>
               <div class="form-input position-relative">
                 <input #password="ngModel" type="password" class="form-control" id="password" name="password"
-                placeholder="*****" [(ngModel)]="user.password" [ngClass]="{
+                placeholder="*****" [(ngModel)]="user.userPassword" [ngClass]="{
                   'is-invalid': password.invalid && password.touched,
                   'is-valid': password.valid && password.touched
                 }" required />
