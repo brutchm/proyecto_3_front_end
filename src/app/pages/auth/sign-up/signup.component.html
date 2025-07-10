@@ -1,4 +1,4 @@
-<div class="login-container">
+<!-- <div class="login-container">
   <div class="d-flex align-items-center justify-content-center h-100">
     <div class="login-card">
       <div class="w-100">
@@ -94,4 +94,112 @@
       </div>
     </div>
   </div>
+</div> -->
+
+
+<div class="container-form-wrapper">
+  <div class="description-section">
+    <h2>Crear Cuenta</h2>
+    <p>
+      Regístrate para obtener acceso a todas las herramientas de gestión de fincas.
+      Completa tus datos para crear un perfil personal y comenzar a optimizar tu producción.
+    </p>
+    <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+    <p class="small text-white-50">¿Ya tienes una cuenta?</p>
+    <a routerLink="/login" class="btn btn-outline-light">Iniciar Sesión</a>
+  </div>
+
+  <form [formGroup]="signupForm" (ngSubmit)="handleSignup()" class="signup-form">
+
+    <div class="row">
+      <div class="col-full">
+        <h2 class="text-center">Registro de Administrador</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="name" class="form-label">Nombre(s)*</label>
+        <input id="name" formControlName="name" type="text" class="form-control" placeholder="Ingrese su nombre" />
+        @if (signupForm.controls['name'].invalid && (signupForm.controls['name'].dirty || signupForm.controls['name'].touched)) {
+          <div class="text-danger mt-1">El nombre es requerido.</div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userFirstSurename" class="form-label">Primer Apellido*</label>
+        <input id="userFirstSurename" formControlName="userFirstSurename" type="text" class="form-control" placeholder="Ingrese su primer apellido" />
+        @if (signupForm.controls['userFirstSurename'].invalid && (signupForm.controls['userFirstSurename'].dirty || signupForm.controls['userFirstSurename'].touched)) {
+          <div class="text-danger mt-1">El primer apellido es requerido.</div>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userSecondSurename" class="form-label">Segundo Apellido</label>
+        <input id="userSecondSurename" formControlName="userSecondSurename" type="text" class="form-control" placeholder="Opcional" />
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userGender" class="form-label">Género</label>
+        <select id="userGender" formControlName="userGender" class="form-control">
+          <option value="" disabled selected>Seleccione...</option>
+          <option value="MALE">Masculino</option>
+          <option value="FEMALE">Femenino</option>
+          <option value="OTHER">Otro</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userEmail" class="form-label">Correo Electrónico*</label>
+        <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
+        @if (signupForm.controls['userEmail'].invalid && (signupForm.controls['userEmail'].dirty || signupForm.controls['userEmail'].touched)) {
+          <div class="text-danger mt-1">
+            @if(signupForm.controls['userEmail'].errors?.['required']) {
+              El correo es requerido.
+            }
+            @if(signupForm.controls['userEmail'].errors?.['email']) {
+              El formato del correo es inválido.
+            }
+          </div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userPhoneNumber" class="form-label">Número de Teléfono</label>
+        <input id="userPhoneNumber" formControlName="userPhoneNumber" type="tel" class="form-control" placeholder="Ej: 88888888" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userPassword" class="form-label">Contraseña*</label>
+        <input id="userPassword" formControlName="userPassword" type="password" class="form-control" placeholder="Ingrese una contraseña" />
+        @if (signupForm.controls['userPassword'].invalid && (signupForm.controls['userPassword'].dirty || signupForm.controls['userPassword'].touched)) {
+          <div class="text-danger mt-1">
+            @if (signupForm.controls['userPassword'].errors?.['required']) { La contraseña es requerida. }
+            @if (signupForm.controls['userPassword'].errors?.['insecurePassword']) { Debe ser de 8+ caracteres y contener mayúscula, minúscula, número y símbolo. }
+          </div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="confirmPassword" class="form-label">Confirmar Contraseña*</label>
+        <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" placeholder="Confirme la contraseña" />
+        @if ((signupForm.controls['confirmPassword'].touched) && signupForm.errors?.['passwordMismatch']) {
+          <div class="text-danger mt-1">Las contraseñas no coinciden.</div>
+        }
+      </div>
+    </div>
+
+    <div class="text-end mt-3">
+      @if(signUpError) {
+        <p class="text-danger text-start">{{ signUpError }}</p>
+      } @else if (successMessage) {
+        <p class="text-success text-start">{{ successMessage }}</p>
+      }
+      <button type="submit" [disabled]="signupForm.invalid && signupForm.touched" class="btn btn-primary">
+        Crear Cuenta
+      </button>
+    </div>
+  </form>
 </div>
