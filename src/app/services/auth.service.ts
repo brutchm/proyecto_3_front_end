@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private accessToken!: string;
   private expiresIn! : number;
-  private user: IUser = {email: '', authorities: []};
+  private user: IUser = {userEmail: '', authorities: []};
   private http: HttpClient = inject(HttpClient);
 
   constructor() {
@@ -52,13 +52,13 @@ export class AuthService {
   }
 
   public login(credentials: {
-    email: string;
-    password: string;
+    userEmail: string;
+    userPassword: string;
   }): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>('auth/login', credentials).pipe(
       tap((response: any) => {
         this.accessToken = response.token;
-        this.user.email = credentials.email;
+        this.user.userEmail = credentials.userEmail;
         this.expiresIn = response.expiresIn;
         this.user = response.authUser;
         this.save();
@@ -123,5 +123,13 @@ export class AuthService {
       isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin);
     }          
     return allowedUser && isAdmin;
+  }
+
+  public resetPasswordRequest(email: string): Observable<any> {
+    return this.http.post<any>('auth/reset-password/request', { email });
+  }
+
+  public resetPassword(data: { email: string; code: string; newPassword: string }): Observable<any> {
+    return this.http.post<any>('auth/reset-password/reset', data);
   }
 }

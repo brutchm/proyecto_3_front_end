@@ -9,8 +9,17 @@
           <label>Nombre:</label>
           <p>{{profileService.user$().name}}</p>
         </div>
-  
+        <div class="border-bottom my-3">
+          <label>Lastname:</label>
+          <p>{{profileService.user$().lastname}}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>email:</label>
+          <p>{{profileService.user$().userEmail}}</p>
+        </div>
+        <div class=" my-3">
+          <label>Last update:</label>
+          <p>{{profileService.user$().updatedAt | date:'dd/MM/YYYY'}}</p>
+        </div>
       </div>
     </div>
-
-  </div>
