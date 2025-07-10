@@ -48,10 +48,10 @@ export class UsersComponent {
 
   callEdition(user: IUser) {
     this.userForm.controls['id'].setValue(user.id ? JSON.stringify(user.id) : '');
-    this.userForm.controls['email'].setValue(user.email ? user.email : '');
+    this.userForm.controls['email'].setValue(user.userEmail ? user.userEmail : '');
     this.userForm.controls['name'].setValue(user.name ? JSON.stringify(user.name) : '');
     this.userForm.controls['lastname'].setValue(user.lastname ? JSON.stringify(user.lastname) : '');
-    this.userForm.controls['password'].setValue(user.password ? JSON.stringify(user.password) : '');
+    this.userForm.controls['password'].setValue(user.userPassword ? JSON.stringify(user.userPassword) : '');
     this.modalService.displayModal('md', this.addUsersModal);
   }
 

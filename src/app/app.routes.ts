@@ -16,6 +16,10 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
 import { CorporationComponent } from './pages/users/corporation/corporation.component';
 import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
+import { AuthCallbackComponent } from './pages/auth/callback/auth-callback.component';
+import { FinishRegistrationComponent } from './pages/auth/finish-registration/finish-registration.component';
+import { GoogleUserSignupComponent } from './pages/auth/google-signup-user/google-signup-user.component';
+import { GoogleCorporationSignupComponent } from './pages/auth/google-signup-corporation/google-signup-corporation.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +45,26 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
+  },
+  {
+    path: 'auth/callback',
+    component: AuthCallbackComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/finish-registration',
+    component: FinishRegistrationComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/google-signup-user',
+    component: GoogleUserSignupComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/google-signup-corporation',
+    component: GoogleCorporationSignupComponent,
+    canActivate: [GuestGuard],
   },
   {
     path: 'app',
