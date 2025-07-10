@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
+import { IGoogleAuthResponse, IRegistrationTokenPayload } from '../interfaces/googleAuth.interface';
 import { Observable, firstValueFrom, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +25,7 @@ export class AuthService {
       localStorage.setItem('access_token', JSON.stringify(this.accessToken));
 
     if (this.expiresIn)
-      localStorage.setItem('expiresIn',JSON.stringify(this.expiresIn));
+      localStorage.setItem('expiresIn', JSON.stringify(this.expiresIn));
   }
 
   private load(): void {
@@ -44,7 +46,7 @@ export class AuthService {
   }
 
   public check(): boolean {
-    if (!this.accessToken){
+    if (!this.accessToken) {
       return false;
     } else {
       return true;
@@ -67,11 +69,11 @@ export class AuthService {
   }
 
   public hasRole(role: string): boolean {
-    return this.user.authorities ?  this.user?.authorities.some(authority => authority.authority == role) : false;
+    return this.user.authorities ? this.user?.authorities.some(authority => authority.authority == role) : false;
   }
 
   public isSuperAdmin(): boolean {
-    return this.user.authorities ?  this.user?.authorities.some(authority => authority.authority == IRoleType.superAdmin) : false;
+    return this.user.authorities ? this.user?.authorities.some(authority => authority.authority == IRoleType.superAdmin) : false;
   }
 
   public hasAnyRole(roles: any[]): boolean {
@@ -81,10 +83,10 @@ export class AuthService {
   public getPermittedRoutes(routes: any[]): any[] {
     let permittedRoutes: any[] = [];
     for (const route of routes) {
-      if(route.data && route.data.authorities) {
+      if (route.data && route.data.authorities) {
         if (this.hasAnyRole(route.data.authorities)) {
           permittedRoutes.unshift(route);
-        } 
+        }
       }
     }
     return permittedRoutes;
@@ -101,11 +103,11 @@ export class AuthService {
     localStorage.removeItem('auth_user');
   }
 
-  public getUserAuthorities (): IAuthority[] | undefined {
+  public getUserAuthorities(): IAuthority[] | undefined {
     return this.getUser()?.authorities ? this.getUser()?.authorities : [];
   }
 
-  public areActionsAvailable(routeAuthorities: string[]): boolean  {
+  public areActionsAvailable(routeAuthorities: string[]): boolean {
     // definición de las variables de validación
     let allowedUser: boolean = false;
     let isAdmin: boolean = false;
@@ -113,7 +115,7 @@ export class AuthService {
     let userAuthorities = this.getUserAuthorities();
     // se valida que sea una ruta permitida para el usuario
     for (const authority of routeAuthorities) {
-      if (userAuthorities?.some(item => item.authority == authority) ) {
+      if (userAuthorities?.some(item => item.authority == authority)) {
         allowedUser = userAuthorities?.some(item => item.authority == authority)
       }
       if (allowedUser) break;
@@ -121,7 +123,7 @@ export class AuthService {
     // se valida que el usuario tenga un rol de administración
     if (userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin)) {
       isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin);
-    }          
+    }
     return allowedUser && isAdmin;
   }
 
@@ -131,5 +133,63 @@ export class AuthService {
 
   public resetPassword(data: { email: string; code: string; newPassword: string }): Observable<any> {
     return this.http.post<any>('auth/reset-password/reset', data);
+  }
+  /**
+   * Centraliza el almacenamiento de la sesión del usuario.
+   * @param {string} token - El token JWT de la sesión.
+   * @param {IUser} user - El objeto del usuario autenticado.
+   */
+  public storeSession(token: string, user: IUser): void {
+    this.accessToken = token;
+    this.user = user;
+    this.save();
+  }
+
+  /**
+   * Llama al endpoint del backend para intercambiar el código de Google por un token.
+   * @param {string} code - El código de autorización proveído por Google.
+   * @returns {Observable<IGoogleAuthResponse>} Un observable con la respuesta del backend.
+   */
+  public handleGoogleCallback(code: string): Observable<IGoogleAuthResponse> {
+    return this.http.post<IGoogleAuthResponse>('auth/google/callback', { code });
+  }
+
+  /**
+   * Decodifica el token de registro temporal para obtener los datos del usuario.
+   * @returns {IRegistrationTokenPayload | null} Los datos del usuario o null si el token no existe.
+   */
+  public getRegistrationData(): IRegistrationTokenPayload | null {
+    const token = localStorage.getItem('registration_token');
+    if (!token) {
+      return null;
+    }
+    try {
+      return jwtDecode<IRegistrationTokenPayload>(token);
+    } catch (error) {
+      console.error("Error decodificando el token de registro:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Llama al endpoint para finalizar el registro de un usuario estándar con datos de Google.
+   * @param {string} registrationToken - token temporal
+   * @param {Partial<IUser>} userData - datos adicionales del formulario de registro.
+   * @returns {Observable<IUser>} El usuario recién creado.
+   */
+  public completeGoogleUserSignup(registrationToken: string, userData: Partial<IUser>): Observable<IUser> {
+    const payload = { registrationToken, userData };
+    return this.http.post<IUser>('auth/google-signup/user', payload);
+  }
+
+  /**
+   * Llama al endpoint para finalizar el registro de un usuario corporativo con datos de Google.
+   * @param {string} registrationToken - token temporal
+   * @param {Partial<IUser>} userData - datos adicionales del formulario de registro corporativo.
+   * @returns {Observable<IUser>} El usuario recién creado.
+   */
+  public completeGoogleCorporationSignup(registrationToken: string, userData: Partial<IUser>): Observable<IUser> {
+    const payload = { registrationToken, userData };
+    return this.http.post<IUser>('auth/google-signup/corporation', payload);
   }
 }

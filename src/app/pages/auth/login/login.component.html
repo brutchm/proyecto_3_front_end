@@ -80,11 +80,12 @@
 
           </div>
           <a href="#">Ir al registro</a>
-
           <div class="google-login">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
-            Iniciar sesión con Google
-          </div>
+              <button class="btn-google-login" (click)="handleGoogleLogin()">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
+              Iniciar sesión con Google
+            </button>
+            </div>
         </form>
         <form *ngIf="currentForm === 'request-reset'" data-login-request-reset
           (ngSubmit)="handleRequestResetPassword($event)" autocomplete="off" #frmRequestReset="ngForm" class="mb-5">
