@@ -5,7 +5,7 @@
         <form *ngIf="currentForm === 'login'" data-login-form (ngSubmit)="handleLogin($event)" autocomplete="off"
           #frm="ngForm" class="mb-5">
           <div class="mb-3">
-            <h4>Iniciar sesion</h4>
+            <h4>Iniciar sesión</h4>
             <p style="color: #4f4f4f">
               Bienvenido a AgriSync
             </p>
@@ -18,7 +18,7 @@
                   'is-valid': email.valid && email.touched,
                 }" required (ngModelChange)="onEmailChange($event)" />
             <div *ngIf="email.invalid" class="invalid-feedback">
-              Porfavor ingrese un correo valido
+              Por favor ingrese un correo válido
             </div>
           </div>
 
@@ -64,14 +64,14 @@
                   contraseña</button>
               </div>
               <div *ngIf="password.invalid" class="invalid-feedback">
-                Porfavor ingrese una contraseña valida
+                Por favor ingrese una contraseña válida
               </div>
             </div>
           </div>
 
           <div class="form-group mb-0">
             <button class="btn btn-primary btn-block w-100 mb-4" [disabled]="loading || !frm.valid" type="submit">
-              Iniciar sesion
+              Iniciar sesión
             </button>
 
             @if(loginError) {
@@ -79,7 +79,7 @@
             }
 
           </div>
-          <a href="#">Ir a Registro</a>
+          <a href="#">Ir al registro</a>
 
           <div class="google-login">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
@@ -101,7 +101,7 @@
                   'is-valid': requestResetEmail.valid && requestResetEmail.touched,
                 }" required (ngModelChange)="onEmailChange($event)" />
             <div *ngIf="requestResetEmail.invalid" class="invalid-feedback">
-              Porfavor ingrese un correo valido
+              Por favor ingrese un correo válido
             </div>
           </div>
           <div class="form-group mb-0">
