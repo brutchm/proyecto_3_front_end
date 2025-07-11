@@ -120,6 +120,18 @@ a:hover {
   background-color: #2e2e2e;
 }
 
+.btn-google-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 .is-invalid {
   border: 1px solid #dc3545 !important;
 }

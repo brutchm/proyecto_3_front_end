@@ -6,15 +6,16 @@ import {
 } from "@angular/core";
 import { FormsModule, NgModel } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { AuthService } from "../../../services/auth.service";
 import { ModalService } from "../../../services/modal.service";
 import { ModalComponent } from "../../../components/modal/modal.component";
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: "app-login",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
 })
@@ -236,5 +237,28 @@ export class LoginComponent {
   }
   public toggleConfirmPassword(): void {
     this.showConfirmPassword = !this.showConfirmPassword;
+  }
+  /**
+   * Construye la URL de autenticación de Google y redirige al usuario.
+   * Los parámetros se configuran según la documentación de OAuth 2.0.
+   */
+  public handleGoogleLogin(): void {
+    // Estas variables deben estar en tu archivo `environment.ts`
+    const GOOGLE_CLIENT_ID = environment.googleClientId;
+    const REDIRECT_URI = environment.googleRedirectUri;
+
+    const params = {
+      client_id: GOOGLE_CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      response_type: 'code',
+      scope: 'openid email profile',
+      access_type: 'offline', // Opcional: para obtener un refresh_token
+      prompt: 'consent' // Opcional: para que siempre pida consentimiento
+    };
+
+    const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams(params);
+
+    // Redirigir al usuario a la página de consentimiento de Google
+    window.location.href = authUrl;
   }
 }

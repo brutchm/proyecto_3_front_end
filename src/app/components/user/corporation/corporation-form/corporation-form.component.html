@@ -48,28 +48,28 @@
         </div>
       </div>
   
-<div class="row">
-  <div class="col-1-2 mb-3">
-    <label for="businessCountry" class="form-label">País*</label>
-    <select id="businessCountry" formControlName="businessCountry" class="form-control">
-      <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
-    </select>
-    @if (form.controls['businessCountry'].invalid && (form.controls['businessCountry'].dirty || form.controls['businessCountry'].touched)) {
-      <div class="text-danger mt-1">El país es requerido</div>
-    }
-  </div>
+      <div class="row">
+        <div class="col-1-2 mb-3">
+          <label for="businessCountry" class="form-label">País*</label>
+          <select id="businessCountry" formControlName="businessCountry" class="form-control">
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+          @if (form.controls['businessCountry'].invalid && (form.controls['businessCountry'].dirty || form.controls['businessCountry'].touched)) {
+            <div class="text-danger mt-1">El país es requerido</div>
+          }
+        </div>
 
-  <div class="col-1-2 mb-3">
-    <label for="businessStateProvince" class="form-label">Provincia*</label>
-    <select id="businessStateProvince" formControlName="businessStateProvince" class="form-control">
-      <option value="" disabled selected>Seleccione una provincia</option>
-      <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
-    </select>
-    @if (form.controls['businessStateProvince'].invalid && (form.controls['businessStateProvince'].dirty || form.controls['businessStateProvince'].touched)) {
-      <div class="text-danger mt-1">La provincia es requerida</div>
-    }
-  </div>
-</div>
+        <div class="col-1-2 mb-3">
+          <label for="businessStateProvince" class="form-label">Provincia*</label>
+          <select id="businessStateProvince" formControlName="businessStateProvince" class="form-control">
+            <option value="" disabled selected>Seleccione una provincia</option>
+            <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+          </select>
+          @if (form.controls['businessStateProvince'].invalid && (form.controls['businessStateProvince'].dirty || form.controls['businessStateProvince'].touched)) {
+            <div class="text-danger mt-1">La provincia es requerida</div>
+          }
+        </div>
+      </div>
 
   
       <div class="row">
@@ -89,7 +89,7 @@
       </div>
       
   
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-1-2 mb-3">
           <label for="userEmail" class="form-label">Correo Electrónico*</label>
           <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
@@ -112,7 +112,7 @@
           }
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-1-2 mb-3">
           <label for="confirmPassword" class="form-label">Confirme nuevamente su Contraseña*</label>
@@ -124,7 +124,48 @@
             </div>
           }
         </div>
-      </div>
+      </div> -->
+
+        <div class="col-1-2 mb-3">
+          <label for="userEmail" class="form-label">Correo Electrónico*</label>
+          <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
+          @if (form.controls['userEmail'].invalid && (form.controls['userEmail'].dirty || form.controls['userEmail'].touched)) {
+            <div class="text-danger mt-1">Ingrese un correo válido</div>
+          }
+        </div>
+
+        @if (form.controls['userPassword']) {
+          <div class="col-1-2 mb-3">
+            <label for="userPassword" class="form-label">Contraseña*</label>
+            <input id="userPassword" formControlName="userPassword" type="password" class="form-control" placeholder="Ingrese una contraseña" />
+            @if (form.controls['userPassword'].invalid && (form.controls['userPassword'].dirty || form.controls['userPassword'].touched)) {
+              <div class="text-danger mt-1">
+                @if (form.controls['userPassword'].errors?.['required']) {
+                  La contraseña es requerida
+                }
+                @if (form.controls['userPassword'].errors?.['insecurePassword']) {
+                  La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial
+                }
+              </div>
+            }
+          </div>
+        }
+
+      @if (form.controls['confirmPassword']) {
+        <div class="row">
+          <div class="col-1-2 mb-3">
+            <label for="confirmPassword" class="form-label">Confirme nuevamente su Contraseña*</label>
+            <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" placeholder="Confirme la contraseña" />
+            @if ((form.controls['confirmPassword'].invalid || form.errors?.['passwordMismatch']) &&
+              (form.controls['confirmPassword'].dirty || form.controls['confirmPassword'].touched)) {
+              <div class="text-danger mt-1">
+                La confirmación de la contraseña es requerida y deben coincidir
+              </div>
+            }
+          </div>
+        </div>
+      }
+      
   
       <div class="text-end mt-3">
         <button (click)="callSave()" [disabled]="form.invalid" class="btn btn-primary">

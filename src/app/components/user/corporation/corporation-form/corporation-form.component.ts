@@ -14,79 +14,82 @@ L.Icon.Default.mergeOptions({
 
 
 @Component({
-    selector: "app-corporation-form",
-    templateUrl: "./corporation-form.component.html",
-    styleUrls: ["./corporation-form.component.scss"],
-    standalone: true,
-    imports: [
-      ReactiveFormsModule,
-      CommonModule
-    ],
-  })
-  export class CorporationFormComponent implements AfterViewInit{
-   
-    ngAfterViewInit(): void {
-        const map = L.map('map').setView([10.0, -84.0], 7);
-      
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-      
-        const marker = L.marker([10.0, -84.0], { draggable: true }).addTo(map);
-      
-        marker.on('dragend', () => {
-          const position = marker.getLatLng();
-          this.form.controls['businessLocation'].setValue(`${position.lat.toFixed(6)},${position.lng.toFixed(6)}`);
-        });
-        setTimeout(() => {
-          map.invalidateSize();
-        }, 300);
-      }   
+  selector: "app-corporation-form",
+  templateUrl: "./corporation-form.component.html",
+  styleUrls: ["./corporation-form.component.scss"],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule
+  ],
+})
+export class CorporationFormComponent implements AfterViewInit {
 
-    public fb: FormBuilder = inject(FormBuilder);
-    @Input() form!: FormGroup;
-    @Output() callSaveMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
-    @Output() callUpdateMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
-    countryEnum = CountryEnum;
-    provinceEnum = ProvinceEnum;
-    countries = Object.values(CountryEnum);
-    provinces = Object.values(ProvinceEnum);
-    callSave() {
-        let item: ICorporation = {
-            id: this.form.controls["id"]?.value,
-            businessName: this.form.controls["businessName"].value,
-            businessMission: this.form.controls["businessMission"].value,
-            businessVision: this.form.controls["businessVision"].value,
-            businessId: this.form.controls["businessId"].value,
-            businessCountry: this.form.controls["businessCountry"].value,
-            businessStateProvince: this.form.controls["businessStateProvince"].value,
-            businessOtherDirections: this.form.controls["businessOtherDirections"].value,
-            businessLocation: this.form.controls["businessLocation"].value,
-            userName: this.form.controls["userName"].value,
-            userFirstSurename: this.form.controls["userFirstSurename"].value,
-            userSecondSurename: this.form.controls["userSecondSurename"].value,
-            userGender: this.form.controls["userGender"].value,
-            userPhoneNumber: this.form.controls["userPhoneNumber"].value,
-            userEmail: this.form.controls["userEmail"].value,
-            userPassword: this.form.controls["userPassword"].value,
-            role: {
-              id: 3, // Rol fijo para CORPORATION
-              roleName: "CORPORATION"
-            },
-            isActive: this.form.controls["isActive"].value
-          
-        }
+  ngAfterViewInit(): void {
+    const map = L.map('map').setView([10.0, -84.0], 7);
 
-        if(this.form.controls['id'].value) {
-          item.id = this.form.controls['id'].value;
-        } 
-        if(item.id) {
-          this.callUpdateMethod.emit(item);
-        } else {
-          this.callSaveMethod.emit(item);
-        }
-      
-      }
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
+    const marker = L.marker([10.0, -84.0], { draggable: true }).addTo(map);
 
+    marker.on('dragend', () => {
+      const position = marker.getLatLng();
+      this.form.controls['businessLocation'].setValue(`${position.lat.toFixed(6)},${position.lng.toFixed(6)}`);
+    });
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 300);
+  }
+
+  public fb: FormBuilder = inject(FormBuilder);
+  @Input() form!: FormGroup;
+  @Output() callSaveMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
+  @Output() callUpdateMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
+  countryEnum = CountryEnum;
+  provinceEnum = ProvinceEnum;
+  countries = Object.values(CountryEnum);
+  provinces = Object.values(ProvinceEnum);
+  callSave() {
+    const formData = this.form.getRawValue();
+
+    let item: ICorporation = {
+      id: formData.id,
+      businessName: formData.businessName,
+      businessMission: formData.businessMission,
+      businessVision: formData.businessVision,
+      businessId: formData.businessId,
+      businessCountry: formData.businessCountry,
+      businessStateProvince: formData.businessStateProvince,
+      businessOtherDirections: formData.businessOtherDirections,
+      businessLocation: formData.businessLocation,
+      userName: formData.userName,
+      userFirstSurename: formData.userFirstSurename,
+      userSecondSurename: formData.userSecondSurename,
+      userGender: formData.userGender,
+      userPhoneNumber: formData.userPhoneNumber,
+      userEmail: formData.userEmail,
+      // Asignamos la contraseña solo si existe, si no, es null.
+      userPassword: formData.userPassword || null,
+      role: {
+        id: 3,
+        roleName: "CORPORATION"
+      },
+      isActive: formData.isActive !== undefined ? formData.isActive : true
     }
+
+
+    if (this.form.controls['id'].value) {
+      item.id = this.form.controls['id'].value;
+    }
+    if (item.id) {
+      this.callUpdateMethod.emit(item);
+    } else {
+      this.callSaveMethod.emit(item);
+    }
+
+  }
+
+
+}
