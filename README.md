@@ -12,3 +12,6 @@ npm start
 
 npm install leaflet
 npm install --save-dev @types/leaflet
+
+# install primeNG
+npm install primeng@17.7.0 primeicons

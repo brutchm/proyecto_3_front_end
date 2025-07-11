@@ -31,7 +31,7 @@ export class UsersComponent {
     id: [''],
     email: ['', Validators.required, Validators.email],
     name: ['', Validators.required],
-    lastname: ['', Validators.required],
+    userFirstSurename: ['', Validators.required],
     password: ['', Validators.required],
     updatedAt: ['', Validators.required],
   })
@@ -50,7 +50,7 @@ export class UsersComponent {
     this.userForm.controls['id'].setValue(user.id ? JSON.stringify(user.id) : '');
     this.userForm.controls['email'].setValue(user.userEmail ? user.userEmail : '');
     this.userForm.controls['name'].setValue(user.name ? JSON.stringify(user.name) : '');
-    this.userForm.controls['lastname'].setValue(user.lastname ? JSON.stringify(user.lastname) : '');
+    this.userForm.controls['userFirstSurename'].setValue(user.userFirstSurename ? JSON.stringify(user.userFirstSurename) : '');
     this.userForm.controls['password'].setValue(user.userPassword ? JSON.stringify(user.userPassword) : '');
     this.modalService.displayModal('md', this.addUsersModal);
   }

@@ -23,7 +23,7 @@ export class UserFormComponent {
     let order: IUser = {
       userEmail: this.userForm.controls['email'].value,
       name: this.userForm.controls['name'].value,
-      lastname: this.userForm.controls['lastname'].value,
+      userFirstSurename: this.userForm.controls['lastname'].value,
       userPassword: this.userForm.controls['password'].value,
       updatedAt: this.userForm.controls['updatedAt'].value,
     }
