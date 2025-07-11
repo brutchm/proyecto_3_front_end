@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+/*import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -16,7 +16,7 @@ export class SigUpComponent {
   public signUpError!: String;
   public validSignup!: boolean;
   @ViewChild('name') nameModel!: NgModel;
-  @ViewChild('lastname') lastnameModel!: NgModel;
+  @ViewChild('userFirstSurename') userFirstSurenameModel!: NgModel;
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
@@ -31,8 +31,8 @@ export class SigUpComponent {
     if (!this.nameModel.valid) {
       this.nameModel.control.markAsTouched();
     }
-    if (!this.lastnameModel.valid) {
-      this.lastnameModel.control.markAsTouched();
+    if (!this.userFirstSurenameModel.valid) {
+      this.userFirstSurenameModel.control.markAsTouched();
     }
     if (!this.emailModel.valid) {
       this.emailModel.control.markAsTouched();
@@ -48,3 +48,4 @@ export class SigUpComponent {
     }
   }
 }
+*/

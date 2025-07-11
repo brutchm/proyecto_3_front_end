@@ -12,9 +12,22 @@ export interface IResponse<T> {
 export interface IUser {
   id?: number;
   name?: string;
-  lastname?: string;
-  email?: string;
-  password?: string;
+  userFirstSurename?: string;
+  userSecondSurename?: string;
+  
+  businessName?: string;
+  businessMission?: string;
+  businessVision?: string;
+  businessId?: string;
+  businessCountry?: string;
+  businessStateProvince?: string;
+  businessOtherDirections?: string;
+  businessLocation?: string;
+  userGender?: string;
+  userPhoneNumber?: string;
+  
+  userEmail?: string;
+  userPassword?: string;
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -38,16 +51,16 @@ export enum IFeedbackStatus {
 }
 
 export enum IRoleType {
-  admin = "ROLE_ADMIN",
   user = "ROLE_USER",
+  admin = "ROLE_CORPORATION",
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
 
 export interface IRole {
   createdAt: string;
-  description: string;
+  roleDescription: string;
   id: number;
-  name : string;
+  roleName : string;
   updatedAt: string;
 }
 

@@ -21,10 +21,10 @@ export class UserFormComponent {
 
   callSave() {
     let order: IUser = {
-      email: this.userForm.controls['email'].value,
+      userEmail: this.userForm.controls['email'].value,
       name: this.userForm.controls['name'].value,
-      lastname: this.userForm.controls['lastname'].value,
-      password: this.userForm.controls['password'].value,
+      userFirstSurename: this.userForm.controls['lastname'].value,
+      userPassword: this.userForm.controls['password'].value,
       updatedAt: this.userForm.controls['updatedAt'].value,
     }
     if(this.userForm.controls['id'].value) {

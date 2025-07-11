@@ -130,6 +130,8 @@ dist
 .pnp.*
 
 # Angular build/cache folders
+.angular/*
 .angular/cache/
 .angular/config.json
 dist/
+

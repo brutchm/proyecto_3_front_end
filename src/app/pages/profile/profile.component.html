@@ -1,76 +1,87 @@
+<div class="header-bar">
+  <i class="fa-solid fa-user"></i>
+  <h2>{{ profileService.user$().name || profileService.user$().businessName || 'Usuario sin nombre' }}</h2>
+</div>
 
 <div class="row info-container">
   <div class="col-6">
-    <div class="shadow-sm bg-body rounded px-4 py-4 h-100">
-      <div>
-        <i class="fa-solid fa-user-tie"></i>
-      </div>
+    <div class="shadow-sm body rounded px-4 py-4 h-100">
+
+      <ng-container *ngIf="profileService.user$().role?.roleName !== 'CORPORATION'">
+        <div class="border-bottom my-3">
+          <label>Primer Apellido:</label>
+          <p>{{ profileService.user$().userFirstSurename || 'No se ha indicado el primer apellido.' }}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>Segundo Apellido:</label>
+          <p>{{ profileService.user$().userSecondSurename || 'No se ha indicado el segundo apellido.' }}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>Género:</label>
+          <p>{{ profileService.user$().userGender || 'No se ha indicado el género.' }}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>Teléfono:</label>
+          <p>{{ profileService.user$().userPhoneNumber || 'No se ha indicado el número de teléfono.' }}</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="profileService.user$().role?.roleName === 'CORPORATION'">
+        <div class="border-bottom my-3">
+          <label>Misión:</label>
+          <p>{{ profileService.user$().businessMission || 'No se ha indicado la misión de la empresa.' }}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>Visión:</label>
+          <p>{{ profileService.user$().businessVision || 'No se ha indicado la visión de la empresa.' }}</p>
+        </div>
+        <div class="border-bottom my-3">
+          <label>ID Corporativo:</label>
+          <p>{{ profileService.user$().businessId || 'No se ha indicado el ID corporativo.' }}</p>
+        </div>
+      </ng-container>
+
+
       <div class="border-bottom my-3">
-        <label>Name:</label>
-        <p>{{profileService.user$().name}}</p>
-      </div>
-      <div class="border-bottom my-3">
-        <label>Lastname:</label>
-        <p>{{profileService.user$().lastname}}</p>
-      </div>
-      <div class="border-bottom my-3">
-        <label>email:</label>
-        <p>{{profileService.user$().email}}</p>
-      </div>
-      <div class=" my-3">
-        <label>Last update:</label>
-        <p>{{profileService.user$().updatedAt | date:'dd/MM/YYYY'}}</p>
+        <label>Correo Electrónico:</label>
+        <p>{{ profileService.user$().userEmail || 'No se ha indicado el correo electrónico.' }}</p>
       </div>
     </div>
   </div>
+
   <div class="col-6">
-    <div class="row">
-      <div class="col-12 shadow-sm bg-body rounded px-4 py-4 mb-3">
+    <div class="shadow-sm body rounded px-4 py-4 h-100">
+      <div class="border-bottom my-3">
         <label>Rol:</label>
-        <div class="border-bottom my-3">
-          <label>Name:</label>
-          <p>{{profileService.user$().role?.name}}</p>
-        </div>
-        <div class="border-bottom my-3">
-          <label>Description:</label>
-          <p>{{profileService.user$().role?.description}}</p>
-        </div>
-        <div class=" my-3">
-          <label>Last update:</label>
-          <p>{{profileService.user$().role?.updatedAt | date:'dd/MM/YYYY'}}</p>
-        </div>
+        <p>{{ profileService.user$().role?.roleDescription || 'No se ha indicado el rol.' }}</p>
       </div>
-      <div class="col-12 shadow-sm bg-body rounded px-4 py-4">
-        <label>Last actions:</label>
-        <div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Date</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="border-bottom my-3">
+        <label>País:</label>
+        <p>{{ profileService.user$().businessCountry || 'No se ha indicado el país.' }}</p>
+      </div>
+      <div class="border-bottom my-3">
+        <label>Provincia:</label>
+        <p>{{ profileService.user$().businessStateProvince || 'No se ha indicado la provincia.' }}</p>
+      </div>
+      <div class="border-bottom my-3">
+        <label>Otras Direcciones:</label>
+        <p>{{ profileService.user$().businessOtherDirections || 'No se han indicado otras direcciones.' }}</p>
+      </div>
+
+      <div class="my-3">
+        <label>Última Actualización:</label>
+        <p>{{ profileService.user$().updatedAt ? (profileService.user$().updatedAt | date: 'dd/MM/yyyy') : 'No se ha indicado una fecha.' }}</p>
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="map-wrapper">
+  <label>Localización por GPS</label>
+  <div id="map" class="map-container" [ngClass]="{ 'd-none': !hasValidLocation }"></div>
+
+  <p *ngIf="!hasValidLocation" class="no-location-msg">
+    Todavía no se ha indicado una ubicación por GPS.
+  </p>
 </div>
