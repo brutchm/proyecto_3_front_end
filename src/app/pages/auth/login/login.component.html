@@ -30,7 +30,7 @@
                   [ngClass]="{
                   'is-invalid': password.invalid && password.touched,
                   'is-valid': password.valid && password.touched
-                }" required />
+                }" required (ngModelChange)="onPasswordChange()" />
                 <button class="eye-btn" type="button" [disabled]="loading" (click)="toggleLoginPassword()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 17" fill="none">
                     <g filter="url(#filter0_d_13_10192)">
@@ -79,7 +79,9 @@
             }
 
           </div>
-          <a href="#">Ir al registro</a>
+          <a href="/corporation">Registrarme como corporación</a>
+          <a href="/">Registrarme como administrador finca</a>
+
           <div class="google-login">
             <button class="btn-google-login" type="button" (click)="handleGoogleLogin()">
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
@@ -134,7 +136,7 @@
           </div>
           <div class="form-group mb-3">
             <input #resetEmail="ngModel" type="text" class="form-control" id="resetEmail" name="resetEmail"
-              placeholder="micorreo@gmail.com" [(ngModel)]="resetForm.email" [readonly]="true" required />
+              placeholder="micorreo@gmail.com" [(ngModel)]="resetForm.email" [readonly]="true" required (ngModelChange)="onEmailChange($event)" />
           </div>
           <div class="form-group mb-3">
             <input #resetCode="ngModel" type="text" class="form-control" id="resetCode" name="resetCode"
@@ -142,7 +144,7 @@
               [(ngModel)]="resetForm.code" [ngClass]="{
                   'is-invalid': resetCode.invalid && resetCode.touched,
                   'is-valid': resetCode.valid && resetCode.touched,
-                }" required />
+                }" required (ngModelChange)="onEmailChange($event)" />
             <div *ngIf="resetCode.invalid && resetCode.touched" class="invalid-feedback">
               El código debe tener 6 caracteres alfanuméricos.
             </div>
@@ -151,9 +153,9 @@
             <input #resetPassword="ngModel" [type]="showResetPassword ? 'text' : 'password'" class="form-control"
               id="resetPassword" name="resetPassword" placeholder="Nueva contraseña" minlength="8"
               [(ngModel)]="resetForm.newPassword" [ngClass]="{
-                  'is-invalid': resetPassword.invalid && resetPassword.touched,
-                  'is-valid': resetPassword.valid && resetPassword.touched
-                }" required />
+                  'is-invalid': resetPassword.invalid && (resetPassword.touched || submitted),
+                  'is-valid': resetPassword.valid && (resetPassword.touched || submitted)
+                }" required (ngModelChange)="onPasswordChange()" />
             <div *ngIf="resetPassword.invalid && resetPassword.touched" class="invalid-feedback">
               La nueva contraseña debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un
               carácter especial.
@@ -164,9 +166,9 @@
             <input #confirmPassword="ngModel" [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
               id="confirmPassword" name="confirmPassword" placeholder="Confirmar nueva contraseña" minlength="8"
               [(ngModel)]="resetForm.confirmPassword" [ngClass]="{
-                  'is-invalid': confirmPassword.invalid && confirmPassword.touched || confirmPasswordError,
-                  'is-valid': confirmPassword.valid && confirmPassword.touched && !confirmPasswordError
-                }" required />
+                  'is-invalid': confirmPassword.invalid && (confirmPassword.touched || submitted) || confirmPasswordError,
+                  'is-valid': confirmPassword.valid && (confirmPassword.touched || submitted) && !confirmPasswordError
+                }" required (ngModelChange)="onPasswordChange()" />
 
             <div *ngIf="confirmPasswordError" class="invalid-feedback">
               {{confirmPasswordError}}
