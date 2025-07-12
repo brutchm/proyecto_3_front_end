@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { SigUpComponent } from './pages/auth/sign-up/signup.component';
+//import { SigUpComponent } from './pages/auth/sign-up/signup.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
@@ -14,6 +14,12 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
+import { CorporationComponent } from './pages/users/corporation/corporation.component';
+import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
+import { AuthCallbackComponent } from './pages/auth/callback/auth-callback.component';
+import { FinishRegistrationComponent } from './pages/auth/finish-registration/finish-registration.component';
+import { GoogleUserSignupComponent } from './pages/auth/google-signup-user/google-signup-user.component';
+import { GoogleCorporationSignupComponent } from './pages/auth/google-signup-corporation/google-signup-corporation.component';
 
 export const routes: Routes = [
   {
@@ -22,10 +28,15 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
+    path: 'corporation',
+    component: CorporationComponent,
+    canActivate: [GuestGuard],
+  },
+  /*{
     path: 'signup',
     component: SigUpComponent,
     canActivate: [GuestGuard],
-  },
+  },*/
   {
     path: 'access-denied',
     component: AccessDeniedComponent,
@@ -36,9 +47,29 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'auth/callback',
+    component: AuthCallbackComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/finish-registration',
+    component: FinishRegistrationComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/google-signup-user',
+    component: GoogleUserSignupComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: 'auth/google-signup-corporation',
+    component: GoogleCorporationSignupComponent,
+    canActivate: [GuestGuard],
+  },
+  {
     path: 'app',
     component: AppLayoutComponent,
-    canActivate: [AuthGuard],
+   canActivate: [AuthGuard],
     children: [
       {
         path: 'app',
@@ -84,6 +115,21 @@ export const routes: Routes = [
           showInSidebar: false
         }
       },
+
+      {
+        path: 'profileCorporation',
+        component: ProfileCorporationComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'profileCorporation',
+          showInSidebar: false
+        }
+      },
+
       {
         path: 'games',
         component: GamesComponent,

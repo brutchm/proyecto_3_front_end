@@ -128,3 +128,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Angular build/cache folders
+.angular/*
+.angular/cache/
+.angular/config.json
+dist/
+
