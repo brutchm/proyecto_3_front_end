@@ -3,27 +3,31 @@
   display: flex;
   justify-content: center;
   height: 100vh;
+  background: var(--color-bg-main);
+  font-family: var(--font-family-base);
 }
 
 .login-card {
-  background-color: #0c1612;
+  background-color: var(--card-bg);
   border-radius: 24px;
   padding: 64px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  color: #ffffff;
+  color: var(--color-text-primary);
   min-width: 678px;
+  border: 1px solid var(--card-border);
 }
 
 .login h4 {
-  font-weight: 700;
+  font-weight: var(--table-header-font-weight);
   font-size: 36px;
   margin-bottom: 16px;
-  color: #f1f1f1;
+  color: var(--color-text-primary);
 }
 
 .login p {
   font-size: 16px;
   margin-bottom: 32px;
+  color: var(--color-text-secondary);
 }
 
 form {
@@ -31,12 +35,13 @@ form {
 }
 
 .form-control {
-  background-color: transparent;
-  border: 1px solid #444;
-  color: #ffffff;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
   padding: 12px;
   border-radius: 10px;
   font-size: 14px;
+  font-family: var(--font-family-base);
 }
 
 .password-wrapper {
@@ -44,9 +49,9 @@ form {
 
   .eye-btn {
     position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 20px;
+    top: 48%;
+    transform: translateY(-48%);
     cursor: pointer;
     background: none;
     border: none; 
@@ -56,14 +61,13 @@ form {
 }
 
 .form-control::placeholder {
-  color: #888888;
+  color: var(--color-text-secondary);
 }
 
 .form-control:focus {
-  // background-color: #2a2e2a;
-  border-color: #4ade80;
+  border-color: var(--color-accent);
   box-shadow: none;
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .forgot-password {
@@ -71,29 +75,31 @@ form {
 }
 
 .btn-primary {
-  background-color: #4ade80;
-  border-color: #4ade80;
+  background-color: var(--color-btn-primary);
+  border-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
   font-weight: 600;
   border-radius: 10px;
   padding: 10px;
+  font-family: var(--font-family-base);
 }
 
 .btn-primary:hover {
-  background-color: #3bc96d;
-  border-color: #3bc96d;
+  background-color: var(--color-btn-primary-hover);
+  border-color: var(--color-btn-primary-hover);
 }
 
 a {
   display: block;
   text-align: center;
   margin-top: 15px;
-  color: #a0d8af;
+  color: var(--color-link-active);
   font-size: 14px;
   text-decoration: none;
 }
 
 a:hover {
-  color: #71c68a;
+  color: var(--color-accent);
 }
 
 .google-login {
@@ -101,14 +107,15 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #444;
+  border: 1px solid var(--input-border);
   padding: 10px;
   border-radius: 10px;
-  background-color: transparent;
-  color: #ffffff;
+  background-color: var(--dropdown-bg);
+  color: var(--input-text);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: var(--font-family-base);
 }
 
 .google-login img {
@@ -117,7 +124,7 @@ a:hover {
 }
 
 .google-login:hover {
-  background-color: #2e2e2e;
+  background-color: var(--dropdown-option-bg);
 }
 
 .btn-google-login {
@@ -126,18 +133,19 @@ a:hover {
   justify-content: center;
   background-color: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--input-text);
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-family: var(--font-family-base);
 }
 
 .is-invalid {
-  border: 1px solid #dc3545 !important;
+  border: 1px solid var(--color-warning) !important;
 }
 
 .is-valid {
-  border: 1px solid #28a745 !important;
+  border: 1px solid var(--color-success) !important;
 }
 
 [data-handler-form] {
