@@ -142,11 +142,11 @@
             <i class="fa fa-pen edit-icon" (click)="editing['businessMission'] = true"></i>
           </ng-container>
           <ng-template #editMission>
-            <input
+            <textarea rows="3"
               [(ngModel)]="editableUser.businessMission"
               (ngModelChange)="updateErrorStatus()"
               [ngClass]="{ 'is-invalid': isFieldInvalid('businessMission') }"(blur)="editing['businessMission'] = false"
-            />
+            ></textarea>
             <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessMission')">
               La misión es obligatoria.
             </div>
@@ -161,11 +161,11 @@
             <i class="fa fa-pen edit-icon" (click)="editing['businessVision'] = true"></i>
           </ng-container>
           <ng-template #editVision>
-            <input
+            <textarea rows="3"
               [(ngModel)]="editableUser.businessVision"
               (ngModelChange)="updateErrorStatus()"
               [ngClass]="{ 'is-invalid': isFieldInvalid('businessVision') }"(blur)="editing['businessVision'] = false"
-            />
+            ></textarea>
             <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessVision')">
               La visión es obligatoria.
             </div>
