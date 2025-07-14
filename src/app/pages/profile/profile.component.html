@@ -37,7 +37,7 @@
 <div class="text-start" style="margin-bottom: 40px;">
   <button class="btn btn-success"
           (click)="updateProfile()"
-          [disabled]="hasErrors() || isProfileCompletelyEmpty">
+          [disabled]="hasErrors() || isProfileCompletelyEmpty || !hasChanges">
     Actualizar Perfil
   </button>
 </div>

@@ -30,7 +30,8 @@ export class ProfileComponent implements AfterViewChecked {
   private editableMarker: L.Marker | null = null;
   public isEditingMap = false;
   public isProfileCompletelyEmpty = false;
-
+  originalUser: IUser = {} as IUser;
+  hasChanges: boolean = false;
 
   editing: { [key: string]: boolean } = {};
   editableUser: IUser = {};
@@ -48,6 +49,7 @@ export class ProfileComponent implements AfterViewChecked {
 updateErrorStatus(): void {
   const f = this.formErrors;
   const u = this.editableUser;
+  const originalData = this.originalUser;
   const role = this.profileService.user$()?.role?.roleName;
 
   for (const key in f) {
@@ -69,9 +71,7 @@ updateErrorStatus(): void {
     f['userGender'] = !u.userGender?.trim();
     f['userPhoneNumber'] = !u.userPhoneNumber?.trim();
   }
-
-  console.log('Errores:', this.formErrors)
-  console.log('rol:', role)
+  this.hasChanges = JSON.stringify(u) !== JSON.stringify(originalData);
 }
 
 
@@ -81,6 +81,7 @@ updateErrorStatus(): void {
     effect(() => {
       const user = this.profileService.user$();
       this.editableUser = { ...user };
+      this.originalUser = { ...user };
 
       this.hasValidLocation = false;
       this.mapInitialized = false;
@@ -236,7 +237,6 @@ updateErrorStatus(): void {
         this.profileService.getUserInfoSignal();
       },
       error: (err) => {
-        //this.profileService.getUserInfoSignal();
         this.snackBar.open(`Error al actualizar perfil: ${err.error?.message || err.message}`, 'Cerrar', {
           duration: 5000,
           panelClass: ['error-snackbar'],
