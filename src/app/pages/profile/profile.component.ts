@@ -58,6 +58,7 @@ updateErrorStatus(): void {
 
   f['businessCountry'] = !u.businessCountry?.trim();
   f['businessStateProvince'] = !u.businessStateProvince?.trim();
+  f['businessOtherDirections'] = !u.businessOtherDirections?.trim();
 
   if (role === 'CORPORATION') {
     f['businessName'] = !u.businessName?.trim();

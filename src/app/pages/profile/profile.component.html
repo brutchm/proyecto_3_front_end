@@ -246,7 +246,7 @@
           <i class="fa fa-pen edit-icon" (click)="editing['businessOtherDirections'] = true"></i>
         </ng-container>
         <ng-template #editDirections>
-          <textarea [(ngModel)]="editableUser.businessOtherDirections" rows="2" (blur)="editing['businessOtherDirections'] = false"></textarea>
+          <textarea [(ngModel)]="editableUser.businessOtherDirections" rows="2" (blur)="editing['businessOtherDirections'] = false" (ngModelChange)="updateErrorStatus()"></textarea>
         </ng-template>
       </div>
 
