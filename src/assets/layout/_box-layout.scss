@@ -134,9 +134,12 @@
 
             .sidebar-main {
               .sidebar-links {
-                margin-top: 10px;
                 margin-bottom: 20px;
                 height: calc(100vh - 191px);
+              /* Removed margin-top for sidebar-menu */
+              background: var(--card-bg);
+              color: var(--color-text-primary);
+              border-right: 1px solid var(--color-divider);
               }
             }
           }
@@ -302,7 +305,10 @@
                 left: 0%;
                 transform: translate(0, 0);
                 top: 125px;
-                background-color: $white;
+                background: var(--card-bg);
+                color: var(--color-text-primary);
+                border-right: 1px solid var(--color-divider);
+                margin-top: 0;
               }
             }
           }
@@ -327,6 +333,9 @@
           }
         }
 
+        background: var(--card-bg);
+        color: var(--color-text-primary);
+        box-shadow: 0 2px 8px rgba(44, 44, 44, 0.08);
         .page-body-wrapper {
           .page-body {
             margin-left: 260px;
@@ -511,6 +520,9 @@
           left: 50%;
           transform: translate(-50%, 0);
           border-radius: 0 0 10px;
+          background: var(--card-bg);
+          color: var(--color-text-primary);
+          border-top: 1px solid var(--color-divider);
         }
 
         .blockquote-footer {
