@@ -1,0 +1,35 @@
+<div class="farm-page">
+  <h1 class="farm-title">Mis Fincas</h1>
+  <button class="farm-btn" (click)="fetchFarms()" [disabled]="loading">
+    Recargar Fincas
+  </button>
+  <app-loader *ngIf="loading" class="mt-3"></app-loader>
+
+  <div *ngIf="error" class="farm-error">
+    {{ error }}
+    <button *ngIf="error.includes('inicia sesión')" class="farm-btn farm-btn-secondary" (click)="goToLogin()">Ir a
+      Login</button>
+  </div>
+
+  <div *ngIf="farms && !error" class="mt-4">
+    <div *ngIf="farms?.length > 0; else noFarms" class="farm-cards-grid">
+      <div *ngFor="let item of farms; let i = index" class="farm-card">
+        <h2 class="farm-card-title">{{ item.farm.farmName }}</h2>
+        <div class="pt-3 pb-4 px-4 pr-4">
+          <div id="farm-map-{{i}}" class="farm-map mb-4"></div>
+          <p class="farm-card-text"><strong>País:</strong> {{ item.farm.farmCountry }}</p>
+          <p class="farm-card-text"><strong>Provincia:</strong> {{ item.farm.farmStateProvince }}</p>
+          <p class="farm-card-text"><strong>Ubicación:</strong> {{ item.farm.farmLocation }}</p>
+          <p class="farm-card-text"><strong>Tamaño:</strong> {{ item.farm.farmSize }} {{ item.farm.farmMeasureUnit }}
+          </p>
+          <p class="farm-card-text"><strong>Direcciones:</strong> {{ item.farm.farmOtherDirections }}</p>
+          <a class="farm-details-link" (click)="goToFarmDetails(item.farm.id)">Ver detalles</a>
+        </div>
+
+      </div>
+    </div>
+    <ng-template #noFarms>
+      <p class="farm-no-farms">No tienes fincas registradas.</p>
+    </ng-template>
+  </div>
+</div>

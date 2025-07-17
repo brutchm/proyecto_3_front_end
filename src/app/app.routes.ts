@@ -16,6 +16,7 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
 import { CorporationComponent } from './pages/users/corporation/corporation.component';
 import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
+import { FarmComponent } from './pages/farm/farm.component';
 import { AuthCallbackComponent } from './pages/auth/callback/auth-callback.component';
 import { FinishRegistrationComponent } from './pages/auth/finish-registration/finish-registration.component';
 import { GoogleUserSignupComponent } from './pages/auth/google-signup-user/google-signup-user.component';
@@ -129,57 +130,22 @@ export const routes: Routes = [
           showInSidebar: false
         }
       },
-
       {
-        path: 'games',
-        component: GamesComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'games',
+        path: 'farm',
+        component: FarmComponent,
+        data: {
+          authorities: [IRoleType.user],
+          name: 'Farm',
           showInSidebar: true
         }
       },
       {
-        path: 'orders',
-        component: OrdersComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'orders',
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'preference-list',
-        component: PreferenceListPageComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'preference list',
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'sport-team',
-        component: SportTeamComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'Sport Team',
-          showInSidebar: true
+        path: 'farm-details',
+        loadComponent: () => import('./pages/farm/farm-details.component').then(m => m.FarmDetailsComponent),
+        data: {
+          authorities: [IRoleType.user],
+          name: 'Farm Details',
+          showInSidebar: false
         }
       },
     ],

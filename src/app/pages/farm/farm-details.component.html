@@ -1,0 +1,91 @@
+<div class="farm-details-page">
+  <ng-container *ngIf="loading">
+    <div class="farm-card">Cargando finca...</div>
+  </ng-container>
+  <ng-container *ngIf="error && !loading">
+    <div class="farm-error">{{ error }}</div>
+  </ng-container>
+  <ng-container *ngIf="farm && !loading">
+    <h2 class="farm-card-title">{{ farm.farmName }}</h2>
+    <div class="farm-card">
+      <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button"
+            role="tab" aria-controls="details" aria-selected="true">Detalles</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="cultivos-tab" data-bs-toggle="tab" data-bs-target="#cultivos" type="button"
+            role="tab" aria-controls="cultivos" aria-selected="false">Cultivos</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="animales-tab" data-bs-toggle="tab" data-bs-target="#animales" type="button"
+            role="tab" aria-controls="animales" aria-selected="false">Animales</button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+          <div class="pt-3 pb-4 px-4 pr-4">
+            <p class="farm-card-text"><strong>País:</strong> {{ farm.farmCountry }}</p>
+            <p class="farm-card-text"><strong>Provincia:</strong> {{ farm.farmStateProvince }}</p>
+            <p class="farm-card-text"><strong>Ubicación:</strong>
+              <app-location-map *ngIf="farm.farmLocation" [coordinates]="farm.farmLocation"></app-location-map>
+            </p>
+            <p class="farm-card-text"><strong>Tamaño:</strong> {{ farm.farmSize }} {{ farm.farmMeasureUnit }}</p>
+            <p class="farm-card-text"><strong>Direcciones:</strong> {{ farm.farmOtherDirections }}</p>
+            <div class="mt-3">
+              <h3 class="farm-card-title">Información Técnica</h3>
+              <p class="farm-card-text"><strong>pH del suelo:</strong> {{ technicalInfo?.soilPh }}</p>
+              <p class="farm-card-text"><strong>Nutrientes del suelo:</strong> {{ technicalInfo?.soilNutrients }}</p>
+              <p class="farm-card-text"><strong>Sistema de riego:</strong> {{ technicalInfo?.irrigationSystem ? 'Sí' :
+                'No' }}</p>
+              <p class="farm-card-text"><strong>Tipo de riego:</strong> {{ technicalInfo?.irrigationSystemType }}</p>
+              <p class="farm-card-text"><strong>Agua disponible:</strong> {{ technicalInfo?.waterAvailable ? 'Sí' : 'No'
+                }}</p>
+              <p class="farm-card-text"><strong>Tipo de uso de agua:</strong> {{ technicalInfo?.waterUsageType }}</p>
+              <p class="farm-card-text"><strong>Uso de fertilizantes/pesticidas:</strong> {{
+                technicalInfo?.fertilizerPesticideUse ? 'Sí' : 'No' }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="cultivos" role="tabpanel" aria-labelledby="cultivos-tab">
+          <div class="pt-3 pb-4 px-4 pr-4">
+            <p class="farm-card-text">(Aquí irán los cultivos de la finca)</p>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="animales" role="tabpanel" aria-labelledby="animales-tab">
+          <div class="pt-3 pb-4 px-4 pr-4">
+            <p class="farm-card-text">(Aquí irán los animales de la finca)</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-danger" (click)="openDeleteModal()" [disabled]="deleteLoading">
+          <span *ngIf="!deleteLoading">Eliminar</span>
+          <app-loader *ngIf="deleteLoading" size="sm"/>
+        </button>
+      </div>
+      <ng-template #deleteFarmModal>
+        <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body" modalFooterClass="modal-footer dark-modal-footer" modalContentClass="modal-content dark-modal-content">
+          <div>
+            <div class="modal-body mb-4 dark-modal-body">
+              <span class="modal-title-text">¿Está seguro que desea eliminar esta finca?</span>
+            </div>
+            <div class="modal-footer dark-modal-footer">
+              <button class="btn btn-cancel" (click)="closeDeleteModal()" [disabled]="deleteLoading">Cancelar</button>
+              <button class="btn btn-delete" (click)="confirmDeleteFarm()" [disabled]="deleteLoading">
+                <span *ngIf="!deleteLoading">Eliminar</span>
+                <app-loader *ngIf="deleteLoading" size="sm"/>
+              </button>
+            </div>
+          </div>
+        </app-modal>
+      </ng-template>
+      <div *ngIf="showDeleteModal">
+        <div class="modal-backdrop"></div>
+        <div class="centered-modal">
+          <ng-container *ngTemplateOutlet="deleteFarmModal"></ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
