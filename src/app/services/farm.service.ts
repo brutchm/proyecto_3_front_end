@@ -27,7 +27,6 @@ export interface IFarm {
   farmMeasureUnit: string;
   createdAt: string | null;
   updatedAt: string | null;
-  technicalInformation: IFarmTechnicalInfo;
   active: boolean;
 }
 
@@ -59,8 +58,8 @@ export class FarmService {
     return this.myFarmsSignal;
   }
 
-  createFarm(farm: IFarm) {
-    return this.http.post<{ message: string; data: IFarm }>("farms", farm);
+  createFarm(farm: IFarm, technicalInfo: IFarmTechnicalInfo | null) {
+    return this.http.post<{ message: string; data: IFarm }>("farms", { farm, technicalInfo });
   }
 
   getMyFarms() {
@@ -79,5 +78,10 @@ export class FarmService {
 
   removeFarm(id: string | number) {
     return this.http.delete<{ message: string }>(`farms/${id}`);
+  }
+
+  updateFarm(farm: IFarm, technicalInfo: IFarmTechnicalInfo | null) {
+    // Assuming backend expects both farm and technicalInfo in the body
+    return this.http.put<{ message: string; data: IFarm }>(`farms/${farm.id}`, { farm, technicalInfo });
   }
 }

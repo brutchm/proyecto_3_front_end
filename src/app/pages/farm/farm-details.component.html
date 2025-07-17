@@ -43,16 +43,13 @@
                 </svg>
               </summary>
               <div class="accordion-content">
-                <p class="farm-card-text"><strong>pH del suelo:</strong> {{ technicalInfo?.soilPh }}</p>
-                <p class="farm-card-text"><strong>Nutrientes del suelo:</strong> {{ technicalInfo?.soilNutrients }}</p>
-                <p class="farm-card-text"><strong>Sistema de riego:</strong> {{ technicalInfo?.irrigationSystem ? 'Sí' :
-                  'No' }}</p>
-                <p class="farm-card-text"><strong>Tipo de riego:</strong> {{ technicalInfo?.irrigationSystemType }}</p>
-                <p class="farm-card-text"><strong>Agua disponible:</strong> {{ technicalInfo?.waterAvailable ? 'Sí' :
-                  'No' }}</p>
-                <p class="farm-card-text"><strong>Tipo de uso de agua:</strong> {{ technicalInfo?.waterUsageType }}</p>
-                <p class="farm-card-text"><strong>Uso de fertilizantes/pesticidas:</strong> {{
-                  technicalInfo?.fertilizerPesticideUse ? 'Sí' : 'No' }}</p>
+                <p class="farm-card-text"><strong>pH del suelo:</strong> {{ (technicalInfo?.soilPh === '' || technicalInfo?.soilPh == null || technicalInfo === null) ? 'n/a' : technicalInfo?.soilPh }}</p>
+                <p class="farm-card-text"><strong>Nutrientes del suelo:</strong> {{ (technicalInfo?.soilNutrients === '' || technicalInfo?.soilNutrients == null || technicalInfo === null) ? 'n/a' : technicalInfo?.soilNutrients }}</p>
+                <p class="farm-card-text"><strong>Sistema de riego:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.irrigationSystem === null || technicalInfo?.irrigationSystem === undefined ? 'n/a' : (technicalInfo?.irrigationSystem ? 'Sí' : 'No')) }}</p>
+                <p class="farm-card-text"><strong>Tipo de riego:</strong> {{ (technicalInfo?.irrigationSystemType === '' || technicalInfo?.irrigationSystemType == null || technicalInfo === null) ? 'n/a' : technicalInfo?.irrigationSystemType }}</p>
+                <p class="farm-card-text"><strong>Agua disponible:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.waterAvailable === null || technicalInfo?.waterAvailable === undefined ? 'n/a' : (technicalInfo?.waterAvailable ? 'Sí' : 'No')) }}</p>
+                <p class="farm-card-text"><strong>Tipo de uso de agua:</strong> {{ (technicalInfo?.waterUsageType === '' || technicalInfo?.waterUsageType == null || technicalInfo === null) ? 'n/a' : technicalInfo?.waterUsageType }}</p>
+                <p class="farm-card-text"><strong>Uso de fertilizantes/pesticidas:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.fertilizerPesticideUse === null || technicalInfo?.fertilizerPesticideUse === undefined ? 'n/a' : (technicalInfo?.fertilizerPesticideUse ? 'Sí' : 'No')) }}</p>
               </div>
             </details>
           </div>
@@ -68,11 +65,180 @@
           </div>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="mt-4 d-flex gap-2">
+        <button class="btn btn-primary" (click)="openEditFarmModal()">Editar</button>
         <button class="btn btn-danger" (click)="openDeleteModal()" [disabled]="deleteLoading">
           <span *ngIf="!deleteLoading">Eliminar</span>
           <app-loader *ngIf="deleteLoading" size="sm" />
         </button>
+      </div>
+      <ng-template #editFarmModal>
+        <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
+          modalContentClass="modal-content dark-modal-content create-farm-modal">
+          <form [formGroup]="editFarmForm" (ngSubmit)="submitEditFarm()" class="farm-create" novalidate autocomplete="off">
+            <div class="modal-body mb-4 dark-modal-body">
+              <h2 class="modal-title-text">Editar finca</h2>
+              <div class="form-group mt-3">
+                <label>Nombre de la finca</label>
+                <input formControlName="farmName" class="form-control farm-input"
+                  [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmName'].invalid" />
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmName'].invalid" class="invalid-feedback">
+                  Este campo es requerido.</div>
+              </div>
+              <div class="form-group mt-3">
+                <label>Provincia</label>
+                <select formControlName="farmStateProvince" class="form-control farm-input"
+                  [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmStateProvince'].invalid">
+                  <option *ngIf="editFarmForm.value.farmStateProvince && !provinces.includes(editFarmForm.value.farmStateProvince)" [value]="editFarmForm.value.farmStateProvince" disabled selected hidden>
+                    {{ editFarmForm.value.farmStateProvince }}
+                  </option>
+                  <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+                </select>
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmStateProvince'].invalid"
+                  class="invalid-feedback">Este campo es requerido.</div>
+              </div>
+              <div class="form-group mt-3">
+                <label>Otras direcciones</label>
+                <input formControlName="farmOtherDirections" class="form-control farm-input"
+                  [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmOtherDirections'].invalid" />
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmOtherDirections'].invalid"
+                  class="invalid-feedback">Este campo es requerido.</div>
+              </div>
+              <div class="form-group mt-3">
+                <label>Ubicación (seleccione en el mapa)</label>
+                <div class="d-flex align-items-center gap-2">
+                  <input formControlName="farmLocation" class="form-control farm-input" readonly
+                    [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmLocation'].invalid" />
+                </div>
+                <div id="edit-farm-map" class="location-map"></div>
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmLocation'].invalid"
+                  class="invalid-feedback">Debe seleccionar una ubicación en el mapa.</div>
+              </div>
+              <div class="form-group mt-3">
+                <label>Tamaño</label>
+                <input formControlName="farmSize" class="form-control farm-input" type="number" min="0" step="0.01"
+                  [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmSize'].invalid" />
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmSize'].invalid" class="invalid-feedback">
+                  Ingrese un número válido.</div>
+              </div>
+              <div class="form-group mt-3 mb-3">
+                <label>Unidad de medida</label>
+                <select formControlName="farmMeasureUnit" class="form-control farm-input"
+                  [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmMeasureUnit'].invalid">
+                  <option *ngIf="editFarmForm.value.farmMeasureUnit && !measureUnits.includes(editFarmForm.value.farmMeasureUnit)" [value]="editFarmForm.value.farmMeasureUnit" disabled selected hidden>
+                    {{ editFarmForm.value.farmMeasureUnit }}
+                  </option>
+                  <option *ngFor="let unit of measureUnits" [value]="unit">{{ unit }}</option>
+                </select>
+                <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmMeasureUnit'].invalid"
+                  class="invalid-feedback">Este campo es requerido.</div>
+              </div>
+              <details class="farm-accordion mt-3">
+                <summary>
+                  <span>Información Técnica</span>
+                  <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 7.5L9 11.5L13 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </summary>
+                <div class="accordion-content">
+                  <div class="form-group mt-2">
+                    <label>pH del suelo</label>
+                    <select formControlName="soilPh" class="form-control farm-input">
+                      <option *ngIf="editFarmForm.value.soilPh && ['Ácido','Neutro','Alcalino'].indexOf(editFarmForm.value.soilPh) === -1 && editFarmForm.value.soilPh !== ''" [value]="editFarmForm.value.soilPh" disabled selected hidden>
+                        {{ editFarmForm.value.soilPh }}
+                      </option>
+                      <option value="">No sé</option>
+                      <option value="Ácido">Ácido</option>
+                      <option value="Neutro">Neutro</option>
+                      <option value="Alcalino">Alcalino</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Nutrientes del suelo</label>
+                    <select formControlName="soilNutrients" class="form-control farm-input">
+                      <option *ngIf="editFarmForm.value.soilNutrients && ['Bajo','Medio','Alto'].indexOf(editFarmForm.value.soilNutrients) === -1 && editFarmForm.value.soilNutrients !== ''" [value]="editFarmForm.value.soilNutrients" disabled selected hidden>
+                        {{ editFarmForm.value.soilNutrients }}
+                      </option>
+                      <option value="">No sé</option>
+                      <option value="Bajo">Bajo</option>
+                      <option value="Medio">Medio</option>
+                      <option value="Alto">Alto</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Sistema de riego</label>
+                    <select formControlName="irrigationSystem" class="form-control farm-input boolean-select">
+                      <option *ngIf="editFarmForm.value.irrigationSystem !== null && editFarmForm.value.irrigationSystem !== true && editFarmForm.value.irrigationSystem !== false" [ngValue]="editFarmForm.value.irrigationSystem" disabled selected hidden>
+                        {{ editFarmForm.value.irrigationSystem }}
+                      </option>
+                      <option [ngValue]="null">No sé</option>
+                      <option [ngValue]="true">Sí</option>
+                      <option [ngValue]="false">No</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Tipo de sistema de riego</label>
+                    <select formControlName="irrigationSystemType" class="form-control farm-input">
+                      <option *ngIf="editFarmForm.value.irrigationSystemType && ['Goteo','Aspersión','Superficie','Otro'].indexOf(editFarmForm.value.irrigationSystemType) === -1 && editFarmForm.value.irrigationSystemType !== ''" [value]="editFarmForm.value.irrigationSystemType" disabled selected hidden>
+                        {{ editFarmForm.value.irrigationSystemType }}
+                      </option>
+                      <option value="">No sé</option>
+                      <option value="Goteo">Goteo</option>
+                      <option value="Aspersión">Aspersión</option>
+                      <option value="Superficie">Superficie</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Agua disponible</label>
+                    <select formControlName="waterAvailable" class="form-control farm-input boolean-select">
+                      <option *ngIf="editFarmForm.value.waterAvailable !== null && editFarmForm.value.waterAvailable !== true && editFarmForm.value.waterAvailable !== false" [ngValue]="editFarmForm.value.waterAvailable" disabled selected hidden>
+                        {{ editFarmForm.value.waterAvailable }}
+                      </option>
+                      <option [ngValue]="null">No sé</option>
+                      <option [ngValue]="true">Sí</option>
+                      <option [ngValue]="false">No</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Tipo de uso de agua</label>
+                    <select formControlName="waterUsageType" class="form-control farm-input">
+                      <option *ngIf="editFarmForm.value.waterUsageType && ['Riego','Consumo animal','Procesos','Otro'].indexOf(editFarmForm.value.waterUsageType) === -1 && editFarmForm.value.waterUsageType !== ''" [value]="editFarmForm.value.waterUsageType" disabled selected hidden>
+                        {{ editFarmForm.value.waterUsageType }}
+                      </option>
+                      <option value="">No sé</option>
+                      <option value="Riego">Riego</option>
+                      <option value="Consumo animal">Consumo animal</option>
+                      <option value="Procesos">Procesos</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-2">
+                    <label>Uso de fertilizantes/pesticidas</label>
+                    <select formControlName="fertilizerPesticideUse" class="form-control farm-input boolean-select">
+                      <option *ngIf="editFarmForm.value.fertilizerPesticideUse !== null && editFarmForm.value.fertilizerPesticideUse !== true && editFarmForm.value.fertilizerPesticideUse !== false" [ngValue]="editFarmForm.value.fertilizerPesticideUse" disabled selected hidden>
+                        {{ editFarmForm.value.fertilizerPesticideUse }}
+                      </option>
+                      <option [ngValue]="null">No sé</option>
+                      <option [ngValue]="true">Sí</option>
+                      <option [ngValue]="false">No</option>
+                    </select>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="modal-footer dark-modal-footer">
+              <button type="button" class="farm-btn-cancel btn btn-danger" (click)="closeEditFarmModal()">Cancelar</button>
+              <button type="submit" class="btn btn-edit farm-btn farm-btn-edit" [disabled]="editFarmLoading">Guardar</button>
+            </div>
+          </form>
+        </app-modal>
+      </ng-template>
+      <div *ngIf="showEditFarmModal">
+        <div class="modal-backdrop"></div>
+        <div class="centered-modal create-farm">
+          <ng-container *ngTemplateOutlet="editFarmModal"></ng-container>
+        </div>
       </div>
       <ng-template #deleteFarmModal>
         <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"

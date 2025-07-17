@@ -23,16 +23,11 @@
               Este campo es requerido.</div>
           </div>
           <div class="form-group mt-3">
-            <label>País</label>
-            <input formControlName="farmCountry" class="form-control farm-input"
-              [class.is-invalid]="createFarmSubmitted && createFarmForm.controls['farmCountry'].invalid" />
-            <div *ngIf="createFarmSubmitted && createFarmForm.controls['farmCountry'].invalid" class="invalid-feedback">
-              Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
             <label>Provincia</label>
-            <input formControlName="farmStateProvince" class="form-control farm-input"
-              [class.is-invalid]="createFarmSubmitted && createFarmForm.controls['farmStateProvince'].invalid" />
+            <select formControlName="farmStateProvince" class="form-control farm-input"
+              [class.is-invalid]="createFarmSubmitted && createFarmForm.controls['farmStateProvince'].invalid">
+              <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+            </select>
             <div *ngIf="createFarmSubmitted && createFarmForm.controls['farmStateProvince'].invalid"
               class="invalid-feedback">Este campo es requerido.</div>
           </div>
@@ -62,12 +57,85 @@
           </div>
           <div class="form-group mt-3 mb-3">
             <label>Unidad de medida</label>
-            <input formControlName="farmMeasureUnit" class="form-control farm-input"
-              [class.is-invalid]="createFarmSubmitted && createFarmForm.controls['farmMeasureUnit'].invalid" />
+            <select formControlName="farmMeasureUnit" class="form-control farm-input"
+              [class.is-invalid]="createFarmSubmitted && createFarmForm.controls['farmMeasureUnit'].invalid">
+              <option *ngFor="let unit of measureUnits" [value]="unit">{{ unit }}</option>
+            </select>
             <div *ngIf="createFarmSubmitted && createFarmForm.controls['farmMeasureUnit'].invalid"
               class="invalid-feedback">Este campo es requerido.</div>
           </div>
-          <h3 class="mb-3">Información Técnica</h3>
+          <details class="farm-accordion mt-3">
+            <summary>
+              <span>Información Técnica</span>
+              <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 7.5L9 11.5L13 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <div class="accordion-content">
+              <div class="form-group mt-2">
+                <label>pH del suelo</label>
+                <select formControlName="soilPh" class="form-control farm-input">
+                  <option value="">No sé</option>
+                  <option value="Ácido">Ácido</option>
+                  <option value="Neutro">Neutro</option>
+                  <option value="Alcalino">Alcalino</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Nutrientes del suelo</label>
+                <select formControlName="soilNutrients" class="form-control farm-input">
+                  <option value="">No sé</option>
+                  <option value="Bajo">Bajo</option>
+                  <option value="Medio">Medio</option>
+                  <option value="Alto">Alto</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Sistema de riego</label>
+                <select formControlName="irrigationSystem" class="form-control farm-input boolean-select">
+                  <option [ngValue]="null">No sé</option>
+                  <option [ngValue]="true">Sí</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Tipo de sistema de riego</label>
+                <select formControlName="irrigationSystemType" class="form-control farm-input">
+                  <option value="">No sé</option>
+                  <option value="Goteo">Goteo</option>
+                  <option value="Aspersión">Aspersión</option>
+                  <option value="Superficie">Superficie</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Agua disponible</label>
+                <select formControlName="waterAvailable" class="form-control farm-input boolean-select">
+                  <option [ngValue]="null">No sé</option>
+                  <option [ngValue]="true">Sí</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Tipo de uso de agua</label>
+                <select formControlName="waterUsageType" class="form-control farm-input">
+                  <option value="">No sé</option>
+                  <option value="Riego">Riego</option>
+                  <option value="Consumo animal">Consumo animal</option>
+                  <option value="Procesos">Procesos</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Uso de fertilizantes/pesticidas</label>
+                <select formControlName="fertilizerPesticideUse" class="form-control farm-input boolean-select">
+                  <option [ngValue]="null">No sé</option>
+                  <option [ngValue]="true">Sí</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+              </div>
+            </div>
+          </details>
           
         </div>
         <div class="modal-footer dark-modal-footer">

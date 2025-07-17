@@ -6,20 +6,28 @@
 
 .farm-create {
   min-width: 344px;
-  input {
+  input, select {
     background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  color: var(--input-text);
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: var(--font-family-base);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: var(--font-family-base);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
   }
-   label {
+  select:focus, input:focus {
+    border-color: var(--color-accent);
+  }
+  label {
     font-weight: 500;
     color: var(--color-text-primary);
     margin-bottom: 0.35rem;
-   }
+  }
 }
   
 
