@@ -16,7 +16,7 @@ body[class="dark-only"] {
   --view-border-marker: #2c2c45d4;
 }
 
-:root {
+:root, body {
   /* Base Colors */
   --color-bg-main: #1E1E1E; /* Fondo Principal */
   --color-text-primary: #E0E0E0; /* Texto Primario */
@@ -26,6 +26,7 @@ body[class="dark-only"] {
   --color-btn-primary-text: #E0E0E0;
   --color-btn-primary-hover: #388E3C;
   --color-btn-secondary: #388E3C; /* Botón Secundario */
+  --color-btn-blue: #07508b; /* Botón Azul */
   --color-btn-secondary-text: #E0E0E0;
   --color-btn-secondary-hover: #4CAF50;
   --color-warning: #F44336; /* Advertencias */

@@ -15,6 +15,18 @@ export class LocationMapComponent implements OnInit {
   private map: L.Map | null = null;
 
   ngOnInit(): void {
+    this.initMap();
+  }
+
+  public refreshMap(): void {
+    setTimeout(() => {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
+    }, 100);
+  }
+
+  private initMap(): void {
     if (!this.coordinates) return;
     const [lat, lng] = this.coordinates.split(',').map(Number);
     if (isNaN(lat) || isNaN(lng)) return;

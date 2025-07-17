@@ -1,6 +1,6 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AlertService } from './alert.service';
+import { inject, Injectable, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { AlertService } from "./alert.service";
 
 export interface IFarmTechnicalInfo {
   id: number;
@@ -48,7 +48,7 @@ export interface IMyFarmResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class FarmService {
   private http = inject(HttpClient);
@@ -59,12 +59,22 @@ export class FarmService {
     return this.myFarmsSignal;
   }
 
+  createFarm(farm: IFarm) {
+    return this.http.post<{ message: string; data: IFarm }>("farms", farm);
+  }
+
   getMyFarms() {
-    return this.http.get<IMyFarmResponse>('farms/my-farms');
+    return this.http.get<IMyFarmResponse>("farms/my-farms");
   }
 
   farmById(id: string | number) {
-    return this.http.get<{ message: string; data: { technicalInfo: IFarmTechnicalInfo; farm: IFarm }; meta: any }>(`farms/${id}`);
+    return this.http.get<
+      {
+        message: string;
+        data: { technicalInfo: IFarmTechnicalInfo; farm: IFarm };
+        meta: any;
+      }
+    >(`farms/${id}`);
   }
 
   removeFarm(id: string | number) {

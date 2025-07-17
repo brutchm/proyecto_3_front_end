@@ -1,3 +1,99 @@
+// Accordion styles for technical info
+.farm-accordion {
+  background: var(--card-bg);
+  border-radius: 10px;
+  border: 1px solid var(--color-divider);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.farm-accordion[open] {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+.farm-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 1.1rem 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: var(--color-bg-main);
+  color: var(--color-accent);
+  border: none;
+  outline: none;
+  user-select: none;
+  transition: background 0.2s, color 0.2s;
+}
+.farm-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.accordion-arrow {
+  margin-left: 0.5rem;
+  transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+  color: var(--color-accent);
+}
+.farm-accordion[open] .accordion-arrow {
+  transform: rotate(180deg);
+}
+.accordion-content {
+  padding: 1.1rem 1.5rem 1.2rem 1.5rem;
+  background: var(--card-bg);
+  border-top: 1px solid var(--color-divider);
+  color: var(--color-text-primary);
+}
+
+.farm-card-title {
+  padding: 8px 16px;
+  // border-radius: 42px;
+  background-color: var(--color-success);
+  text-align: center;
+  color: var(--color-bg-main)  !important;
+}
+.farm-card-title, .farm-details-title {
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  letter-spacing: 0.01em;
+}
+
+.nav-tabs {
+  background-color: var(--color-bg-main);
+  border-bottom: 1px solid var(--color-divider);
+  border-radius: 8px 8px 0 0;
+  padding: 0 0.5rem;
+}
+.nav-tabs .nav-link {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.2s, border-color 0.2s;
+  margin-right: 0.5rem;
+  border-radius: 8px 8px 0 0;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-link:focus {
+  color: var(--color-accent);
+  border-bottom: 2.5px solid var(--color-accent);
+  background: var(--card-bg);
+}
+.nav-tabs .nav-link:hover:not(.active) {
+  color: var(--color-btn-primary-hover);
+}
+.tab-content {
+  background: var(--card-bg);
+  border-radius: 0 0 8px 8px;
+  border: 1px solid var(--color-divider);
+  border-top: none;
+  padding: 1.5rem 1rem 1rem 1rem;
+  color: var(--color-text-primary);
+}
 // Floating modal and backdrop styles
 .modal-backdrop {
   position: fixed;
