@@ -39,7 +39,7 @@ function securePasswordValidator(control: AbstractControl): ValidationErrors | n
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SigUpComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
