@@ -235,7 +235,12 @@ updateErrorStatus(): void {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
+
+        localStorage.setItem('auth_user', JSON.stringify(this.editableUser));
         this.profileService.getUserInfoSignal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       },
       error: (err) => {
         this.snackBar.open(`Error al actualizar perfil: ${err.error?.message || err.message}`, 'Cerrar', {
