@@ -3,11 +3,9 @@
   background-color: #1E1E1E;
   min-height: 100vh;
   padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
 }
 
-// Barra superior con el nombre del usuario
 .header-bar {
   background-color: #4CAF50;
   border-radius: 8px;
@@ -31,7 +29,7 @@
   }
 }
 
-// Contenedor de las dos columnas
+
 .info-container {
   display: flex;
   flex-wrap: wrap;
@@ -105,4 +103,36 @@
     font-style: italic;
     margin-top: 1rem;
   }
+}
+.edit-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #4CAF50;
+
+  &:hover {
+    color: #A3F989;
+  }
+}
+
+input,
+textarea,
+select {
+  width: 100%;                  
+  max-width: 100%;             
+  padding: 0.5rem 0.75rem;     
+  font-size: 1rem;              
+  color: #E0E0E0;
+  background-color: #1E1E1E;
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+  box-sizing: border-box;       
+  margin-bottom: 0.5rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #81C784;
+  box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
 }

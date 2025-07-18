@@ -15,7 +15,6 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
 import { CorporationComponent } from './pages/users/corporation/corporation.component';
-import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
 import { AuthCallbackComponent } from './pages/auth/callback/auth-callback.component';
 import { FinishRegistrationComponent } from './pages/auth/finish-registration/finish-registration.component';
 import { GoogleUserSignupComponent } from './pages/auth/google-signup-user/google-signup-user.component';
@@ -116,7 +115,7 @@ export const routes: Routes = [
         }
       },
 
-      {
+    /*/  {
         path: 'profileCorporation',
         component: ProfileCorporationComponent,
         data: { 
@@ -128,7 +127,7 @@ export const routes: Routes = [
           name: 'profileCorporation',
           showInSidebar: false
         }
-      },
+      },*/
 
       {
         path: 'games',
