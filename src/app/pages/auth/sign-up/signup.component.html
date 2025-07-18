@@ -1,4 +1,5 @@
 <div class="container-form-wrapper">
+  <!-- Sección descriptiva -->
   <div class="description-section">
     <h2>Crear Cuenta</h2>
     <p>
@@ -11,6 +12,7 @@
     <a routerLink="/login" class="btn btn-outline-light">Iniciar Sesión</a>
   </div>
 
+  <!-- Formulario de Registro -->
   <form
     [formGroup]="signupForm"
     (ngSubmit)="handleSignup()"
@@ -22,19 +24,21 @@
       </div>
     </div>
 
+    <!-- Fila para Nombre y Primer Apellido -->
     <div class="row">
       <div class="col-1-2 mb-3">
-        <label for="name" class="form-label">Nombre(s)*</label>
+        <!-- CORRECCIÓN: El formControlName ahora es 'userName' -->
+        <label for="userName" class="form-label">Nombre(s)*</label>
         <input
-          id="name"
-          formControlName="name"
+          id="userName"
+          formControlName="userName"
           type="text"
           class="form-control"
           placeholder="Ingrese su nombre"
         />
-        @if (signupForm.controls['name'].invalid &&
-        (signupForm.controls['name'].dirty ||
-        signupForm.controls['name'].touched)) {
+        @if (signupForm.controls['userName'].invalid &&
+        (signupForm.controls['userName'].dirty ||
+        signupForm.controls['userName'].touched)) {
         <div class="text-danger mt-1">El nombre es requerido.</div>
         }
       </div>
@@ -57,6 +61,7 @@
       </div>
     </div>
 
+    <!-- Fila para Segundo Apellido y Género -->
     <div class="row">
       <div class="col-1-2 mb-3">
         <label for="userSecondSurename" class="form-label"
@@ -85,6 +90,7 @@
       </div>
     </div>
 
+    <!-- Fila para Email y Teléfono -->
     <div class="row">
       <div class="col-1-2 mb-3">
         <label for="userEmail" class="form-label">Correo Electrónico*</label>
@@ -120,6 +126,7 @@
       </div>
     </div>
 
+    <!-- Fila para Contraseña y Confirmación -->
     <div class="row">
       <div class="col-1-2 mb-3">
         <label for="userPassword" class="form-label">Contraseña*</label>
@@ -160,15 +167,17 @@
       </div>
     </div>
 
+    <!-- Mensajes de error/éxito y Botón de Acción -->
     <div class="text-end mt-3">
       @if(signUpError) {
       <p class="text-danger text-start">{{ signUpError }}</p>
       } @else if (successMessage) {
       <p class="text-success text-start">{{ successMessage }}</p>
       }
+      <!-- CORRECCIÓN: La condición del botón ahora es simplemente [disabled]="signupForm.invalid" -->
       <button
         type="submit"
-        [disabled]="signupForm.invalid && signupForm.touched"
+        [disabled]="signupForm.invalid"
         class="btn btn-primary"
       >
         Crear Cuenta

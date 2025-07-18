@@ -20,6 +20,7 @@ export const passwordMatchValidator: ValidatorFn = (form: AbstractControl): Vali
  */
 function securePasswordValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value;
+  // Expresión regular para 8+ caracteres, con al menos una mayúscula, una minúscula, un número y un símbolo.
   const securePasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   return securePasswordRegex.test(value)
     ? null
@@ -27,7 +28,7 @@ function securePasswordValidator(control: AbstractControl): ValidationErrors | n
 }
 
 /**
- * @class SigUpComponent
+ * @class SignUpComponent
  * @description
  * Componente para el registro de un nuevo usuario estándar (Administrador de Finca)
  * utilizando un formulario reactivo para una validación y manejo robusto.
@@ -46,12 +47,12 @@ export class SignUpComponent implements OnInit {
 
   public signupForm!: FormGroup;
   public signUpError?: string;
-  public validSignup: boolean = false;
   public successMessage?: string;
 
   ngOnInit(): void {
+    // Se estandariza el nombre del control a 'userName' para que coincida con la entidad del backend.
     this.signupForm = this.fb.group({
-      name: ['', Validators.required],
+      userName: ['', Validators.required],
       userFirstSurename: ['', Validators.required],
       userSecondSurename: [''],
       userGender: [''],
@@ -59,19 +60,17 @@ export class SignUpComponent implements OnInit {
       userEmail: ['', [Validators.required, Validators.email]],
       userPassword: ['', [Validators.required, securePasswordValidator]],
       confirmPassword: ['', Validators.required],
-      isActive: [true],
     }, { validators: passwordMatchValidator });
   }
 
   /**
    * @method handleSignup
    * @description
-   * Procesa el envío del formulario. Si el formulario es válido, envía los datos
-   * al servicio de autenticación para registrar al nuevo usuario.
+   * Procesa el envío del formulario. Si el formulario es válido, construye explícitamente el
+   * objeto de usuario y lo envía al servicio de autenticación para registrarlo.
    */
   public handleSignup(): void {
     this.signUpError = undefined;
-    this.validSignup = false;
     this.successMessage = undefined;
 
     if (this.signupForm.invalid) {
@@ -79,7 +78,18 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    const userData: IUser = this.signupForm.value;
+    // Se construye el objeto explícitamente para garantizar que los nombres de las propiedades
+    // coincidan 100% con la entidad del backend.
+    const formValue = this.signupForm.getRawValue();
+    const userData: IUser = {
+      name: formValue.userName,
+      userFirstSurename: formValue.userFirstSurename,
+      userSecondSurename: formValue.userSecondSurename,
+      userGender: formValue.userGender,
+      userPhoneNumber: formValue.userPhoneNumber,
+      userEmail: formValue.userEmail,
+      userPassword: formValue.userPassword,
+    };
 
     this.authService.signup(userData).subscribe({
       next: () => {
