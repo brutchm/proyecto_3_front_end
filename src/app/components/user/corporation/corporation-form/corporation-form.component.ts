@@ -70,7 +70,6 @@ export class CorporationFormComponent implements AfterViewInit {
       userGender: formData.userGender,
       userPhoneNumber: formData.userPhoneNumber,
       userEmail: formData.userEmail,
-      // Asignamos la contraseña solo si existe, si no, es null.
       userPassword: formData.userPassword || null,
       role: {
         id: 3,

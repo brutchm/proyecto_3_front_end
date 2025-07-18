@@ -117,7 +117,7 @@ export const routes: Routes = [
         }
       },
 
-      {
+    /*/  {
         path: 'profileCorporation',
         component: ProfileCorporationComponent,
         data: { 
@@ -130,6 +130,8 @@ export const routes: Routes = [
           showInSidebar: false
         }
       },
+      },*/
+
       {
         path: 'farm',
         component: FarmComponent,
