@@ -15,7 +15,6 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { SportTeamComponent } from './pages/sport-team/sport-team.component';
 import { CorporationComponent } from './pages/users/corporation/corporation.component';
-import { ProfileCorporationComponent } from './pages/profile/corporation/profileCorporation.component';
 import { AuthCallbackComponent } from './pages/auth/callback/auth-callback.component';
 import { FinishRegistrationComponent } from './pages/auth/finish-registration/finish-registration.component';
 import { GoogleUserSignupComponent } from './pages/auth/google-signup-user/google-signup-user.component';
@@ -69,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'app',
     component: AppLayoutComponent,
-   canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'app',
@@ -79,10 +78,10 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
-        data: { 
+        canActivate: [AdminRoleGuard],
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin
           ],
           name: 'Users',
@@ -92,9 +91,9 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user
           ],
@@ -105,9 +104,9 @@ export const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user
           ],
@@ -116,26 +115,26 @@ export const routes: Routes = [
         }
       },
 
-      {
-        path: 'profileCorporation',
-        component: ProfileCorporationComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'profileCorporation',
-          showInSidebar: false
-        }
-      },
+      /*/  {
+          path: 'profileCorporation',
+          component: ProfileCorporationComponent,
+          data: { 
+            authorities: [
+              IRoleType.admin, 
+              IRoleType.superAdmin,
+              IRoleType.user
+            ],
+            name: 'profileCorporation',
+            showInSidebar: false
+          }
+        },*/
 
       {
         path: 'games',
         component: GamesComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user,
           ],
@@ -146,9 +145,9 @@ export const routes: Routes = [
       {
         path: 'orders',
         component: OrdersComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user,
           ],
@@ -159,9 +158,9 @@ export const routes: Routes = [
       {
         path: 'preference-list',
         component: PreferenceListPageComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user,
           ],
@@ -172,9 +171,9 @@ export const routes: Routes = [
       {
         path: 'sport-team',
         component: SportTeamComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user,
           ],

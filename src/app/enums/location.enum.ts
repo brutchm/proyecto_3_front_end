@@ -11,3 +11,8 @@ export enum CountryEnum {
     PUNTARENAS = 'Puntarenas',
     LIMON = 'Limón'
   }
+
+  export enum GenderEnum {
+    FEMENINO = 'Femenino',
+    MASCULINO='Masculino'
+  }

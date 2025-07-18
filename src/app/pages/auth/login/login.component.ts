@@ -20,6 +20,12 @@ import { environment } from '../../../../environments/environment';
   styleUrl: "./login.component.scss",
 })
 export class LoginComponent {
+  clearErrors(): void {
+    this.loginError = "";
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
+  }
   public loginError!: string;
   public loading = false;
   public submitted = false;
@@ -66,6 +72,10 @@ export class LoginComponent {
   ) {}
 
   public onEmailChange(email: string): void {
+    this.loginError = "";
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
     let model: NgModel | undefined;
     if (this.currentForm === 'login') {
       model = this.emailModel;
@@ -81,8 +91,15 @@ export class LoginComponent {
     }
   }
 
+  public onPasswordChange(): void {
+    this.resetError = "";
+    this.resetSuccess = "";
+    this.confirmPasswordError = "";
+  }
+
   public handleLogin(event: Event): void {
     event.preventDefault();
+    this.clearErrors();
     this.submitted = true;
 
     // Marcar campos como tocados
@@ -110,6 +127,7 @@ export class LoginComponent {
 
   public handleRequestResetPassword(event: Event): void {
     event.preventDefault();
+    this.clearErrors();
     this.submitted = true;
     // Validar email
     const isEmailValid = this.validateEmail(this.requestResetForm.email);
@@ -139,6 +157,7 @@ export class LoginComponent {
 
   public handleResetPassword(event: Event): void {
     event.preventDefault();
+    this.clearErrors();
     this.submitted = true;
     // Validate all fields
     const isEmailValid = this.validateEmail(this.resetForm.email);

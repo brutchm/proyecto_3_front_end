@@ -1,6 +1,58 @@
 /**=====================
     78. Sidebar CSS Start
 ==========================**/
+.page-body {
+  background-color: var(--color-bg-main);
+}
+.header-wrapper {
+  background-color: var(--color-bg-main);
+}
+.sidebar-wrapper {
+  background-color: var(--color-bg-main) !important;
+}
+
+.footer {
+  background-color: var(--color-bg-main) !important;
+  color: var(--color-accent) !important;
+}
+
+.sidebar-link {
+  span {
+    color: var(--color-accent) !important;
+  }
+}
+
+.profile-dropdown {
+  list-style: none;
+}
+
+.profile-dropdown  span {
+  color: var(--color-accent) !important;
+  margin-left: 12px !important;
+}
+
+
+.page-wrapper .page-header .header-wrapper .nav-right .onhover-show-div {
+
+  width: 308px !important;
+  left: -100px !important;
+
+}
+
+.nav-menus {
+  color: var(--color-accent);
+  list-style: none !important;
+}
+
+.sidebar-link.active{
+  background-color: transparent !important;
+
+  &::after {
+    background-color: var(--color-accent) !important;
+  }
+}
+
+
 %sidebar-after {
   position: absolute;
   content: "";
@@ -321,7 +373,7 @@
                   margin: 0 auto;
                 }
                 span {
-                  font-family: $font-roboto, $font-serif;
+                  // font-family: $font-roboto, $font-serif;
                   font-size: 12px;
                   font-weight: 500;
                   letter-spacing: 0.5px;
@@ -450,7 +502,7 @@
               text-decoration: underline;
               text-transform: uppercase;
               letter-spacing: 0.3px;
-              font-family: $font-roboto, $font-serif;
+              // font-family: $font-roboto, $font-serif;
             }
 
             & + li {
@@ -565,7 +617,7 @@
               input,
               .btn {
                 font-size: 10px;
-                font-family: $font-roboto, $font-serif;
+                // font-family: $font-roboto, $font-serif;
                 font-weight: 700;
               }
               .btn {
@@ -584,7 +636,7 @@
             background-color: #f9f9f9;
             border: none;
             h6 {
-              font-family: $font-roboto, $font-serif;
+              // font-family: $font-roboto, $font-serif;
               font-weight: 500;
               font-size: 12px;
               line-height: 14px;
@@ -746,7 +798,7 @@
         li {
           font-size: 13px;
           letter-spacing: 1px;
-          font-family: $font-roboto, $font-serif;
+          // font-family: $font-roboto, $font-serif;
         }
 
         .breadcrumb-item {
@@ -1059,7 +1111,7 @@
                             color: rgba(43, 43, 43, 0.6);
                             letter-spacing: 0.06em;
                             font-weight: 500;
-                            font-family: Roboto;
+                            // font-family: Roboto;
                             transition: all 0.3s ease;
 
                             &:after {
@@ -1613,7 +1665,7 @@
                             font-size: 10px;
                             letter-spacing: 0.7px;
                             font-weight: 600;
-                            font-family: $font-roboto, $font-serif;
+                            // font-family: $font-roboto, $font-serif;
                             border-radius: 10px;
                           }
 
@@ -1806,7 +1858,7 @@
                                   display: block;
                                   letter-spacing: 0.06em;
                                   font-weight: 500;
-                                  font-family: Roboto;
+                                  // font-family: Roboto;
                                   cursor: pointer;
 
                                   &:after {
@@ -1845,7 +1897,7 @@
                                       display: block;
                                       letter-spacing: 0.06em;
                                       font-weight: 500;
-                                      font-family: Roboto;
+                                      // font-family: Roboto;
 
                                       &:after {
                                         display: none;
