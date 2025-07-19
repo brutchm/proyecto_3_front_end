@@ -59,10 +59,15 @@ export class AuthService {
   }): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>('auth/login', credentials).pipe(
       tap((response: any) => {
-        this.accessToken = response.token;
-        this.user.userEmail = credentials.userEmail;
-        this.expiresIn = response.expiresIn;
-        this.user = response.authUser;
+        const data = response.data;
+        if (!data) {
+          console.error("Login failed:", response);
+          return;
+        }
+        this.accessToken = data.token;
+        this.user.userEmail = data.authUser?.userEmail;
+        this.expiresIn = data.expiresIn;
+        this.user = data.authUser;
         this.save();
       })
     );
