@@ -6,6 +6,9 @@ import { AuthService } from '../../../services/auth.service';
 import { CorporationFormComponent } from '../../../components/user/corporation/corporation-form/corporation-form.component';
 import { IUser } from '../../../interfaces';
 import { splitFullName, toTitleCase } from '../../../utils/string.utils';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { timer } from 'rxjs';
 
 /**
  * @class GoogleCorporationSignupComponent
@@ -19,13 +22,14 @@ import { splitFullName, toTitleCase } from '../../../utils/string.utils';
 @Component({
   selector: 'app-google-signup-corporation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CorporationFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, CorporationFormComponent, ToastModule],
   templateUrl: './google-signup-corporation.component.html',
 })
 export class GoogleCorporationSignupComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
+  private messageService: MessageService = inject(MessageService);
 
   /**
    * El FormGroup que define la estructura y validadores para el formulario de registro
@@ -48,17 +52,14 @@ export class GoogleCorporationSignupComponent implements OnInit {
       return;
     }
 
-    // Se utiliza la nueva utilidad para dividir los apellidos.
     const lastNames = splitFullName(registrationData.family_name);
 
     this.corporationForm = this.fb.group({
-      // Datos Personales
       userEmail: [{ value: registrationData.email, disabled: true }],
-      userName: [toTitleCase(registrationData.given_name) || '', Validators.required],
+      name: [toTitleCase(registrationData.given_name) || '', Validators.required],
       userFirstSurename: [lastNames.first, Validators.required],
       userSecondSurename: [lastNames.rest],
 
-      // Datos de la Empresa
       businessName: ['', Validators.required],
       businessMission: ['', Validators.required],
       businessVision: ['', Validators.required],
@@ -81,24 +82,40 @@ export class GoogleCorporationSignupComponent implements OnInit {
   public handleFinalSignup(): void {
     const registrationToken = localStorage.getItem('registration_token');
 
-    if (this.corporationForm.invalid || !registrationToken) {
+    if (this.corporationForm.invalid) {
       this.corporationForm.markAllAsTouched();
-      alert("Por favor, completa todos los campos obligatorios.");
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'Por favor, completa todos los campos requeridos.' });
       return;
     }
 
-    // incluiye los campos deshabilitados como el email.
+    if (!registrationToken) {
+      this.messageService.add({ severity: 'error', summary: 'Error de Sesión', detail: 'El token de registro ha expirado. Por favor, inténtalo de nuevo.' });
+      this.router.navigate(['/login']);
+      return;
+    }
+
     const finalUserData = this.corporationForm.getRawValue();
 
     this.authService.completeGoogleCorporationSignup(registrationToken, finalUserData).subscribe({
       next: () => {
-        alert("¡Registro corporativo completado exitosamente! Por favor, inicia sesión.");
-        this.authService.logout();
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        alert(`Error en el registro: ${err.error?.message || err.error}`);
-      }
-    });
+              this.messageService.add({
+                severity: 'success',
+                summary: '¡Registro Exitoso!',
+                detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
+              });
+      
+              timer(3000).subscribe(() => {
+                this.authService.logout();
+                this.router.navigate(['/login']);
+              });
+            },
+            error: (err) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error en el Registro',
+                detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+              });
+            }
+          });
   }
 }
