@@ -5,7 +5,26 @@
 }
 
 .farm-create {
+  .accent {
+    background-color: var(--color-accent) !important;
+    color: var(--color-btn-primary-text) !important;
+    &:hover:not(:disabled) {
+      background-color: var(--color-btn-primary-hover) !important;
+      color: var(--color-btn-primary-text) !important;
+    }
+  }
+  .accent-red {
+    background-color: var(--color-warning) !important;
+    color: var(--alert-error-text) !important;
+    &:hover:not(:disabled) {
+      background-color: #c62828 !important;
+      color: #fff !important;
+    }
+  }
   min-width: 344px;
+  .form-control:focus {
+    box-shadow: none;
+  }
   input, select {
     background-color: var(--input-bg);
     border: 1px solid var(--input-border);

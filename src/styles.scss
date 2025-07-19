@@ -1,3 +1,17 @@
+// Farm details back link styling
+.farm-back-link {
+  display: inline-block;
+  margin: 1.5rem 0 1rem 0;
+  color: var(--color-accent);
+  font-weight: 500;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover {
+    color: var(--color-btn-primary-hover);
+    text-decoration: underline;
+  }
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 body[class="dark-only"] {

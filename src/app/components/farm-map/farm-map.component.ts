@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
 
@@ -11,8 +11,10 @@ import { CommonModule } from '@angular/common';
 })
 export class LocationMapComponent implements OnInit {
   @Input() coordinates: string = '';
+  @Output() coordinatesChange = new EventEmitter<string>();
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
   private map: L.Map | null = null;
+  private marker: L.Marker | null = null;
 
   ngOnInit(): void {
     this.initMap();
@@ -39,7 +41,15 @@ export class LocationMapComponent implements OnInit {
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
       }).addTo(this.map);
-      L.marker([lat, lng]).addTo(this.map);
+      const markerIcon = L.icon({
+        iconUrl: 'assets/leaflet/marker-icon.png',
+        shadowUrl: 'assets/leaflet/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+      this.marker = L.marker([lat, lng], { draggable: false, icon: markerIcon }).addTo(this.map);
     }, 0);
   }
 }

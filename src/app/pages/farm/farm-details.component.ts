@@ -2,7 +2,9 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FarmService, IFarm } from '../../services/farm.service';
+import { AlertService } from '../../services/alert.service';
 import { LocationMapComponent } from '../../components/farm-map/farm-map.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ModalComponent } from '../../components/modal/modal.component';
@@ -12,7 +14,7 @@ import * as L from 'leaflet';
 @Component({
   selector: 'app-farm-details',
   standalone: true,
-  imports: [CommonModule, LocationMapComponent, LoaderComponent, ModalComponent, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterModule, LocationMapComponent, LoaderComponent, ModalComponent, ReactiveFormsModule, FormsModule],
   templateUrl: './farm-details.component.html',
   styleUrl: './farm-details.component.scss',
 })
@@ -55,7 +57,8 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private farmService: FarmService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alertService: AlertService
   ) {
     this.route.queryParamMap.subscribe(params => {
       this.farmId = params.get('id');
@@ -98,6 +101,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       waterUsageType: [this.technicalInfo?.waterUsageType ?? ''],
       fertilizerPesticideUse: [this.technicalInfo?.fertilizerPesticideUse ?? null],
     });
+    // Do not forcibly mark as pristine; let Angular track changes naturally
     this.editFarmSubmitted = false;
     this.showEditFarmModal = true;
     setTimeout(() => {
@@ -132,17 +136,44 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(this.editFarmMapInstance);
+    const markerIcon = L.icon({
+      iconUrl: 'assets/leaflet/marker-icon.png',
+      shadowUrl: 'assets/leaflet/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
     let marker: L.Marker | null = null;
+    // Only the edit modal map uses a draggable marker
     if (this.farm?.farmLocation) {
-      marker = L.marker([lat, lng]).addTo(this.editFarmMapInstance);
+      marker = L.marker([lat, lng], { draggable: true, icon: markerIcon }).addTo(this.editFarmMapInstance);
+      marker.on('dragend', (event: any) => {
+        const position = event.target.getLatLng();
+        this.editFarmForm.patchValue({
+          farmLocation: `${position.lat.toFixed(6)},${position.lng.toFixed(6)}`,
+        });
+        this.editFarmForm.markAsDirty();
+      });
     }
     this.editFarmMapInstance.on('click', (e: any) => {
       const { lat, lng } = e.latlng;
-      if (marker) marker.setLatLng([lat, lng]);
-      else marker = L.marker([lat, lng]).addTo(this.editFarmMapInstance!);
+      if (marker) {
+        marker.setLatLng([lat, lng]);
+      } else {
+        marker = L.marker([lat, lng], { draggable: true, icon: markerIcon }).addTo(this.editFarmMapInstance!);
+        marker.on('dragend', (event: any) => {
+          const position = event.target.getLatLng();
+          this.editFarmForm.patchValue({
+            farmLocation: `${position.lat.toFixed(6)},${position.lng.toFixed(6)}`,
+          });
+          this.editFarmForm.markAsDirty();
+        });
+      }
       this.editFarmForm.patchValue({
         farmLocation: `${lat.toFixed(6)},${lng.toFixed(6)}`,
       });
+      this.editFarmForm.markAsDirty();
     });
   }
 
@@ -185,6 +216,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       next: () => {
         this.editFarmLoading = false;
         this.showEditFarmModal = false;
+        this.alertService.displayAlert('success', 'Finca editada correctamente', 'center', 'top', ['success-snackbar']);
         this.fetchFarm();
       },
       error: () => {

@@ -136,7 +136,7 @@ export const routes: Routes = [
         component: FarmComponent,
         data: {
           authorities: [IRoleType.user],
-          name: 'Farm',
+          name: 'Mis fincas',
           showInSidebar: true
         }
       },

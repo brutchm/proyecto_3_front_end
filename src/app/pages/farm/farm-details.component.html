@@ -1,4 +1,5 @@
 <div class="farm-details-page">
+  <a class="farm-back-link" routerLink="/app/farm">← Volver a Mis Fincas</a>
   <ng-container *ngIf="loading">
     <div class="farm-card">Cargando finca...</div>
   </ng-container>
@@ -229,7 +230,7 @@
             </div>
             <div class="modal-footer dark-modal-footer">
               <button type="button" class="farm-btn-cancel btn btn-danger" (click)="closeEditFarmModal()">Cancelar</button>
-              <button type="submit" class="btn btn-edit farm-btn farm-btn-edit" [disabled]="editFarmLoading">Guardar</button>
+              <button type="submit" class="btn btn-edit farm-btn farm-btn-edit" [disabled]="editFarmLoading || editFarmForm.invalid || editFarmForm.pristine">Guardar</button>
             </div>
           </form>
         </app-modal>
