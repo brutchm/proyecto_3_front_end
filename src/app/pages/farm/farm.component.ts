@@ -127,10 +127,27 @@ export class FarmComponent implements OnInit, AfterViewInit {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(this.createFarmMapInstance);
     let marker: L.Marker | null = null;
+    const markerIcon = L.icon({
+      iconUrl: 'assets/leaflet/marker-icon.png',
+      shadowUrl: 'assets/leaflet/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
     this.createFarmMapInstance.on("click", (e: any) => {
       const { lat, lng } = e.latlng;
-      if (marker) marker.setLatLng([lat, lng]);
-      else marker = L.marker([lat, lng]).addTo(this.createFarmMapInstance!);
+      if (marker) {
+        marker.setLatLng([lat, lng]);
+      } else {
+        marker = L.marker([lat, lng], { draggable: true, icon: markerIcon }).addTo(this.createFarmMapInstance!);
+        marker.on('dragend', (event: any) => {
+          const position = event.target.getLatLng();
+          this.createFarmForm.patchValue({
+            farmLocation: `${position.lat.toFixed(6)},${position.lng.toFixed(6)}`,
+          });
+        });
+      }
       this.createFarmForm.patchValue({
         farmLocation: `${lat.toFixed(6)},${lng.toFixed(6)}`,
       });
