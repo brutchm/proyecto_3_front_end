@@ -9,6 +9,7 @@ import { accessTokenInterceptor } from './interceptors/access-token.interceptor'
 import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MessageService } from 'primeng/api';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +19,11 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         baseUrlInterceptor,
         accessTokenInterceptor,
-        //handleErrorsInterceptor
+        handleErrorsInterceptor
       ])
     ), provideAnimationsAsync(),
     MessageService,
+    ),
+    provideAnimations()
   ]
 };
