@@ -1,27 +1,40 @@
 <div class="corporation-container mt-4">
-    Lista de usuarios corporativos registros en el sistema
-    <div class="row">
-      @for (corporation of pCorporationList; track corporation) {
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card shadow-sm h-100 border-0 rounded-3">
-            <div class="card-body">
-              <h5 class="card-title fs-6 fw-bold text-primary">Coporaciones: {{ corporation.businessName }}</h5>
-             
-  
-              @if (areActionsAvailable) {
-                <div class="d-flex justify-content-between mt-3">
-                  <button
-                   >Actualizar</button>
-                 
-                </div>
-              }
+  <h1 class="title_center">Corporaciones registradas en el sistema</h1>
+  <div class="row">
+    @for (corporation of pListCorporationList; track corporation) {
+      <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+        <div class="card-custom">
+          
+          <!-- Encabezado con businessName -->
+          <div class="card-header-custom">
+            <i class="fa-solid fa-user user-icon"></i>
+            {{ corporation.businessName }}
+          </div>
+
+            <div *ngIf="isValidCoordinates(corporation.businessLocation)" #mapContainer class="map-container"></div>
+            <div *ngIf="!isValidCoordinates(corporation.businessLocation)" class="alert alert-warning">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              Todavía no se ha indicado una ubicación por GPS.
             </div>
+            
+            <div class="card-body-custom pt-3 px-3 pb-2">
+              <p><strong>País:</strong> {{ corporation.businessCountry }}  
+                 <strong>Provincia:</strong> {{ corporation.businessStateProvince }}</p>
+          
+              <p><strong>Identificación:</strong> {{ corporation.businessId }}</p>
+            </div>
+         
+          <div class="card-footer-custom">
+            <button class="btn-yellow"(click)="callUpdateModalMethod.emit(corporation)">Ver Perfil</button>
+
+            <button class="btn-green">Suscribir</button>
           </div>
         </div>
-      } @empty {
-        <div class="col-12">
-          <p class="text-muted text-center">No hay usuarios corporativos activos o registrados actualmente.</p>
-        </div>
-      }
-    </div>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <p class="text-muted text-center">No hay usuarios corporativos activos o registrados actualmente.</p>
+      </div>
+    }
   </div>
+</div>

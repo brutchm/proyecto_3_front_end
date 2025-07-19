@@ -1,0 +1,8 @@
+
+@if (areActionsAvailable) {
+  <app-listCorporation-list
+  [pListCorporationList]="listCorporationService.listCorporation$()"
+  (callUpdateModalMethod)="openEditListCorporationModal($event)"
+/>
+}
+

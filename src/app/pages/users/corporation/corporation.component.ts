@@ -89,4 +89,14 @@ export const passwordMatchValidator: ValidatorFn = (form: AbstractControl): Vali
           }
         });
       }
+
+      openEditListCorporationModal(corporation: ICorporation) {
+        console.log("openEditListCorporationModal", corporation);
+        this.corporationForm.patchValue({
+          id: JSON.stringify(corporation.id),
+          businessName: corporation.businessName
+        });
+        this.modalService.displayModal('lg', this.editCorporationModal);
+      }
+
   }
