@@ -1,7 +1,7 @@
 <div class="farm-page">
   <h1 class="farm-title">Mis Fincas</h1>
   <div class="farm-btn-group">
-    <button class="farm-btn" (click)="fetchFarms()" [disabled]="loading">
+    <button class="farm-btn" style="background-color: var(--color-btn-secondary);" (click)="fetchFarms()" [disabled]="loading">
       Recargar Fincas
     </button>
     <button class="farm-btn farm-btn-create" (click)="openCreateFarmModal()">
