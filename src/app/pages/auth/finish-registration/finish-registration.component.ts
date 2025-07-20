@@ -14,5 +14,6 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './finish-registration.component.html',
+  styleUrls: ['./finish-registration.component.scss'],
 })
 export class FinishRegistrationComponent { }

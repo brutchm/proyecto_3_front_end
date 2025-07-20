@@ -64,7 +64,7 @@ export class CorporationFormComponent implements AfterViewInit {
       businessStateProvince: formData.businessStateProvince,
       businessOtherDirections: formData.businessOtherDirections,
       businessLocation: formData.businessLocation,
-      userName: formData.userName,
+      name: formData.name,
       userFirstSurename: formData.userFirstSurename,
       userSecondSurename: formData.userSecondSurename,
       userGender: formData.userGender,

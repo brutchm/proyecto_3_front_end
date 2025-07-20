@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ToastModule } from "primeng/toast";
 
 interface Operator {
   name?: string
@@ -17,8 +18,9 @@ interface Calculator {
   standalone: true,
   imports: [
     RouterOutlet,
-    CommonModule
-  ],
+    CommonModule,
+    ToastModule
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

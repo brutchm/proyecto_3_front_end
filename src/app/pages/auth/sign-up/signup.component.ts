@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { IUser } from '../../../interfaces';
 import { timer } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 /**
  * @fileoverview Validador personalizado para asegurar que la contraseña y su confirmación coincidan.
@@ -36,7 +38,7 @@ function securePasswordValidator(control: AbstractControl): ValidationErrors | n
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ToastModule],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
@@ -45,14 +47,13 @@ export class SignUpComponent implements OnInit {
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
 
+  private messageService: MessageService = inject(MessageService);
   public signupForm!: FormGroup;
-  public signUpError?: string;
-  public successMessage?: string;
 
   ngOnInit(): void {
     // Se estandariza el nombre del control a 'userName' para que coincida con la entidad del backend.
     this.signupForm = this.fb.group({
-      userName: ['', Validators.required],
+      name: ['', Validators.required],
       userFirstSurename: ['', Validators.required],
       userSecondSurename: [''],
       userGender: [''],
@@ -70,19 +71,14 @@ export class SignUpComponent implements OnInit {
    * objeto de usuario y lo envía al servicio de autenticación para registrarlo.
    */
   public handleSignup(): void {
-    this.signUpError = undefined;
-    this.successMessage = undefined;
-
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
       return;
     }
 
-    // Se construye el objeto explícitamente para garantizar que los nombres de las propiedades
-    // coincidan 100% con la entidad del backend.
     const formValue = this.signupForm.getRawValue();
     const userData: IUser = {
-      name: formValue.userName,
+      name: formValue.name,
       userFirstSurename: formValue.userFirstSurename,
       userSecondSurename: formValue.userSecondSurename,
       userGender: formValue.userGender,
@@ -93,17 +89,25 @@ export class SignUpComponent implements OnInit {
 
     this.authService.signup(userData).subscribe({
       next: () => {
-        this.successMessage = "¡Usuario registrado exitosamente! Redirigiendo a login en 3 segundos...";
-        this.signupForm.reset();
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Registro Exitoso!',
+          detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
+        });
 
-        // Redirección automática a login después de 3 segundos.
+        // Redirección automática después de 3 segundos
         timer(3000).subscribe(() => {
+          this.authService.logout();
           this.router.navigate(['/login']);
         });
       },
       error: (err) => {
-        this.signUpError = err.error || 'Ocurrió un error desconocido.';
-      },
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error en el Registro',
+          detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+        });
+      }
     });
   }
 }

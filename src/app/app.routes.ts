@@ -110,12 +110,30 @@ export const routes: Routes = [
           authorities: [
             IRoleType.admin,
             IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.user
           ],
-          name: "profile",
-          showInSidebar: false,
-        },
+          name: 'profile',
+          showInSidebar: false
+        }
       },
+      // {
+      //   path: 'profileCorporation',
+      //   component: ProfileCorporationComponent,
+      //   data: { 
+      //     authorities: [
+      //       IRoleType.admin, 
+      //       IRoleType.superAdmin,
+      //       IRoleType.user
+      //     ],
+      //     name: 'profileCorporation',
+      //     showInSidebar: false
+      //   }
+      //       IRoleType.user,
+      //     ],
+      //     name: "profile",
+      //     showInSidebar: false,
+      //   },
+      // },
       {
         path: 'listCorporation',
         component: ListCorporationComponent,
@@ -133,9 +151,18 @@ export const routes: Routes = [
         component: FarmComponent,
         data: {
           authorities: [IRoleType.user],
+          name: 'Mis fincas',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'farm-details',
+        loadComponent: () => import('./pages/farm/farm-details.component').then(m => m.FarmDetailsComponent),
+        data: {
+          authorities: [IRoleType.user],
           name: "Mis fincas",
           showInSidebar: true,
-        },
+        }
       },
       {
         path: "farm-details",
