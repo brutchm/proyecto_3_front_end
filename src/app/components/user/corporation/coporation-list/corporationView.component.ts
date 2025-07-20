@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 @Component({
   selector: "app-corporation-view",
   templateUrl: "./corporationView.component.html",
-  //styleUrls: ["./corporationView.component.scss"],
+  styleUrls: ["./corporationView.component.scss"],
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -26,23 +26,41 @@ L.Icon.Default.mergeOptions({
 export class CorporationViewComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
-    const map = L.map('map').setView([10.0, -84.0], 7);
-
+    const formData = this.form.getRawValue();
+    const location = formData.businessLocation;
+  
+    if (!this.isValidCoordinates(location)) return;
+  
+    const [latStr, lngStr] = location.split(',');
+    const lat = parseFloat(latStr);
+    const lng = parseFloat(lngStr);
+  
+    const map = L.map('map').setView([lat, lng], 13);
+  
+    console.log(`Initializing map at index for coords [${lat}, ${lng}]`);
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
+  
+    L.marker([lat, lng]).addTo(map);
 
-    const marker = L.marker([10.0, -84.0], { draggable: true }).addTo(map);
-
-    marker.on('dragend', () => {
-      const position = marker.getLatLng();
-      this.form.controls['businessLocation'].setValue(`${position.lat.toFixed(6)},${position.lng.toFixed(6)}`);
-    });
     setTimeout(() => {
       map.invalidateSize();
     }, 300);
   }
-
+  
+  isValidCoordinates(location: string | null | undefined): boolean {
+    if (!location) return false;
+  
+    const coords = location.split(',');
+    if (coords.length !== 2) return false;
+  
+    const lat = parseFloat(coords[0]);
+    const lng = parseFloat(coords[1]);
+  
+    return !isNaN(lat) && !isNaN(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+  }
   public fb: FormBuilder = inject(FormBuilder);
   @Input() form!: FormGroup;
   @Output() callSaveMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
@@ -64,18 +82,7 @@ export class CorporationViewComponent implements AfterViewInit {
       businessStateProvince: formData.businessStateProvince,
       businessOtherDirections: formData.businessOtherDirections,
       businessLocation: formData.businessLocation,
-      userName: formData.userName,
-      userFirstSurename: formData.userFirstSurename,
-      userSecondSurename: formData.userSecondSurename,
-      userGender: formData.userGender,
-      userPhoneNumber: formData.userPhoneNumber,
-      userEmail: formData.userEmail,
-      userPassword: formData.userPassword || null,
-      role: {
-        id: 3,
-        roleName: "CORPORATION"
-      },
-      isActive: formData.isActive !== undefined ? formData.isActive : true
+      userEmail: formData.userEmail
     }
 
 

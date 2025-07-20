@@ -1,5 +1,51 @@
-<div class="container-form-wrapper">
+<div class="header-bar">
+  <i class="bi bi-building"></i>
+  <h2>{{ form.get('businessName')?.value || 'No disponible' }}</h2>
+</div>
 
+<div class="info-container">
+  <div class="col-6">
+    <div class="body">
 
+      <label>Identificación Empresarial:</label>
+      <p>{{ form.get('businessId')?.value || 'No disponible' }}</p>
+
+      <label>Misión:</label>
+      <p>{{ form.get('businessMission')?.value || 'No disponible' }}</p>
+
+      <label>Visión:</label>
+      <p>{{ form.get('businessVision')?.value || 'No disponible' }}</p>
+
+      <label>Correo Electrónico:</label>
+      <p>{{ form.get('userEmail')?.value || 'No disponible' }}</p>
+    </div>
   </div>
-  
+
+  <div class="col-6">
+    <div class="body">
+      <label>País:</label>
+      <p>{{ form.get('businessCountry')?.value || 'No disponible' }}</p>
+
+      <label>Provincia:</label>
+      <p>{{ form.get('businessStateProvince')?.value || 'No disponible' }}</p>
+
+      <label>Otras Direcciones:</label>
+      <p>{{ form.get('businessOtherDirections')?.value || 'No disponible' }}</p>
+
+      <label>Coordenadas:</label>
+      <p>{{ form.get('businessLocation')?.value || 'No disponible' }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="map-section">
+  <p class="map-label">Localización por GPS</p>
+
+  <div *ngIf="isValidCoordinates(form.get('businessLocation')?.value)" id="map" class="map-container"></div>
+
+  <div *ngIf="!isValidCoordinates(form.get('businessLocation')?.value)" class="alert alert-warning">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    Todavía no se ha indicado una ubicación por GPS.
+  </div>
+
+</div>

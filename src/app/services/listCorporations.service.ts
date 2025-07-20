@@ -1,6 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { IResponse, ISearch} from '../interfaces';
-import { AlertService } from './alert.service';
 import { BaseService } from './base-service';
 import { ICorporation } from '../interfaces/corporation.interface';
 
@@ -20,7 +19,6 @@ import { ICorporation } from '../interfaces/corporation.interface';
     }
   
     public totalItems: any = [];
-    private alertService: AlertService = inject(AlertService);
   
     getAll () {
       this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({

@@ -31,7 +31,6 @@ export class ListCorporationListComponent implements AfterViewChecked {
     ngAfterViewChecked(): void {
       if (!this.mapsInitialized && this.mapContainers.length > 0) {
         this.mapsInitialized = true;
-        // Espera a que los contenedores estén en el DOM
         setTimeout(() => this.initMaps(), 200);
       }
     }
@@ -46,13 +45,11 @@ export class ListCorporationListComponent implements AfterViewChecked {
         this.mapContainers.forEach((containerRef, index) => {
           const corporation = validCorporations[index];
           if (!corporation) {
-            console.warn('No corporation found for map index:', index);
             return;
           }
       
           const container = containerRef.nativeElement as HTMLElement;
-      
-          // Limpiar contenido previo si se ha creado antes
+
           container.innerHTML = '';
           container.style.height = '150px';
           container.style.width = '100%';
@@ -60,8 +57,6 @@ export class ListCorporationListComponent implements AfterViewChecked {
           const [latStr, lngStr] = corporation.businessLocation!.split(',');
           const lat = parseFloat(latStr);
           const lng = parseFloat(lngStr);
-      
-          console.log(`Initializing map at index ${index} for coords [${lat}, ${lng}]`);
       
           const map = L.map(container).setView([lat, lng], 13);
       
@@ -71,7 +66,7 @@ export class ListCorporationListComponent implements AfterViewChecked {
       
           L.marker([lat, lng]).addTo(map);
       
-          // Muy importante: recalcula el tamaño del mapa después de montar
+          
           setTimeout(() => {
             map.invalidateSize();
           }, 300);

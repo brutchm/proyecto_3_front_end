@@ -126,8 +126,8 @@ export class AuthService {
       if (allowedUser) break;
     }
     // se valida que el usuario tenga un rol de administración
-    if (userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin)) {
-      isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin);
+    if (userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.user)) {
+      isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.user);
     }
     return allowedUser && isAdmin;
   }

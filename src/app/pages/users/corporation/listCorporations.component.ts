@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, inject, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, inject, Output, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
 import { PaginationComponent } from "../../../components/pagination/pagination.component";
@@ -10,11 +10,12 @@ import { ModalService } from "../../../services/modal.service";
 import { AuthService } from "../../../services/auth.service";
 import { ListCorporationListComponent } from "../../../components/user/corporation/coporation-list/corporation-list.component";
 import { CorporationViewComponent } from "../../../components/user/corporation/coporation-list/corporationView.component";
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-listCorporation",
   templateUrl: "./listCorporations.component.html",
- // styleUrls: ["./listCorporation.component.scss"],
+  styleUrls: ["./listCorporations.component.scss"],
   standalone: true,
   imports: [
     CorporationViewComponent,
@@ -24,13 +25,22 @@ import { CorporationViewComponent } from "../../../components/user/corporation/c
   ]
 })
 export class ListCorporationComponent {
+  @ViewChild('editListCorporationModal') editModalTemplate!: TemplateRef<any>;
   public listCorporationList: ICorporation[] = []
   public listCorporationService: ListCorporationService = inject(ListCorporationService);
   public fb: FormBuilder = inject(FormBuilder);
   public listCorporationForm = this.fb.group({
-    id: [''],
-    businessName: ['', Validators.required],
-    businessMission: ['', Validators.required],
+      id: [''],
+      businessName: ['', Validators.required],
+      businessMission: ['', Validators.required],
+      businessVision: ['', Validators.required],
+      businessId: ['', Validators.required],
+      businessCountry: ['Costa Rica', Validators.required],
+      businessStateProvince: ['', Validators.required],
+      businessOtherDirections: [''],
+      businessLocation: [''],
+      userEmail: ['', Validators.required]
+
   });
   public modalService: ModalService = inject(ModalService);
   @ViewChild('editListCorporationModal') public editListCorporationModal: any;
@@ -50,14 +60,25 @@ export class ListCorporationComponent {
   constructor() {
     this.listCorporationService.getAll();
   }
+  showModal = false;
 
-
+  closeEditListCorporationModal(): void {
+    this.modalService.closeAll();
+  }
+  
   openEditListCorporationModal(listCorporation: ICorporation) {
     console.log("x openEditListCorporationModal", listCorporation);
     this.listCorporationForm.patchValue({
       id: JSON.stringify(listCorporation.id),
+      businessId: listCorporation.businessId,
       businessName: listCorporation.businessName,
-      businessMission: listCorporation.businessMission
+      businessMission: listCorporation.businessMission,
+      businessVision: listCorporation.businessVision,
+      businessCountry: listCorporation.businessCountry,
+      businessStateProvince: listCorporation.businessStateProvince,
+      businessOtherDirections: listCorporation.businessOtherDirections,
+      businessLocation: listCorporation.businessLocation,
+      userEmail: listCorporation.userEmail
     });
     this.modalService.displayModal('lg', this.editListCorporationModal);
   }

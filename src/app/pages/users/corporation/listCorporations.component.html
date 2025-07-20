@@ -1,8 +1,22 @@
-
 @if (areActionsAvailable) {
   <app-listCorporation-list
   [pListCorporationList]="listCorporationService.listCorporation$()"
   (callUpdateModalMethod)="openEditListCorporationModal($event)"
 />
-}
 
+<ng-template #editListCorporationModal>
+  <app-modal [hideFooter]="true">
+    <div class="modal-content-custom dark-theme-modal">
+      <div class="modal-header-custom">
+        <button class="close-button" (click)="closeEditListCorporationModal()">
+          <i class="fas fa-times"></i> Cerrar
+        </button>
+      </div>
+
+      <div class="modal-body-custom">
+        <app-corporation-view [form]="listCorporationForm" />
+      </div>
+    </div>
+  </app-modal>
+</ng-template>
+}

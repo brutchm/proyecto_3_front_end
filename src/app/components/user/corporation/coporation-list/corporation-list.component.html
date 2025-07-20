@@ -5,7 +5,6 @@
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
         <div class="card-custom">
           
-          <!-- Encabezado con businessName -->
           <div class="card-header-custom">
             <i class="fa-solid fa-user user-icon"></i>
             {{ corporation.businessName }}
@@ -26,14 +25,13 @@
          
           <div class="card-footer-custom">
             <button class="btn-yellow"(click)="callUpdateModalMethod.emit(corporation)">Ver Perfil</button>
-
-            <button class="btn-green">Suscribir</button>
+<!--<button class="btn-green">Suscribir</button>-->
           </div>
         </div>
       </div>
     } @empty {
       <div class="col-12">
-        <p class="text-muted text-center">No hay usuarios corporativos activos o registrados actualmente.</p>
+        <p id="message" class="text-center">No hay usuarios corporativos activos registrados actualmente.</p>
       </div>
     }
   </div>
