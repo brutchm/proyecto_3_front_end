@@ -135,3 +135,4 @@ dist
 .angular/config.json
 dist/
 
+src/environments/environment.ts

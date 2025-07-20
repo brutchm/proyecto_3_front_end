@@ -1,99 +1,187 @@
-<!--
-<div class="login-container">
-  <div class="d-flex align-items-center justify-content-center h-100">
-    <div class="login-card">
-      <div class="w-100">
-        <div class="text-center">
-          <a class="logo text-center" routerLink="/">
-            <img
-              width="40"
-              class="img-fluid mb-4"
-              src="../../../../assets/icons/logo@2x.png"
-              alt="Logo"
-            />
-          </a>
-        </div>
-        <div class="login-main">
-          <form (ngSubmit)="handleSignup($event)" autocomplete="off" #frm="ngForm">
-            <div class="mb-3">
-              <h4>Sign up account</h4>
-              <small style="color: #4f4f4f">
-                Enter your email & password to login
-              </small>
-            </div>
+<div class="container-form-wrapper">
+  <!-- Sección descriptiva -->
+  <div class="description-section">
+    <h2>Crear Cuenta</h2>
+    <p>
+      Regístrate para obtener acceso a todas las herramientas de gestión de
+      fincas. Completa tus datos para crear un perfil personal y comenzar a
+      optimizar tu producción.
+    </p>
+    <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2)" />
+    <p class="small text-white-50">¿Ya tienes una cuenta?</p>
+    <a routerLink="/login" class="btn btn-outline-light">Iniciar Sesión</a>
+  </div>
 
-            <div class="d-flex align-items-center mb-3">
-              <div class="form-group px-1">
-                <label for="name" class="form-label mb-2">
-                  Name
-                </label>
-                <input #name="ngModel" type="text" class="form-control" id="name" name="name"
-                  placeholder="User" [(ngModel)]="user.name" [ngClass]="{
-                    'is-invalid': name.invalid && name.touched,
-                    'is-valid': name.valid && name.touched
-                  }" required />
-                <div *ngIf="name.invalid" class="invalid-feedback">
-                  Please add a valid name
-                </div>
-              </div>
-              <div class="form-group px-1">
-                <label for="lastname" class="form-label mb-2">
-                  Lastname
-                </label>
-                <input #lastname="ngModel" type="text" class="form-control" id="lastname" name="lastname"
-                  placeholder="demo" [(ngModel)]="user.lastname" [ngClass]="{
-                    'is-invalid': lastname.invalid && lastname.touched,
-                    'is-valid': lastname.valid && lastname.touched
-                  }" required />
-                <div *ngIf="lastname.invalid" class="invalid-feedback">
-                  Please add a valid lastname
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="email" class="form-label mb-2">
-                Email Address
-              </label>
-              <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-                placeholder="agent@gmail.com" [(ngModel)]="user.email" [ngClass]="{
-                  'is-invalid': email.invalid && email.touched,
-                  'is-valid': email.valid && email.touched
-                }" required />
-              <div *ngIf="email.invalid" class="invalid-feedback">
-                Please add a valid email
-              </div>
-            </div>
-
-            <div class="form-group mb-5">
-              <label for="password" class="form-label mb-2">Password</label>
-              <div class="form-input position-relative">
-                <input #password="ngModel" type="password" class="form-control" id="password" name="password"
-                placeholder="*****" [(ngModel)]="user.password" [ngClass]="{
-                  'is-invalid': password.invalid && password.touched,
-                  'is-valid': password.valid && password.touched
-                }" required />
-                <div *ngIf="password.invalid" class="invalid-feedback">
-                  Please add a valid password
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group mb-0">
-              <button class="btn btn-primary btn-block w-100" type="submit">
-                Sign up
-              </button>
-              @if(signUpError) {
-                <p class="text-danger">{{signUpError}}</p>
-              } @else if (validSignup){
-                <p class="text-success">User registered, please go to login</p>
-              }
-            </div>
-            <a href="/login">Go Login</a>
-          </form>
-        </div>
+  <!-- Formulario de Registro -->
+  <form
+    [formGroup]="signupForm"
+    (ngSubmit)="handleSignup()"
+    class="signup-form"
+  >
+    <div class="row">
+      <div class="col-full">
+        <h2 class="text-center">Registro de Administrador</h2>
       </div>
     </div>
-  </div>
+
+    <!-- Fila para Nombre y Primer Apellido -->
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <!-- CORRECCIÓN: El formControlName ahora es 'userName' -->
+        <label for="userName" class="form-label">Nombre(s)*</label>
+        <input
+          id="userName"
+          formControlName="userName"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese su nombre"
+        />
+        @if (signupForm.controls['userName'].invalid &&
+        (signupForm.controls['userName'].dirty ||
+        signupForm.controls['userName'].touched)) {
+        <div class="text-danger mt-1">El nombre es requerido.</div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userFirstSurename" class="form-label"
+          >Primer Apellido*</label
+        >
+        <input
+          id="userFirstSurename"
+          formControlName="userFirstSurename"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese su primer apellido"
+        />
+        @if (signupForm.controls['userFirstSurename'].invalid &&
+        (signupForm.controls['userFirstSurename'].dirty ||
+        signupForm.controls['userFirstSurename'].touched)) {
+        <div class="text-danger mt-1">El primer apellido es requerido.</div>
+        }
+      </div>
+    </div>
+
+    <!-- Fila para Segundo Apellido y Género -->
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userSecondSurename" class="form-label"
+          >Segundo Apellido</label
+        >
+        <input
+          id="userSecondSurename"
+          formControlName="userSecondSurename"
+          type="text"
+          class="form-control"
+          placeholder="Opcional"
+        />
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userGender" class="form-label">Género</label>
+        <select
+          id="userGender"
+          formControlName="userGender"
+          class="form-control"
+        >
+          <option value="" disabled selected>Seleccione...</option>
+          <option value="MALE">Masculino</option>
+          <option value="FEMALE">Femenino</option>
+          <option value="OTHER">Otro</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Fila para Email y Teléfono -->
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userEmail" class="form-label">Correo Electrónico*</label>
+        <input
+          id="userEmail"
+          formControlName="userEmail"
+          type="email"
+          class="form-control"
+          placeholder="correo@ejemplo.com"
+        />
+        @if (signupForm.controls['userEmail'].invalid &&
+        (signupForm.controls['userEmail'].dirty ||
+        signupForm.controls['userEmail'].touched)) {
+        <div class="text-danger mt-1">
+          @if(signupForm.controls['userEmail'].errors?.['required']) { El correo
+          es requerido. }
+          @if(signupForm.controls['userEmail'].errors?.['email']) { El formato
+          del correo es inválido. }
+        </div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="userPhoneNumber" class="form-label"
+          >Número de Teléfono</label
+        >
+        <input
+          id="userPhoneNumber"
+          formControlName="userPhoneNumber"
+          type="tel"
+          class="form-control"
+          placeholder="Ej: 88888888"
+        />
+      </div>
+    </div>
+
+    <!-- Fila para Contraseña y Confirmación -->
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userPassword" class="form-label">Contraseña*</label>
+        <input
+          id="userPassword"
+          formControlName="userPassword"
+          type="password"
+          class="form-control"
+          placeholder="Ingrese una contraseña"
+        />
+        @if (signupForm.controls['userPassword'].invalid &&
+        (signupForm.controls['userPassword'].dirty ||
+        signupForm.controls['userPassword'].touched)) {
+        <div class="text-danger mt-1">
+          @if (signupForm.controls['userPassword'].errors?.['required']) { La
+          contraseña es requerida. } @if
+          (signupForm.controls['userPassword'].errors?.['insecurePassword']) {
+          Debe ser de 8+ caracteres y contener mayúscula, minúscula, número y
+          símbolo. }
+        </div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="confirmPassword" class="form-label"
+          >Confirmar Contraseña*</label
+        >
+        <input
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          type="password"
+          class="form-control"
+          placeholder="Confirme la contraseña"
+        />
+        @if ((signupForm.controls['confirmPassword'].touched) &&
+        signupForm.errors?.['passwordMismatch']) {
+        <div class="text-danger mt-1">Las contraseñas no coinciden.</div>
+        }
+      </div>
+    </div>
+
+    <!-- Mensajes de error/éxito y Botón de Acción -->
+    <div class="text-end mt-3">
+      @if(signUpError) {
+      <p class="text-danger text-start">{{ signUpError }}</p>
+      } @else if (successMessage) {
+      <p class="text-success text-start">{{ successMessage }}</p>
+      }
+      <!-- CORRECCIÓN: La condición del botón ahora es simplemente [disabled]="signupForm.invalid" -->
+      <button
+        type="submit"
+        [disabled]="signupForm.invalid"
+        class="btn btn-primary"
+      >
+        Crear Cuenta
+      </button>
+    </div>
+  </form>
 </div>
--->

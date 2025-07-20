@@ -1,17 +1,6 @@
-<div class="container mt-4 mb-5">
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
-      <h3 class="card-title">Completar Registro de Administrador</h3>
-      <p class="card-subtitle mb-4 text-muted">
-        Tu correo y nombre han sido pre-rellenados desde tu cuenta de Google.
-      </p>
-
-      <app-user-form
-        *ngIf="userForm"
-        [userForm]="userForm"
-        (callSaveMethod)="handleFinalSignup()"
-      >
-      </app-user-form>
-    </div>
-  </div>
-</div>
+<app-user-form
+  *ngIf="userForm"
+  [form]="userForm"
+  (callSaveMethod)="handleFinalSignup()"
+>
+</app-user-form>

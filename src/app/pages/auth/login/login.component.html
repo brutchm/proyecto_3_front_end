@@ -2,21 +2,35 @@
   <div class="d-flex align-items-center justify-content-center h-100">
     <div class="login-card">
       <div [attr.data-handler-form]="currentForm">
-        <form *ngIf="currentForm === 'login'" data-login-form (ngSubmit)="handleLogin($event)" autocomplete="off"
-          #frm="ngForm" class="mb-5">
+        <form
+          *ngIf="currentForm === 'login'"
+          data-login-form
+          (ngSubmit)="handleLogin($event)"
+          autocomplete="off"
+          #frm="ngForm"
+          class="mb-5"
+        >
           <div class="mb-3">
             <h4>Iniciar sesión</h4>
-            <p style="color: #4f4f4f">
-              Bienvenido a AgriSync
-            </p>
+            <p style="color: #4f4f4f">Bienvenido a AgriSync</p>
           </div>
 
           <div class="form-group mb-3">
-            <input #email="ngModel" type="text" class="form-control" id="email" name="email"
-              placeholder="micorreo@gmail.com" [(ngModel)]="loginForm.userEmail" [ngClass]="{
+            <input
+              #email="ngModel"
+              type="text"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="micorreo@gmail.com"
+              [(ngModel)]="loginForm.userEmail"
+              [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched,
-                }" required (ngModelChange)="onEmailChange($event)" />
+                }"
+              required
+              (ngModelChange)="onEmailChange($event)"
+            />
             <div *ngIf="email.invalid" class="invalid-feedback">
               Por favor ingrese un correo válido
             </div>
@@ -25,43 +39,103 @@
           <div class="form-group mb-4">
             <div class="form-input position-relative">
               <div class="password-wrapper">
-                <input #password="ngModel" [type]="showLoginPassword ? 'text' : 'password'" class="form-control"
-                  id="password" name="password" placeholder="*****" minlength="6" [(ngModel)]="loginForm.userPassword"
+                <input
+                  #password="ngModel"
+                  [type]="showLoginPassword ? 'text' : 'password'"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="*****"
+                  minlength="6"
+                  [(ngModel)]="loginForm.userPassword"
                   [ngClass]="{
-                  'is-invalid': password.invalid && password.touched,
-                  'is-valid': password.valid && password.touched
-                }" required (ngModelChange)="onPasswordChange()" />
-                <button class="eye-btn" type="button" [disabled]="loading" (click)="toggleLoginPassword()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 17" fill="none">
+                    'is-invalid': password.invalid && password.touched,
+                    'is-valid': password.valid && password.touched
+                  }"
+                  required
+                  (ngModelChange)="onPasswordChange()"
+                />
+                <button
+                  class="eye-btn"
+                  type="button"
+                  [disabled]="loading"
+                  (click)="toggleLoginPassword()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 28 17"
+                    fill="none"
+                  >
                     <g filter="url(#filter0_d_13_10192)">
                       <path
                         d="M5.66666 9.99935C5.66666 9.99935 8.16666 4.16602 14 4.16602C19.8333 4.16602 22.3333 9.99935 22.3333 9.99935C22.3333 9.99935 19.8333 15.8327 14 15.8327C8.16666 15.8327 5.66666 9.99935 5.66666 9.99935Z"
-                        stroke="#999DA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="#999DA3"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                       <path
                         d="M14 12.5C15.3807 12.5 16.5 11.3807 16.5 10C16.5 8.61929 15.3807 7.5 14 7.5C12.6193 7.5 11.5 8.61929 11.5 10C11.5 11.3807 12.6193 12.5 14 12.5Z"
-                        stroke="#999DA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="#999DA3"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </g>
                     <defs>
-                      <filter id="filter0_d_13_10192" x="0" y="0" width="28" height="28" filterUnits="userSpaceOnUse"
-                        color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                          result="hardAlpha" />
+                      <filter
+                        id="filter0_d_13_10192"
+                        x="0"
+                        y="0"
+                        width="28"
+                        height="28"
+                        filterUnits="userSpaceOnUse"
+                        color-interpolation-filters="sRGB"
+                      >
+                        <feFlood
+                          flood-opacity="0"
+                          result="BackgroundImageFix"
+                        />
+                        <feColorMatrix
+                          in="SourceAlpha"
+                          type="matrix"
+                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                          result="hardAlpha"
+                        />
                         <feOffset dy="4" />
                         <feGaussianBlur stdDeviation="2" />
                         <feComposite in2="hardAlpha" operator="out" />
-                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0" />
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_13_10192" />
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_13_10192" result="shape" />
+                        <feColorMatrix
+                          type="matrix"
+                          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"
+                        />
+                        <feBlend
+                          mode="normal"
+                          in2="BackgroundImageFix"
+                          result="effect1_dropShadow_13_10192"
+                        />
+                        <feBlend
+                          mode="normal"
+                          in="SourceGraphic"
+                          in2="effect1_dropShadow_13_10192"
+                          result="shape"
+                        />
                       </filter>
                     </defs>
                   </svg>
                 </button>
               </div>
               <div class="forgot-password">
-                <button class="btn btn-link" type="button" style="color: #4f4f4f; text-decoration: underline;"
-                  (click)="switchToRequestReset()">Olvidé mi
-                  contraseña</button>
+                <button
+                  class="btn btn-link"
+                  type="button"
+                  style="color: #4f4f4f; text-decoration: underline"
+                  (click)="switchToRequestReset()"
+                >
+                  Olvidé mi contraseña
+                </button>
               </div>
               <div *ngIf="password.invalid" class="invalid-feedback">
                 Por favor ingrese una contraseña válida
@@ -70,64 +144,103 @@
           </div>
 
           <div class="form-group mb-0">
-            <button class="btn btn-primary btn-block w-100 mb-4" [disabled]="loading || !frm.valid" type="submit">
+            <button
+              class="btn btn-primary btn-block w-100 mb-4"
+              [disabled]="loading || !frm.valid"
+              type="submit"
+            >
               Iniciar sesión
             </button>
 
             @if(loginError) {
             <p class="text-danger">Usuario o contraseña incorrectos</p>
             }
-
           </div>
           <a href="/corporation">Registrarme como corporación</a>
-          <a href="/">Registrarme como administrador finca</a>
+          <a href="/signup">Registrarme como administrador finca</a>
 
           <div class="google-login">
-            <button class="btn-google-login" type="button" (click)="handleGoogleLogin()">
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
+            <button
+              class="btn-google-login"
+              type="button"
+              (click)="handleGoogleLogin()"
+            >
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google Logo"
+              />
               Iniciar sesión con Google
             </button>
           </div>
         </form>
-        <form *ngIf="currentForm === 'request-reset'" data-login-request-reset
-          (ngSubmit)="handleRequestResetPassword($event)" autocomplete="off" #frmRequestReset="ngForm" class="mb-5">
+        <form
+          *ngIf="currentForm === 'request-reset'"
+          data-login-request-reset
+          (ngSubmit)="handleRequestResetPassword($event)"
+          autocomplete="off"
+          #frmRequestReset="ngForm"
+          class="mb-5"
+        >
           <div class="mb-3">
             <h4>Recuperar contraseña</h4>
             <p style="color: #4f4f4f">
-              Ingrese su correo electrónico para recibir un código de recuperación.
+              Ingrese su correo electrónico para recibir un código de
+              recuperación.
             </p>
           </div>
           <div class="form-group mb-3">
-            <input #requestResetEmail="ngModel" type="text" class="form-control" id="requestResetEmail"
-              name="requestResetEmail" placeholder="micorreo@gmail.com" [(ngModel)]="requestResetForm.email" [ngClass]="{
+            <input
+              #requestResetEmail="ngModel"
+              type="text"
+              class="form-control"
+              id="requestResetEmail"
+              name="requestResetEmail"
+              placeholder="micorreo@gmail.com"
+              [(ngModel)]="requestResetForm.email"
+              [ngClass]="{
                   'is-invalid': requestResetEmail.invalid && requestResetEmail.touched,
                   'is-valid': requestResetEmail.valid && requestResetEmail.touched,
-                }" required (ngModelChange)="onEmailChange($event)" />
+                }"
+              required
+              (ngModelChange)="onEmailChange($event)"
+            />
             <div *ngIf="requestResetEmail.invalid" class="invalid-feedback">
               Por favor ingrese un correo válido
             </div>
           </div>
           <div class="form-group mb-0">
-            <button class="btn btn-primary btn-block w-100 mb-4" [disabled]="loading || !frmRequestReset.valid"
-              type="submit">
+            <button
+              class="btn btn-primary btn-block w-100 mb-4"
+              [disabled]="loading || !frmRequestReset.valid"
+              type="submit"
+            >
               Enviar código
             </button>
             @if(loginError) {
-            <p class="text-danger">{{loginError}}</p>
-            }
-            @if(resetSuccess) {
-            <p class="text-success">{{resetSuccess}}</p>
+            <p class="text-danger">{{ loginError }}</p>
+            } @if(resetSuccess) {
+            <p class="text-success">{{ resetSuccess }}</p>
             }
           </div>
-          <div class="mb-3" style="text-align: right;">
-            <button class="btn btn-link" type="button" style="color: #4f4f4f; text-decoration: underline;"
-              (click)="switchToLogin(); $event.preventDefault();">
+          <div class="mb-3" style="text-align: right">
+            <button
+              class="btn btn-link"
+              type="button"
+              style="color: #4f4f4f; text-decoration: underline"
+              (click)="switchToLogin(); $event.preventDefault()"
+            >
               Iniciar sesión
             </button>
           </div>
         </form>
-        <form *ngIf="currentForm === 'reset'" data-login-reset (ngSubmit)="handleResetPassword($event)"
-          autocomplete="off" #frmReset="ngForm" class="mb-5">
+        <form
+          *ngIf="currentForm === 'reset'"
+          data-login-reset
+          (ngSubmit)="handleResetPassword($event)"
+          autocomplete="off"
+          #frmReset="ngForm"
+          class="mb-5"
+        >
           <div class="mb-3">
             <h4>Cambiar contraseña</h4>
             <p style="color: #4f4f4f">
@@ -135,56 +248,120 @@
             </p>
           </div>
           <div class="form-group mb-3">
-            <input #resetEmail="ngModel" type="text" class="form-control" id="resetEmail" name="resetEmail"
-              placeholder="micorreo@gmail.com" [(ngModel)]="resetForm.email" [readonly]="true" required (ngModelChange)="onEmailChange($event)" />
+            <input
+              #resetEmail="ngModel"
+              type="text"
+              class="form-control"
+              id="resetEmail"
+              name="resetEmail"
+              placeholder="micorreo@gmail.com"
+              [(ngModel)]="resetForm.email"
+              [readonly]="true"
+              required
+              (ngModelChange)="onEmailChange($event)"
+            />
           </div>
           <div class="form-group mb-3">
-            <input #resetCode="ngModel" type="text" class="form-control" id="resetCode" name="resetCode"
-              placeholder="Código de 6 caracteres" maxlength="6" minlength="6" pattern="[a-zA-Z0-9]{6}"
-              [(ngModel)]="resetForm.code" [ngClass]="{
+            <input
+              #resetCode="ngModel"
+              type="text"
+              class="form-control"
+              id="resetCode"
+              name="resetCode"
+              placeholder="Código de 6 caracteres"
+              maxlength="6"
+              minlength="6"
+              pattern="[a-zA-Z0-9]{6}"
+              [(ngModel)]="resetForm.code"
+              [ngClass]="{
                   'is-invalid': resetCode.invalid && resetCode.touched,
                   'is-valid': resetCode.valid && resetCode.touched,
-                }" required (ngModelChange)="onEmailChange($event)" />
-            <div *ngIf="resetCode.invalid && resetCode.touched" class="invalid-feedback">
+                }"
+              required
+              (ngModelChange)="onEmailChange($event)"
+            />
+            <div
+              *ngIf="resetCode.invalid && resetCode.touched"
+              class="invalid-feedback"
+            >
               El código debe tener 6 caracteres alfanuméricos.
             </div>
           </div>
           <div class="form-group mb-3">
-            <input #resetPassword="ngModel" [type]="showResetPassword ? 'text' : 'password'" class="form-control"
-              id="resetPassword" name="resetPassword" placeholder="Nueva contraseña" minlength="8"
-              [(ngModel)]="resetForm.newPassword" [ngClass]="{
-                  'is-invalid': resetPassword.invalid && (resetPassword.touched || submitted),
-                  'is-valid': resetPassword.valid && (resetPassword.touched || submitted)
-                }" required (ngModelChange)="onPasswordChange()" />
-            <div *ngIf="resetPassword.invalid && resetPassword.touched" class="invalid-feedback">
-              La nueva contraseña debe tener mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un
-              carácter especial.
+            <input
+              #resetPassword="ngModel"
+              [type]="showResetPassword ? 'text' : 'password'"
+              class="form-control"
+              id="resetPassword"
+              name="resetPassword"
+              placeholder="Nueva contraseña"
+              minlength="8"
+              [(ngModel)]="resetForm.newPassword"
+              [ngClass]="{
+                'is-invalid':
+                  resetPassword.invalid && (resetPassword.touched || submitted),
+                'is-valid':
+                  resetPassword.valid && (resetPassword.touched || submitted)
+              }"
+              required
+              (ngModelChange)="onPasswordChange()"
+            />
+            <div
+              *ngIf="resetPassword.invalid && resetPassword.touched"
+              class="invalid-feedback"
+            >
+              La nueva contraseña debe tener mínimo 8 caracteres, al menos una
+              mayúscula, una minúscula, un número y un carácter especial.
             </div>
           </div>
 
           <div class="form-group mb-3">
-            <input #confirmPassword="ngModel" [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
-              id="confirmPassword" name="confirmPassword" placeholder="Confirmar nueva contraseña" minlength="8"
-              [(ngModel)]="resetForm.confirmPassword" [ngClass]="{
-                  'is-invalid': confirmPassword.invalid && (confirmPassword.touched || submitted) || confirmPasswordError,
-                  'is-valid': confirmPassword.valid && (confirmPassword.touched || submitted) && !confirmPasswordError
-                }" required (ngModelChange)="onPasswordChange()" />
+            <input
+              #confirmPassword="ngModel"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirmar nueva contraseña"
+              minlength="8"
+              [(ngModel)]="resetForm.confirmPassword"
+              [ngClass]="{
+                'is-invalid':
+                  (confirmPassword.invalid &&
+                    (confirmPassword.touched || submitted)) ||
+                  confirmPasswordError,
+                'is-valid':
+                  confirmPassword.valid &&
+                  (confirmPassword.touched || submitted) &&
+                  !confirmPasswordError
+              }"
+              required
+              (ngModelChange)="onPasswordChange()"
+            />
 
             <div *ngIf="confirmPasswordError" class="invalid-feedback">
-              {{confirmPasswordError}}
+              {{ confirmPasswordError }}
             </div>
           </div>
 
           <div class="form-group mb-0">
-            <button class="btn btn-primary btn-block w-100 mb-4" [disabled]="loading || !frmReset.valid" type="submit">
+            <button
+              class="btn btn-primary btn-block w-100 mb-4"
+              [disabled]="loading || !frmReset.valid"
+              type="submit"
+            >
               Recuperar contraseña
             </button>
-            <p *ngIf="resetError" class="text-danger">{{resetError}}</p>
-            <p *ngIf="resetSuccess" class="text-success">{{resetSuccess}}</p>
+            <p *ngIf="resetError" class="text-danger">{{ resetError }}</p>
+            <p *ngIf="resetSuccess" class="text-success">{{ resetSuccess }}</p>
           </div>
-          <div class="mb-3" style="text-align: right;">
-            <button class="btn btn-link" type="button" style="color: #4f4f4f; text-decoration: underline;"
-              (click)="switchToLogin(); $event.preventDefault();">
+          <div class="mb-3" style="text-align: right">
+            <button
+              class="btn btn-link"
+              type="button"
+              style="color: #4f4f4f; text-decoration: underline"
+              (click)="switchToLogin(); $event.preventDefault()"
+            >
               Iniciar sesión
             </button>
           </div>
@@ -195,11 +372,11 @@
 </div>
 
 <ng-template #emptyFieldsModal>
-
   <app-modal [hideFooter]="true">
     <div>
       <div class="modal-body mb-4">
-        Existen campos vacíos o inválidos. Por favor, complete el formulario correctamente.
+        Existen campos vacíos o inválidos. Por favor, complete el formulario
+        correctamente.
       </div>
     </div>
   </app-modal>

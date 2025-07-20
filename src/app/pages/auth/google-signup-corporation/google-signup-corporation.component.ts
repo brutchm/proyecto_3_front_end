@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { CorporationFormComponent } from '../../../components/user/corporation/corporation-form/corporation-form.component';
 import { IUser } from '../../../interfaces';
+import { splitFullName, toTitleCase } from '../../../utils/string.utils';
 
 /**
  * @class GoogleCorporationSignupComponent
@@ -47,12 +48,15 @@ export class GoogleCorporationSignupComponent implements OnInit {
       return;
     }
 
+    // Se utiliza la nueva utilidad para dividir los apellidos.
+    const lastNames = splitFullName(registrationData.family_name);
+
     this.corporationForm = this.fb.group({
       // Datos Personales
       userEmail: [{ value: registrationData.email, disabled: true }],
-      userName: [registrationData.given_name || '', Validators.required],
-      userFirstSurename: [registrationData.family_name || '', Validators.required],
-      userSecondSurename: [''],
+      userName: [toTitleCase(registrationData.given_name) || '', Validators.required],
+      userFirstSurename: [lastNames.first, Validators.required],
+      userSecondSurename: [lastNames.rest],
 
       // Datos de la Empresa
       businessName: ['', Validators.required],
