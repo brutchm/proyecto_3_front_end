@@ -29,8 +29,6 @@ function securePasswordValidator(control: AbstractControl): ValidationErrors | n
   standalone: true,
   imports: [
     CorporationFormComponent,
-    PaginationComponent,
-    ModalComponent
   ]
 })
 export class CorporationComponent {

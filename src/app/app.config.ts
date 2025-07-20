@@ -21,9 +21,9 @@ export const appConfig: ApplicationConfig = {
         accessTokenInterceptor,
         handleErrorsInterceptor
       ])
-    ), provideAnimationsAsync(),
-    MessageService,
     ),
+    provideAnimationsAsync(),
+    MessageService,
     provideAnimations()
   ]
 };

@@ -67,7 +67,7 @@ export class GoogleCorporationSignupComponent implements OnInit {
       businessCountry: ['Costa Rica', Validators.required],
       businessStateProvince: ['', Validators.required],
       businessOtherDirections: [''],
-      businessLocation: ['', Validators.required],
+      businessLocation: [''],
       isActive: [true],
       id: [null]
     });
@@ -98,24 +98,24 @@ export class GoogleCorporationSignupComponent implements OnInit {
 
     this.authService.completeGoogleCorporationSignup(registrationToken, finalUserData).subscribe({
       next: () => {
-              this.messageService.add({
-                severity: 'success',
-                summary: '¡Registro Exitoso!',
-                detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
-              });
-      
-              timer(3000).subscribe(() => {
-                this.authService.logout();
-                this.router.navigate(['/login']);
-              });
-            },
-            error: (err) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error en el Registro',
-                detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
-              });
-            }
-          });
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Registro Exitoso!',
+          detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
+        });
+
+        timer(3000).subscribe(() => {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error en el Registro',
+          detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+        });
+      }
+    });
   }
 }

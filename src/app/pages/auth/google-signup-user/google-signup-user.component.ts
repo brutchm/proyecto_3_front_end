@@ -46,12 +46,9 @@ export class GoogleUserSignupComponent implements OnInit {
       return;
     }
 
-    console.log("Datos de registro obtenidos:", registrationData);
-    // Se utiliza la nueva utilidad para dividir los apellidos.
     const lastNames = splitFullName(registrationData.family_name);
 
     this.userForm = this.fb.group({
-      // Los nombres de control coinciden con el `formControlName` del HTML hijo.
       userEmail: [{ value: registrationData.email, disabled: true }],
       name: [toTitleCase(registrationData.given_name) || '', Validators.required],
       userFirstSurename: [lastNames.first, Validators.required],
