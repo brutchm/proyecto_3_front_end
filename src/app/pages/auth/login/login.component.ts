@@ -102,6 +102,10 @@ export class LoginComponent {
     this.clearErrors();
     this.submitted = true;
 
+    // Trim input values
+    this.loginForm.userEmail = this.loginForm.userEmail.trim();
+    this.loginForm.userPassword = this.loginForm.userPassword.trim();
+
     // Marcar campos como tocados
     this.emailModel.control.markAsTouched();
     this.passwordModel.control.markAsTouched();
@@ -114,11 +118,13 @@ export class LoginComponent {
     }
     this.loading = true;
     this.authService.login(this.loginForm).subscribe({
-      next: () => {
+      next: (data) => {
+        console.log("Login successful:", data);
         this.loading = false;
         this.router.navigateByUrl("/app/dashboard");
       },
       error: (err) => {
+        console.log("Login error:", err);
         this.loading = false;
         this.loginError = err?.error?.description || "Error al iniciar sesión.";
       },
@@ -129,6 +135,8 @@ export class LoginComponent {
     event.preventDefault();
     this.clearErrors();
     this.submitted = true;
+    // Trim input value
+    this.requestResetForm.email = this.requestResetForm.email.trim();
     // Validar email
     const isEmailValid = this.validateEmail(this.requestResetForm.email);
     if (!isEmailValid) {
@@ -159,6 +167,11 @@ export class LoginComponent {
     event.preventDefault();
     this.clearErrors();
     this.submitted = true;
+    // Trim input values
+    this.resetForm.email = this.resetForm.email.trim();
+    this.resetForm.code = this.resetForm.code.trim();
+    this.resetForm.newPassword = this.resetForm.newPassword.trim();
+    this.resetForm.confirmPassword = this.resetForm.confirmPassword.trim();
     // Validate all fields
     const isEmailValid = this.validateEmail(this.resetForm.email);
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;

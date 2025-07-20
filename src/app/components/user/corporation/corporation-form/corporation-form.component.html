@@ -87,46 +87,7 @@
           <div id="map" class="map-container mb-2"></div>
         </div>
       </div>
-      
-  
-      <!-- <div class="row">
-        <div class="col-1-2 mb-3">
-          <label for="userEmail" class="form-label">Correo Electrónico*</label>
-          <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
-          @if (form.controls['userEmail'].invalid && (form.controls['userEmail'].dirty || form.controls['userEmail'].touched)) {
-            <div class="text-danger mt-1">Ingrese un correo válido</div>
-          }
-        </div>
-        <div class="col-1-2 mb-3">
-          <label for="userPassword" class="form-label">Contraseña*</label>
-          <input id="userPassword" formControlName="userPassword" type="password" class="form-control" placeholder="Ingrese una contraseña" />
-          @if (form.controls['userPassword'].invalid && (form.controls['userPassword'].dirty || form.controls['userPassword'].touched)) {
-            <div class="text-danger mt-1">
-              @if (form.controls['userPassword'].errors?.['required']) {
-                La contraseña es requerida
-              }
-              @if (form.controls['userPassword'].errors?.['insecurePassword']) {
-                La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial
-              }
-            </div>
-          }
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-1-2 mb-3">
-          <label for="confirmPassword" class="form-label">Confirme nuevamente su Contraseña*</label>
-          <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" placeholder="Confirme la contraseña" />
-          @if ((form.controls['confirmPassword'].invalid || form.errors?.['passwordMismatch']) &&
-            (form.controls['confirmPassword'].dirty || form.controls['confirmPassword'].touched)) {
-            <div class="text-danger mt-1">
-              La confirmación de la contraseña es requerida y deben coincidir
-            </div>
-          }
-        </div>
-      </div> -->
-
-        <div class="col-1-2 mb-3">
+      <div class="col-1-2 mb-3">
           <label for="userEmail" class="form-label">Correo Electrónico*</label>
           <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
           @if (form.controls['userEmail'].invalid && (form.controls['userEmail'].dirty || form.controls['userEmail'].touched)) {

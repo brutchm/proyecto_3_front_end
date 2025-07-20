@@ -1,0 +1,297 @@
+.centered-modal.create-farm {
+  // app-modal {
+    min-width: 678px !important;
+  // }
+}
+
+.farm-create {
+  .accent {
+    background-color: var(--color-accent) !important;
+    color: var(--color-btn-primary-text) !important;
+    &:hover:not(:disabled) {
+      background-color: var(--color-btn-primary-hover) !important;
+      color: var(--color-btn-primary-text) !important;
+    }
+  }
+  .accent-red {
+    background-color: var(--color-warning) !important;
+    color: var(--alert-error-text) !important;
+    &:hover:not(:disabled) {
+      background-color: #c62828 !important;
+      color: #fff !important;
+    }
+  }
+  min-width: 344px;
+  .form-control:focus {
+    box-shadow: none;
+  }
+  input, select {
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: var(--font-family-base);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  select:focus, input:focus {
+    border-color: var(--color-accent);
+  }
+  label {
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 0.35rem;
+  }
+}
+  
+
+.modal-content.custom-bg {
+  min-width: 388px !important;
+}
+
+/* Ensure the create farm modal map is always visible and usable */
+#create-farm-map.location-map {
+  min-width: 420px;
+  min-height: 220px;
+  width: 100%;
+  height: 260px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+// Floating modal and backdrop styles (shared with farm-details)
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--color-bg-main);
+  opacity: 0.85;
+  z-index: 1000;
+}
+// Modal centering and sizing
+.centered-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  min-width: 420px; // Increased for better usability
+  max-width: 98vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+
+.dark-modal-content {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+}
+.dark-modal-body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  padding: 2rem 1.5rem 1rem 1.5rem;
+}
+.dark-modal-footer {
+  background-color: var(--color-bg-main);
+  border-top: 1px solid var(--color-divider);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}
+.modal-title-text {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+.btn-cancel {
+  background-color: var(--color-btn-secondary);
+  color: var(--color-btn-secondary-text);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-delete {
+  background-color: var(--color-warning);
+  color: var(--color-btn-primary-text);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.farm-btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.farm-btn-create {
+  background-color: var(--color-accent) !important;
+  color: var(--color-success-text);
+  &:hover:not(:disabled) {
+    background-color: var(--color-btn-primary-hover);
+    color: var(--color-btn-primary-text);
+  }
+}
+.farm-btn-cancel {
+  background-color: var(--color-warning);
+  color: var(--alert-error-text);
+  &:hover:not(:disabled) {
+    background-color: #c62828;
+    color: #fff;
+  }
+}
+.farm-details-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  transition: color 0.2s;
+  &:hover {
+    color: var(--color-btn-primary-hover);
+    text-decoration: underline;
+  }
+}
+
+.farm-page {
+  padding: 2rem;
+  background-color: var(--card-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+}
+
+.farm-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+
+.farm-title {
+  color: var(--color-accent);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.farm-btn {
+  background-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  border: none;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover:not(:disabled) {
+    background-color: var(--color-btn-primary-hover);
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+.farm-btn-secondary {
+  background-color: var(--color-btn-secondary);
+  color: var(--color-btn-secondary-text);
+  margin-left: 1rem;
+}
+
+.farm-error {
+  background-color: var(--color-bg-main);
+  color: #F44336;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-top: 1rem;
+  border: 1px solid #F44336;
+}
+
+.farm-card {
+  border-radius: 42px !important;
+  background-color: var(--card-bg);
+  border: 2px solid var(--color-accent);
+  border-radius: 16px;
+  // padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.farm-card-title {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.farm-card-text {
+  color: var(--color-text-secondary);
+}
+.farm-map {
+  width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+.farm-details-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #FFD600;
+  font-weight: 500;
+  text-decoration: underline;
+  transition: color 0.2s;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.farm-no-farms {
+  color: var(--color-warning);
+  font-weight: 500;
+}
+
+.farm-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  // padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.farm-card-title {
+  color: var(--color-bg-main);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding: 8px 16px;
+  border-radius: 42px;
+  background-color: var(--color-success);
+  text-align: center;
+}
+.farm-card-text {
+  color: var(--color-text-secondary);
+}
+.farm-map {
+  width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+.farm-no-farms {
+  color: var(--color-warning);
+  font-weight: 500;
+}
