@@ -2,16 +2,16 @@
   <div class="description-section">
     <h2>¡Bienvenido!</h2>
     <p>
-      Por favor, complete la información para registrar una nueva cuenta de Administrador.
-      Esta información será utilizada para crear su perfil personal y brindarle acceso a la plataforma.
+      Por favor, complete la información para registrar una nueva cuenta de
+      Administrador. Esta información será utilizada para crear su perfil
+      personal y brindarle acceso a la plataforma.
     </p>
     <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2)" />
     <p class="small text-white-50">¿Ya tienes una cuenta?</p>
-    <a routerLink="/login" class="btn btn-outline-light">Iniciar Sesión</a>
+    <a href="/login" class="btn btn-outline-light">Iniciar Sesión</a>
   </div>
 
   <form [formGroup]="form" class="user-form">
-
     <div class="row">
       <div class="col-full">
         <h2 class="text-center">Registro de Administrador de Finca</h2>
@@ -21,28 +21,57 @@
     <div class="row">
       <div class="col-1-2 mb-3">
         <label for="name" class="form-label">Nombre(s)*</label>
-        <input id="name" formControlName="name" type="text" class="form-control" placeholder="Ingrese su nombre" />
-        @if (form.controls['name']?.invalid && (form.controls['name']?.dirty || form.controls['name']?.touched)) {
-          <div class="text-danger mt-1">El nombre es requerido</div>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese su nombre"
+        />
+        @if (form.controls['name'].invalid && (form.controls['name'].dirty ||
+        form.controls['name'].touched)) {
+        <div class="text-danger mt-1">El nombre es requerido</div>
         }
       </div>
       <div class="col-1-2 mb-3">
-        <label for="userFirstSurename" class="form-label">Primer Apellido*</label>
-        <input id="userFirstSurename" formControlName="userFirstSurename" type="text" class="form-control" placeholder="Ingrese su primer apellido" />
-        @if (form.controls['userFirstSurename']?.invalid && (form.controls['userFirstSurename']?.dirty || form.controls['userFirstSurename']?.touched)) {
-          <div class="text-danger mt-1">El primer apellido es requerido</div>
+        <label for="userFirstSurename" class="form-label"
+          >Primer Apellido*</label
+        >
+        <input
+          id="userFirstSurename"
+          formControlName="userFirstSurename"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese su primer apellido"
+        />
+        @if (form.controls['userFirstSurename'].invalid &&
+        (form.controls['userFirstSurename'].dirty ||
+        form.controls['userFirstSurename'].touched)) {
+        <div class="text-danger mt-1">El primer apellido es requerido</div>
         }
       </div>
     </div>
 
     <div class="row">
       <div class="col-1-2 mb-3">
-        <label for="userSecondSurename" class="form-label">Segundo Apellido</label>
-        <input id="userSecondSurename" formControlName="userSecondSurename" type="text" class="form-control" placeholder="Opcional" />
+        <label for="userSecondSurename" class="form-label"
+          >Segundo Apellido</label
+        >
+        <input
+          id="userSecondSurename"
+          formControlName="userSecondSurename"
+          type="text"
+          class="form-control"
+          placeholder="Opcional"
+        />
       </div>
       <div class="col-1-2 mb-3">
         <label for="userGender" class="form-label">Género</label>
-        <select id="userGender" formControlName="userGender" class="form-control">
+        <select
+          id="userGender"
+          formControlName="userGender"
+          class="form-control"
+        >
           <option value="" disabled selected>Seleccione...</option>
           <option value="MALE">Masculino</option>
           <option value="FEMALE">Femenino</option>
@@ -54,43 +83,85 @@
     <div class="row">
       <div class="col-1-2 mb-3">
         <label for="userEmail" class="form-label">Correo Electrónico*</label>
-        <input id="userEmail" formControlName="userEmail" type="email" class="form-control" placeholder="correo@ejemplo.com" />
-        @if (form.controls['userEmail']?.invalid && (form.controls['userEmail']?.dirty || form.controls['userEmail']?.touched)) {
-          <div class="text-danger mt-1">Ingrese un correo válido</div>
+        <input
+          id="userEmail"
+          formControlName="userEmail"
+          type="email"
+          class="form-control"
+          placeholder="correo@ejemplo.com"
+        />
+        @if (form.controls['userEmail'].invalid &&
+        (form.controls['userEmail'].dirty ||
+        form.controls['userEmail'].touched)) {
+        <div class="text-danger mt-1">Ingrese un correo válido</div>
         }
       </div>
       <div class="col-1-2 mb-3">
-        <label for="userPhoneNumber" class="form-label">Número de Teléfono</label>
-        <input id="userPhoneNumber" formControlName="userPhoneNumber" type="tel" class="form-control" placeholder="Ej: 88888888" />
+        <label for="userPhoneNumber" class="form-label"
+          >Número de Teléfono</label
+        >
+        <input
+          id="userPhoneNumber"
+          formControlName="userPhoneNumber"
+          type="tel"
+          class="form-control"
+          placeholder="Ej: 88888888"
+        />
       </div>
     </div>
 
     @if (form.controls['userPassword']) {
-      <div class="row">
-        <div class="col-1-2 mb-3">
-          <label for="userPassword" class="form-label">Contraseña*</label>
-          <input id="userPassword" formControlName="userPassword" type="password" class="form-control" placeholder="Ingrese una contraseña" />
-          @if (form.controls['userPassword'].invalid && (form.controls['userPassword'].dirty || form.controls['userPassword'].touched)) {
-            <div class="text-danger mt-1">
-              @if (form.controls['userPassword'].errors?.['required']) { La contraseña es requerida. }
-              @if (form.controls['userPassword'].errors?.['insecurePassword']) { Debe ser de 8+ caracteres y contener mayúscula, minúscula, número y símbolo. }
-            </div>
-          }
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="userPassword" class="form-label">Contraseña*</label>
+        <input
+          id="userPassword"
+          formControlName="userPassword"
+          type="password"
+          class="form-control"
+          placeholder="Ingrese una contraseña"
+        />
+        @if (form.controls['userPassword'].invalid &&
+        (form.controls['userPassword'].dirty ||
+        form.controls['userPassword'].touched)) {
+        <div class="text-danger mt-1">
+          @if (form.controls['userPassword'].errors?.['required']) { La
+          contraseña es requerida. } @if
+          (form.controls['userPassword'].errors?.['insecurePassword']) { Debe
+          ser de 8+ caracteres y contener mayúscula, minúscula, número y
+          símbolo. }
         </div>
-        @if (form.controls['confirmPassword']) {
-          <div class="col-1-2 mb-3">
-            <label for="confirmPassword" class="form-label">Confirmar Contraseña*</label>
-            <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" placeholder="Confirme la contraseña" />
-            @if ((form.controls['confirmPassword']?.invalid || form.errors?.['passwordMismatch']) && (form.controls['confirmPassword']?.dirty || form.controls['confirmPassword']?.touched)) {
-              <div class="text-danger mt-1">Las contraseñas no coinciden.</div>
-            }
-          </div>
         }
       </div>
+      @if (form.controls['confirmPassword']) {
+      <div class="col-1-2 mb-3">
+        <label for="confirmPassword" class="form-label"
+          >Confirmar Contraseña*</label
+        >
+        <input
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          type="password"
+          class="form-control"
+          placeholder="Confirme la contraseña"
+        />
+        @if ((form.controls['confirmPassword'].invalid ||
+        form.errors?.['passwordMismatch']) &&
+        (form.controls['confirmPassword'].dirty ||
+        form.controls['confirmPassword'].touched)) {
+        <div class="text-danger mt-1">Las contraseñas no coinciden.</div>
+        }
+      </div>
+      }
+    </div>
     }
 
     <div class="text-end mt-3">
-      <button (click)="callSave()" [disabled]="form.invalid" class="btn btn-primary">
+      <button
+        (click)="callSave()"
+        [disabled]="form.invalid"
+        class="btn btn-primary"
+      >
         Registrarse
       </button>
     </div>
