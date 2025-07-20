@@ -69,7 +69,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   public onEmailChange(email: string): void {
     this.loginError = "";
@@ -119,12 +119,10 @@ export class LoginComponent {
     this.loading = true;
     this.authService.login(this.loginForm).subscribe({
       next: (data) => {
-        console.log("Login successful:", data);
         this.loading = false;
         this.router.navigateByUrl("/app/dashboard");
       },
       error: (err) => {
-        console.log("Login error:", err);
         this.loading = false;
         this.loginError = err?.error?.description || "Error al iniciar sesión.";
       },
@@ -220,7 +218,6 @@ export class LoginComponent {
   }
 
   public validateEmail(email: string): boolean {
-    console.log("Validando email:", email);
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }

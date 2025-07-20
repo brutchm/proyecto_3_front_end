@@ -6,13 +6,8 @@ import { UserFormComponent } from '../../../components/user/user-from/user-form.
 import { CommonModule } from '@angular/common';
 import { timer } from 'rxjs';
 import { splitFullName, toTitleCase } from '../../../utils/string.utils';
-
-/**
- * @fileoverview Componente "inteligente" para la página de finalización de registro de un usuario estándar
- * (Administrador de Fincas) que ha iniciado el proceso a través de Google.
- * @version 3.0.0
- * @author Tu Nombre
- */
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 /**
  * @class GoogleUserSignupComponent
@@ -24,8 +19,9 @@ import { splitFullName, toTitleCase } from '../../../utils/string.utils';
 @Component({
   selector: 'app-google-signup-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UserFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, UserFormComponent, ToastModule],
   templateUrl: './google-signup-user.component.html',
+  // providers: [MessageService]
 })
 export class GoogleUserSignupComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
@@ -33,8 +29,8 @@ export class GoogleUserSignupComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
 
   public userForm!: FormGroup;
-  public successMessage?: string;
-  public errorMessage?: string;
+  private messageService: MessageService = inject(MessageService);
+
 
   /**
    * @method ngOnInit
@@ -45,23 +41,19 @@ export class GoogleUserSignupComponent implements OnInit {
   ngOnInit(): void {
     const registrationData = this.authService.getRegistrationData();
     if (!registrationData) {
-      // TODO: Reemplazar 'alert' con un servicio de notificaciones.
-      alert("Token de registro no encontrado o inválido.");
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Token de registro no encontrado o inválido.' });
       this.router.navigate(['/login']);
       return;
     }
 
-    console.log("Datos de registro obtenidos:", registrationData);
-    // Se utiliza la nueva utilidad para dividir los apellidos.
     const lastNames = splitFullName(registrationData.family_name);
 
     this.userForm = this.fb.group({
-      // Los nombres de control coinciden con el `formControlName` del HTML hijo.
       userEmail: [{ value: registrationData.email, disabled: true }],
-      userName: [toTitleCase(registrationData.given_name) || '', Validators.required],
+      name: [toTitleCase(registrationData.given_name) || '', Validators.required],
       userFirstSurename: [lastNames.first, Validators.required],
       userSecondSurename: [lastNames.rest],
-      userGender: [registrationData.exp],
+      userGender: [''],
       userPhoneNumber: [''],
       id: [null]
       // No se incluyen los campos de contraseña.
@@ -75,10 +67,16 @@ export class GoogleUserSignupComponent implements OnInit {
    * del FormGroup del padre para mayor robustez.
    */
   public handleFinalSignup(): void {
-    const registrationToken = localStorage.getItem('registration_token');
-    if (this.userForm.invalid || !registrationToken) {
+    if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
-      this.errorMessage = "Por favor, completa todos los campos requeridos.";
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'Por favor, completa todos los campos requeridos.' });
+      return;
+    }
+
+    const registrationToken = localStorage.getItem('registration_token');
+    if (!registrationToken) {
+      this.messageService.add({ severity: 'error', summary: 'Error de Sesión', detail: 'El token de registro ha expirado. Por favor, inténtalo de nuevo.' });
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -86,12 +84,23 @@ export class GoogleUserSignupComponent implements OnInit {
 
     this.authService.completeGoogleUserSignup(registrationToken, finalUserData).subscribe({
       next: () => {
-        this.successMessage = "¡Registro completado exitosamente! Redirigiendo a login en 3 segundos...";
-        timer(3000).subscribe(() => this.router.navigate(['/login']));
-        this.authService.logout();
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Registro Exitoso!',
+          detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
+        });
+
+        timer(3000).subscribe(() => {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        });
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || err.error || 'Ocurrió un error desconocido.';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error en el Registro',
+          detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+        });
       }
     });
   }
