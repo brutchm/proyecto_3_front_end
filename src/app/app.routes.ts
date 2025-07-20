@@ -21,6 +21,7 @@ import { FinishRegistrationComponent } from "./pages/auth/finish-registration/fi
 import { GoogleUserSignupComponent } from "./pages/auth/google-signup-user/google-signup-user.component";
 import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-corporation/google-signup-corporation.component";
 import { ListCorporationComponent } from "./pages/users/corporation/listCorporations.component";
+import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 
 export const routes: Routes = [
   {
@@ -68,6 +69,10 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
   },
   {
+    path: "portfolio",
+    component: PortfolioComponent,
+  },
+  {
     path: "app",
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
@@ -110,18 +115,18 @@ export const routes: Routes = [
           authorities: [
             IRoleType.admin,
             IRoleType.superAdmin,
-            IRoleType.user
+            IRoleType.user,
           ],
-          name: 'profile',
-          showInSidebar: false
-        }
+          name: "profile",
+          showInSidebar: false,
+        },
       },
       // {
       //   path: 'profileCorporation',
       //   component: ProfileCorporationComponent,
-      //   data: { 
+      //   data: {
       //     authorities: [
-      //       IRoleType.admin, 
+      //       IRoleType.admin,
       //       IRoleType.superAdmin,
       //       IRoleType.user
       //     ],
@@ -135,44 +140,50 @@ export const routes: Routes = [
       //   },
       // },
       {
-        path: 'listCorporation',
+        path: "listCorporation",
         component: ListCorporationComponent,
-        data: { 
+        data: {
           authorities: [
             IRoleType.superAdmin,
-            IRoleType.user
+            IRoleType.user,
           ],
-          name: 'Corporaciones',
-          showInSidebar: true
-        }
+          name: "Corporaciones",
+          showInSidebar: true,
+        },
       },
       {
         path: "farm",
         component: FarmComponent,
         data: {
           authorities: [IRoleType.user],
-          name: 'Mis fincas',
-          showInSidebar: true
-        }
+          name: "Mis fincas",
+          showInSidebar: true,
+        },
       },
       {
-        path: 'farm-details',
-        loadComponent: () => import('./pages/farm/farm-details.component').then(m => m.FarmDetailsComponent),
+        path: "farm-details",
+        loadComponent: () =>
+          import("./pages/farm/farm-details.component").then((m) =>
+            m.FarmDetailsComponent
+          ),
         data: {
           authorities: [IRoleType.user],
           name: "Mis fincas",
-          showInSidebar: false
-        }
+          showInSidebar: false,
+        },
       },
       {
-        path: 'animal-group',
-        loadComponent: () => import('./pages/animal-group/animal-group.component').then(m => m.AnimalGroupComponent),
+        path: "animal-group",
+        loadComponent: () =>
+          import("./pages/animal-group/animal-group.component").then((m) =>
+            m.AnimalGroupComponent
+          ),
         data: {
           authorities: [IRoleType.user],
-          name: 'Animal Group',
-          showInSidebar: false
-        }
-      }
+          name: "Animal Group",
+          showInSidebar: false,
+        },
+      },
     ],
   },
 ];

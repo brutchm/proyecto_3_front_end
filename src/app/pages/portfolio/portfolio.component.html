@@ -1,0 +1,56 @@
+<!-- Portfolio Landing Page for DevSync -->
+<div class="portfolio-landing container py-5">
+  <!-- Hero Section -->
+  <section class="hero-section text-center mb-5">
+    <img src="assets/img/devsync-hero.jpg" alt="DevSync Hero" class="hero-img mb-4" style=" border-radius: 1.5rem; box-shadow: 0 4px 32px rgba(0,0,0,0.25); background: #181A20;" />
+    <h1 class="display-4 fw-bold mt-5 mb-5">DevSync</h1>
+    <p class="lead">Equipo de desarrollo apasionado por la tecnología y la innovación.</p>
+  </section>
+
+  <!-- Vision & Mission Section -->
+  <section class="vision-mission-section mb-5 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4">
+    <div class="vision-box flex-fill p-4 rounded-3 text-center" style="background:rgba(34,36,40,0.85); border:1px solid var(--color-divider);">
+      <h2 class="h4 mb-3" style="color:var(--color-accent);">Visión</h2>
+      <p class="mb-0" style="color:var(--color-text-secondary);">
+        {{ vision }}
+      </p>
+    </div>
+    <div class="mission-box flex-fill p-4 rounded-3 text-center" style="background:rgba(34,36,40,0.85); border:1px solid var(--color-divider);">
+      <h2 class="h4 mb-3" style="color:var(--color-accent);">Misión</h2>
+      <p class="mb-0" style="color:var(--color-text-secondary);">
+        {{ mission }}
+      </p>
+    </div>
+  </section>
+  <section class="team-section mb-5">
+    <h2 class="h3 mb-4">Nuestro Equipo</h2>
+    <div class="row justify-content-center">
+      <!-- Placeholder for team members -->
+      <div class="col-md-4 mb-4" *ngFor="let member of teamMembers">
+        <div class="card shadow-sm border-0 h-100">
+          <img src="https://cdn3d.iconscout.com/3d/premium/thumb/web-developer-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--programmer-development-freelance-kit-pack-tools-equipment-illustrations-3738664.png" class="card-img-top rounded-circle mx-auto mt-3" style="width: 120px; height: 120px; object-fit: cover;" alt="Foto de {{member.nombre}}">
+          <div class="card-body text-center">
+            <h5 class="card-title mb-1">{{member.nombre}}</h5>
+            <p class="card-text small text-muted mb-2">{{member.rol}}</p>
+            <p class="card-text">{{member.descripcion}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="about-project-section mb-5 d-flex flex-column flex-md-row justify-content-center align-items-stretch gap-4">
+    <div class="about-box flex-fill p-4 rounded-3 text-center" style="background:rgba(34,36,40,0.85); border:1px solid var(--color-divider);">
+      <h2 class="h4 mb-3" style="color:var(--color-accent);">Sobre DevSync</h2>
+      <p class="mb-0" style="color:var(--color-text-secondary);">{{about}}</p>
+    </div>
+    <div class="project-box flex-fill p-4 rounded-3 text-center" style="background:rgba(34,36,40,0.85); border:1px solid var(--color-divider);">
+      <h2 class="h4 mb-3" style="color:var(--color-accent);">Proyecto</h2>
+      <p class="mb-0" style="color:var(--color-text-secondary);">{{project}}</p>
+    </div>
+  </section>
+  <section class="contact-section text-center">
+    <h2 class="h3 mb-4">Contacto</h2>
+    <p>¿Quieres saber más? ¡Contáctanos!</p>
+    <a href="mailto:info@devsync.com" class="btn btn-primary">Enviar correo</a>
+  </section>
+</div>
