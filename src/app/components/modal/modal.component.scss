@@ -4,6 +4,7 @@
   justify-content: end;
   border-bottom: none;
   padding-bottom: 0px;
+  background-color: var(--color-bg-main);
 }
 .close {
   background: none;
@@ -28,4 +29,22 @@
 .modal-body {
       max-height: 74vh;
     overflow: auto;
+    background-color: var(--color-bg-main);
+
+    scrollbar-width: thin;
+    scrollbar-color: #7ED957 transparent;
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: #7ED957;
+      border-radius: 10px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
 }
+

@@ -1,0 +1,93 @@
+:host {
+    display: block;
+    background-color: #1E1E1E;
+    min-height: 100vh;
+    padding: 2rem;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header-bar {
+    background-color: #4CAF50;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  
+    i {
+      color: #1E1E1E;
+      font-size: 1.75rem;
+    }
+  
+    h2 {
+      margin: 0;
+      font-size: 2rem;
+      color: white;
+      font-weight: bold;
+    }
+  }
+  
+  .info-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  
+    .col-6 {
+      flex: 1;
+      min-width: 320px;
+    }
+  
+    .body {
+      background-color: #1E1E1E;
+      border: 1px solid #7ED957;
+      border-radius: 12px;
+      padding: 2rem;
+  
+      label {
+        color: #7ED957;
+        font-weight: bold;
+        font-size: 1.05rem;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+  
+      p {
+        color: #E0E0E0;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+  
+  .map-section {
+    text-align: center;
+    margin-top: 3rem;
+  
+    .map-label {
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+  
+    .coordinates {
+      font-size: 0.95rem;
+      color: #dddddd;
+      margin-bottom: 1rem;
+    }
+  
+    .map-container {
+      width: 90%;
+      max-width: 700px;
+      height: 300px;
+      margin: 0 auto;
+      border: 2px solid #7ED957;
+      border-radius: 12px;
+      background-color: #2c2c2c;
+    }
+  }
+  
