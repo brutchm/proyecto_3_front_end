@@ -1,51 +1,146 @@
-.login-container {
+// Se adoptan los estilos del formulario de corporación para una apariencia consistente y profesional.
+:host {
+  display: block;
+  padding: 2rem;
+  background: linear-gradient(to right, #1e1e1e 50%, #4caf50 50%);
   height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
-  background-position: left;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 20px 20%;
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
-    z-index: 1;
+  overflow: hidden;
+}
+
+.container-form-wrapper {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: stretch;
+  height: fit-content;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.description-section {
+  flex: 1 1 350px;
+  max-width: 350px;
+  background-color: transparent;
+  color: #fff;
+  padding: 2rem;
+  overflow-y: auto;
+
+  h2 {
+    font-size: 2rem;
+    color: #7ed957;
+    margin-bottom: 1rem;
   }
-  .login-card {
-    position: relative;
-    z-index: 2;
-    width: 50%;
-    padding: 40px;
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e0e0e0;
+  }
+}
+
+.signup-form {
+  flex: 1 1 600px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 1rem;
+  background-color: #373737;
+  border: 2px solid #7ed957;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h2 {
+    color: #e0e0e0;
+    margin-bottom: 1rem;
+  }
+
+  // Estilos de la barra de scroll
+  scrollbar-width: thin;
+  scrollbar-color: #7ed957 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #7ed957;
     border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-    margin: 0 auto;
-    background-color: #fff;
   }
-  .invalid-feedback {
-    position: absolute;
-    margin-top: 0px;
+  &::-webkit-scrollbar-track {
+    background: transparent;
   }
-  @media screen and (min-width: 801px) and (max-width: 1500px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 60%;
-      .login-main {
-        padding: 0px;
-      }
-    }
+}
+
+// Layout de columnas
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.col-1-2 {
+  flex: 1 1 calc(50% - 1.5rem);
+  min-width: 250px;
+}
+
+.col-full {
+  flex: 1 1 100%;
+}
+
+@media (max-width: 767px) {
+  .col-1-2 {
+    flex: 1 1 100%;
   }
-  @media screen and (max-width: 800px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 100%;
-      .login-main {
-        padding: 0px;
-      }
-    }
-  }
+}
+
+// Estilos de los campos del formulario
+.signup-form .form-label {
+  color: #e0e0e0;
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.signup-form .form-control {
+  background-color: #373737;
+  border: 1px solid #a0a0a0;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  height: 2.4rem;
+  border-radius: 5px;
+}
+
+.signup-form .form-control::placeholder {
+  color: #a0a0a0;
+}
+
+.signup-form button.btn {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.signup-form button.btn:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.signup-form button.btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.text-danger {
+  color: #f44336 !important;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
 }
