@@ -83,9 +83,12 @@ export const passwordMatchValidator: ValidatorFn = (form: AbstractControl): Vali
     }
   
     saveCorporation(item: ICorporation) {
+      console.log("Saving corporation:", item);
+      
         this.corporationService.save(item).subscribe({
           next: () => this.corporationForm.reset(),
           error: () => {
+            alert("Error al guardar la corporación");
           }
         });
       }

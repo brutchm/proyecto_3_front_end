@@ -1,5 +1,118 @@
+<div class="mb-3">
+  <button class="btn btn-secondary" (click)="goBackToFarm()" *ngIf="farmId">
+    ← Volver a la finca
+  </button>
+</div>
 <div class="animal-group-message">
-  <h2>Animal Group Details</h2>
-  <p>Farm ID: {{ farmId }}</p>
-  <p>Group ID: {{ groupId }}</p>
+  <h2>Detalles del Grupo de Animales</h2>
+  <ng-container *ngIf="loading">Cargando...</ng-container>
+  <ng-container *ngIf="error">{{ error }}</ng-container>
+  <ng-container *ngIf="groupAnimal && !loading && !error">
+    <p><strong>Nombre:</strong> {{ groupAnimal.groupName }}</p>
+    <p><strong>Especie:</strong> {{ groupAnimal.species }}</p>
+    <p><strong>Cantidad:</strong> {{ groupAnimal.count }}</p>
+    <p><strong>Unidad de medida:</strong> {{ groupAnimal.measure }}</p>
+    <p><strong>Tipo de producción:</strong> {{ groupAnimal.productionType }}</p>
+    <div class="animal-group-actions">
+      <button class="btn btn-edit farm-btn farm-btn-edit" (click)="onEdit()">Editar</button>
+      <button class="btn btn-delete" (click)="onRemove()">Eliminar</button>
+    </div>
+  </ng-container>
+
+  <!-- Edit Modal -->
+  <ng-template #editGroupModal>
+    <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
+      modalContentClass="modal-content dark-modal-content create-farm-modal">
+      <form [formGroup]="editGroupForm" (ngSubmit)="submitEditGroup()" class="farm-create" novalidate autocomplete="off">
+        <div class="modal-body mb-4 dark-modal-body">
+          <h2 class="modal-title-text">Editar grupo de animales</h2>
+          <div class="form-group mt-3">
+            <label>Nombre del grupo</label>
+            <input formControlName="groupName" class="form-control farm-input"
+              [class.is-invalid]="editGroupForm.controls['groupName'].invalid && (editGroupForm.controls['groupName'].dirty || editGroupForm.controls['groupName'].touched)" />
+            <div *ngIf="editGroupForm.controls['groupName'].invalid && (editGroupForm.controls['groupName'].dirty || editGroupForm.controls['groupName'].touched)" class="invalid-feedback">
+              Este campo es requerido.</div>
+          </div>
+          <div class="form-group mt-3">
+            <label>Especie</label>
+            <input formControlName="species" class="form-control farm-input"
+              [class.is-invalid]="editGroupForm.controls['species'].invalid && (editGroupForm.controls['species'].dirty || editGroupForm.controls['species'].touched)" />
+            <div *ngIf="editGroupForm.controls['species'].invalid && (editGroupForm.controls['species'].dirty || editGroupForm.controls['species'].touched)" class="invalid-feedback">
+              Este campo es requerido.</div>
+          </div>
+          <div class="form-group mt-3">
+            <label>Cantidad</label>
+            <input formControlName="count" class="form-control farm-input" type="number" min="1"
+              [class.is-invalid]="editGroupForm.controls['count'].invalid && (editGroupForm.controls['count'].dirty || editGroupForm.controls['count'].touched)" />
+            <div *ngIf="editGroupForm.controls['count'].invalid && (editGroupForm.controls['count'].dirty || editGroupForm.controls['count'].touched)" class="invalid-feedback">
+              Ingrese un número válido.</div>
+          </div>
+          <div class="form-group mt-3">
+            <label>Unidad de medida</label>
+            <select formControlName="measure" class="form-control farm-input"
+              [class.is-invalid]="editGroupForm.controls['measure'].invalid && (editGroupForm.controls['measure'].dirty || editGroupForm.controls['measure'].touched)">
+              <option value="">No seleccionado</option>
+              <option value="kilos" [selected]="editGroupForm.value.measure === 'kilos'">Kilos</option>
+              <option value="litros" [selected]="editGroupForm.value.measure === 'litros'">Litros</option>
+            </select>
+            <div *ngIf="editGroupForm.controls['measure'].invalid && (editGroupForm.controls['measure'].dirty || editGroupForm.controls['measure'].touched)" class="invalid-feedback">
+              Este campo es requerido.</div>
+          </div>
+          <div class="form-group mt-3">
+            <label>Tipo de producción</label>
+            <select formControlName="productionType" class="form-control farm-input"
+              [class.is-invalid]="editGroupForm.controls['productionType'].invalid && (editGroupForm.controls['productionType'].dirty || editGroupForm.controls['productionType'].touched)">
+              <option value="">Seleccione tipo</option>
+              <option value="CARNE" [selected]="editGroupForm.value.productionType === 'CARNE'">CARNE</option>
+              <option value="LECHE" [selected]="editGroupForm.value.productionType === 'LECHE'">LECHE</option>
+              <option value="HUEVOS" [selected]="editGroupForm.value.productionType === 'HUEVOS'">HUEVOS</option>
+              <option value="DERIVADOS" [selected]="editGroupForm.value.productionType === 'DERIVADOS'">DERIVADOS</option>
+            </select>
+            <div *ngIf="editGroupForm.controls['productionType'].invalid && (editGroupForm.controls['productionType'].dirty || editGroupForm.controls['productionType'].touched)" class="invalid-feedback">
+              Este campo es requerido.</div>
+          </div>
+         
+        </div>
+        <div class="modal-footer dark-modal-footer">
+          <button type="button" class="farm-btn-cancel btn btn-danger" (click)="closeEditModal()">Cancelar</button>
+          <button type="submit" class="btn btn-edit farm-btn farm-btn-edit"
+            [disabled]="editGroupLoading || editGroupForm.invalid || editGroupForm.pristine">Guardar</button>
+        </div>
+        <div *ngIf="editGroupSubmitted && editGroupForm.invalid" class="invalid-feedback d-block text-center mt-2">
+          Por favor complete todos los campos obligatorios correctamente antes de guardar.
+        </div>
+      </form>
+    </app-modal>
+  </ng-template>
+  <div *ngIf="showEditModal">
+    <div class="modal-backdrop"></div>
+    <div class="centered-modal create-farm">
+      <ng-container *ngTemplateOutlet="editGroupModal"></ng-container>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <ng-template #deleteGroupModal>
+    <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
+      modalFooterClass="modal-footer dark-modal-footer" modalContentClass="modal-content dark-modal-content">
+      <div>
+        <div class="modal-body mb-4 dark-modal-body">
+          <span class="modal-title-text">¿Está seguro que desea eliminar este grupo de animales?</span>
+        </div>
+        <div class="modal-footer dark-modal-footer">
+          <button class="btn btn-cancel" (click)="closeDeleteModal()" [disabled]="deleteLoading">Cancelar</button>
+          <button class="btn btn-delete" (click)="confirmDeleteGroup()" [disabled]="deleteLoading">
+            <span *ngIf="!deleteLoading">Eliminar</span>
+            <app-loader *ngIf="deleteLoading" size="sm" />
+          </button>
+        </div>
+      </div>
+    </app-modal>
+  </ng-template>
+  <div *ngIf="showDeleteModal">
+    <div class="modal-backdrop"></div>
+    <div class="centered-modal">
+      <ng-container *ngTemplateOutlet="deleteGroupModal"></ng-container>
+    </div>
+  </div>
 </div>
