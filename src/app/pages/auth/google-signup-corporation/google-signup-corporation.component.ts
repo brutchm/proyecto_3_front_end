@@ -113,7 +113,7 @@ export class GoogleCorporationSignupComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error en el Registro',
-          detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+          detail: err.error.message || err.error || 'Ocurrió un error desconocido.'
         });
       }
     });
