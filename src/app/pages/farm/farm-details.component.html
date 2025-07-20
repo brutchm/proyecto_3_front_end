@@ -18,7 +18,7 @@
           <button class="nav-link" id="cultivos-tab" data-bs-toggle="tab" data-bs-target="#cultivos" type="button"
             role="tab" aria-controls="cultivos" aria-selected="false">Cultivos</button>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item d-flex align-items-center" role="presentation" style="gap: 0.5rem;">
           <button class="nav-link" id="animales-tab" data-bs-toggle="tab" data-bs-target="#animales" type="button"
             role="tab" aria-controls="animales" aria-selected="false">Animales</button>
         </li>
@@ -44,13 +44,26 @@
                 </svg>
               </summary>
               <div class="accordion-content">
-                <p class="farm-card-text"><strong>pH del suelo:</strong> {{ (technicalInfo?.soilPh === '' || technicalInfo?.soilPh == null || technicalInfo === null) ? 'n/a' : technicalInfo?.soilPh }}</p>
-                <p class="farm-card-text"><strong>Nutrientes del suelo:</strong> {{ (technicalInfo?.soilNutrients === '' || technicalInfo?.soilNutrients == null || technicalInfo === null) ? 'n/a' : technicalInfo?.soilNutrients }}</p>
-                <p class="farm-card-text"><strong>Sistema de riego:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.irrigationSystem === null || technicalInfo?.irrigationSystem === undefined ? 'n/a' : (technicalInfo?.irrigationSystem ? 'Sí' : 'No')) }}</p>
-                <p class="farm-card-text"><strong>Tipo de riego:</strong> {{ (technicalInfo?.irrigationSystemType === '' || technicalInfo?.irrigationSystemType == null || technicalInfo === null) ? 'n/a' : technicalInfo?.irrigationSystemType }}</p>
-                <p class="farm-card-text"><strong>Agua disponible:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.waterAvailable === null || technicalInfo?.waterAvailable === undefined ? 'n/a' : (technicalInfo?.waterAvailable ? 'Sí' : 'No')) }}</p>
-                <p class="farm-card-text"><strong>Tipo de uso de agua:</strong> {{ (technicalInfo?.waterUsageType === '' || technicalInfo?.waterUsageType == null || technicalInfo === null) ? 'n/a' : technicalInfo?.waterUsageType }}</p>
-                <p class="farm-card-text"><strong>Uso de fertilizantes/pesticidas:</strong> {{ technicalInfo === null ? 'n/a' : (technicalInfo?.fertilizerPesticideUse === null || technicalInfo?.fertilizerPesticideUse === undefined ? 'n/a' : (technicalInfo?.fertilizerPesticideUse ? 'Sí' : 'No')) }}</p>
+                <p class="farm-card-text"><strong>pH del suelo:</strong> {{ (technicalInfo?.soilPh === '' ||
+                  technicalInfo?.soilPh == null || technicalInfo === null) ? 'n/a' : technicalInfo?.soilPh }}</p>
+                <p class="farm-card-text"><strong>Nutrientes del suelo:</strong> {{ (technicalInfo?.soilNutrients === ''
+                  || technicalInfo?.soilNutrients == null || technicalInfo === null) ? 'n/a' :
+                  technicalInfo?.soilNutrients }}</p>
+                <p class="farm-card-text"><strong>Sistema de riego:</strong> {{ technicalInfo === null ? 'n/a' :
+                  (technicalInfo?.irrigationSystem === null || technicalInfo?.irrigationSystem === undefined ? 'n/a' :
+                  (technicalInfo?.irrigationSystem ? 'Sí' : 'No')) }}</p>
+                <p class="farm-card-text"><strong>Tipo de riego:</strong> {{ (technicalInfo?.irrigationSystemType === ''
+                  || technicalInfo?.irrigationSystemType == null || technicalInfo === null) ? 'n/a' :
+                  technicalInfo?.irrigationSystemType }}</p>
+                <p class="farm-card-text"><strong>Agua disponible:</strong> {{ technicalInfo === null ? 'n/a' :
+                  (technicalInfo?.waterAvailable === null || technicalInfo?.waterAvailable === undefined ? 'n/a' :
+                  (technicalInfo?.waterAvailable ? 'Sí' : 'No')) }}</p>
+                <p class="farm-card-text"><strong>Tipo de uso de agua:</strong> {{ (technicalInfo?.waterUsageType === ''
+                  || technicalInfo?.waterUsageType == null || technicalInfo === null) ? 'n/a' :
+                  technicalInfo?.waterUsageType }}</p>
+                <p class="farm-card-text"><strong>Uso de fertilizantes/pesticidas:</strong> {{ technicalInfo === null ?
+                  'n/a' : (technicalInfo?.fertilizerPesticideUse === null || technicalInfo?.fertilizerPesticideUse ===
+                  undefined ? 'n/a' : (technicalInfo?.fertilizerPesticideUse ? 'Sí' : 'No')) }}</p>
               </div>
             </details>
           </div>
@@ -62,7 +75,100 @@
         </div>
         <div class="tab-pane fade" id="animales" role="tabpanel" aria-labelledby="animales-tab">
           <div class="pt-3 pb-4 px-4 pr-4">
-            <p class="farm-card-text">(Aquí irán los animales de la finca)</p>
+            <ng-container *ngIf="animalGroupsLoading">
+              <div class="farm-card">Cargando grupos de animales...</div>
+            </ng-container>
+            <ng-container *ngIf="animalGroupsError && !animalGroupsLoading">
+              <div class="farm-error">{{ animalGroupsError }}</div>
+            </ng-container>
+            <ng-container *ngIf="!animalGroupsLoading && !animalGroupsError">
+              <ng-container *ngIf="animalGroups.length > 0; else noGroups">
+                <div class="animal-group-cards-grid">
+                  <app-animal-group-card *ngFor="let group of animalGroups" [groupAnimal]="group"
+                    [farmId]="farmId || ''"></app-animal-group-card>
+                </div>
+                <div class="mt-3 d-flex justify-content-end">
+                  <button class="btn btn-primary" style="background-color: var(--color-accent);" (click)="openNewGroupModal()">Nuevo grupo</button>
+                </div>
+                <ng-template #newGroupModal>
+                  <app-modal [hideFooter]="true" [useCustomBackGround]="true"
+                    modalBodyClass="modal-body dark-modal-body"
+                    modalContentClass="modal-content dark-modal-content create-farm-modal">
+                    <form [formGroup]="newGroupForm" (ngSubmit)="submitNewGroup()" class="farm-create" novalidate
+                      autocomplete="off">
+                      <div class="modal-body mb-4 dark-modal-body">
+                        <h2 class="modal-title-text">Nuevo grupo de animales</h2>
+                        <div class="form-group mt-3">
+                          <label>Nombre del grupo</label>
+                          <input formControlName="groupName" class="form-control farm-input"
+                            [class.is-invalid]="newGroupForm.controls['groupName'].invalid && (newGroupForm.controls['groupName'].dirty || newGroupForm.controls['groupName'].touched)" />
+                          <div
+                            *ngIf="newGroupForm.controls['groupName'].invalid && (newGroupForm.controls['groupName'].dirty || newGroupForm.controls['groupName'].touched)"
+                            class="invalid-feedback">
+                            Este campo es requerido.</div>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label>Especie</label>
+                          <input formControlName="species" class="form-control farm-input"
+                            [class.is-invalid]="newGroupForm.controls['species'].invalid && (newGroupForm.controls['species'].dirty || newGroupForm.controls['species'].touched)" />
+                          <div
+                            *ngIf="newGroupForm.controls['species'].invalid && (newGroupForm.controls['species'].dirty || newGroupForm.controls['species'].touched)"
+                            class="invalid-feedback">
+                            Este campo es requerido.</div>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label>Cantidad</label>
+                          <input formControlName="count" class="form-control farm-input" type="number" min="1"
+                            [class.is-invalid]="newGroupForm.controls['count'].invalid && (newGroupForm.controls['count'].dirty || newGroupForm.controls['count'].touched)" />
+                          <div
+                            *ngIf="newGroupForm.controls['count'].invalid && (newGroupForm.controls['count'].dirty || newGroupForm.controls['count'].touched)"
+                            class="invalid-feedback">
+                            Ingrese un número válido.</div>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label>Unidad de medida</label>
+                          <select formControlName="measure" class="form-control farm-input"
+                            [class.is-invalid]="newGroupForm.controls['measure'].invalid && (newGroupForm.controls['measure'].dirty || newGroupForm.controls['measure'].touched)">
+                            <option value="">Seleccione unidad</option>
+                            <option value="kilos">Kilos</option>
+                            <option value="litros">Litros</option>
+                          </select>
+                          <div *ngIf="newGroupForm.controls['measure'].invalid && (newGroupForm.controls['measure'].dirty || newGroupForm.controls['measure'].touched)" class="invalid-feedback">
+                            Este campo es requerido.</div>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label>Tipo de producción</label>
+                          <select formControlName="productionType" class="form-control farm-input"
+                            [class.is-invalid]="newGroupForm.controls['productionType'].invalid && (newGroupForm.controls['productionType'].dirty || newGroupForm.controls['productionType'].touched)">
+                            <option value="">Seleccione tipo</option>
+                            <option *ngFor="let type of productionTypes" [value]="type">{{ type }}</option>
+                          </select>
+                          <div
+                            *ngIf="newGroupForm.controls['productionType'].invalid && (newGroupForm.controls['productionType'].dirty || newGroupForm.controls['productionType'].touched)"
+                            class="invalid-feedback">
+                            Este campo es requerido.</div>
+                        </div>
+                      </div>
+                      <div class="modal-footer dark-modal-footer">
+                        <button type="button" class="farm-btn-cancel btn btn-danger"
+                          (click)="closeNewGroupModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-edit farm-btn farm-btn-edit"
+                          [disabled]="newGroupLoading || newGroupForm.invalid">Guardar</button>
+                      </div>
+                    </form>
+                  </app-modal>
+                </ng-template>
+                <div *ngIf="showNewGroupModal">
+                  <div class="modal-backdrop"></div>
+                  <div class="centered-modal create-farm">
+                    <ng-container *ngTemplateOutlet="newGroupModal"></ng-container>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noGroups>
+                <div class="farm-card-text">No hay grupos de animales registrados para esta finca.</div>
+              </ng-template>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -76,7 +182,8 @@
       <ng-template #editFarmModal>
         <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
           modalContentClass="modal-content dark-modal-content create-farm-modal">
-          <form [formGroup]="editFarmForm" (ngSubmit)="submitEditFarm()" class="farm-create" novalidate autocomplete="off">
+          <form [formGroup]="editFarmForm" (ngSubmit)="submitEditFarm()" class="farm-create" novalidate
+            autocomplete="off">
             <div class="modal-body mb-4 dark-modal-body">
               <h2 class="modal-title-text">Editar finca</h2>
               <div class="form-group mt-3">
@@ -90,7 +197,9 @@
                 <label>Provincia</label>
                 <select formControlName="farmStateProvince" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmStateProvince'].invalid">
-                  <option *ngIf="editFarmForm.value.farmStateProvince && !provinces.includes(editFarmForm.value.farmStateProvince)" [value]="editFarmForm.value.farmStateProvince" disabled selected hidden>
+                  <option
+                    *ngIf="editFarmForm.value.farmStateProvince && !provinces.includes(editFarmForm.value.farmStateProvince)"
+                    [value]="editFarmForm.value.farmStateProvince" disabled selected hidden>
                     {{ editFarmForm.value.farmStateProvince }}
                   </option>
                   <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
@@ -126,7 +235,9 @@
                 <label>Unidad de medida</label>
                 <select formControlName="farmMeasureUnit" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmMeasureUnit'].invalid">
-                  <option *ngIf="editFarmForm.value.farmMeasureUnit && !measureUnits.includes(editFarmForm.value.farmMeasureUnit)" [value]="editFarmForm.value.farmMeasureUnit" disabled selected hidden>
+                  <option
+                    *ngIf="editFarmForm.value.farmMeasureUnit && !measureUnits.includes(editFarmForm.value.farmMeasureUnit)"
+                    [value]="editFarmForm.value.farmMeasureUnit" disabled selected hidden>
                     {{ editFarmForm.value.farmMeasureUnit }}
                   </option>
                   <option *ngFor="let unit of measureUnits" [value]="unit">{{ unit }}</option>
@@ -137,15 +248,19 @@
               <details class="farm-accordion mt-3">
                 <summary>
                   <span>Información Técnica</span>
-                  <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 7.5L9 11.5L13 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 7.5L9 11.5L13 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
                   </svg>
                 </summary>
                 <div class="accordion-content">
                   <div class="form-group mt-2">
                     <label>pH del suelo</label>
                     <select formControlName="soilPh" class="form-control farm-input">
-                      <option *ngIf="editFarmForm.value.soilPh && ['Ácido','Neutro','Alcalino'].indexOf(editFarmForm.value.soilPh) === -1 && editFarmForm.value.soilPh !== ''" [value]="editFarmForm.value.soilPh" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.soilPh && ['Ácido','Neutro','Alcalino'].indexOf(editFarmForm.value.soilPh) === -1 && editFarmForm.value.soilPh !== ''"
+                        [value]="editFarmForm.value.soilPh" disabled selected hidden>
                         {{ editFarmForm.value.soilPh }}
                       </option>
                       <option value="">No sé</option>
@@ -157,7 +272,9 @@
                   <div class="form-group mt-2">
                     <label>Nutrientes del suelo</label>
                     <select formControlName="soilNutrients" class="form-control farm-input">
-                      <option *ngIf="editFarmForm.value.soilNutrients && ['Bajo','Medio','Alto'].indexOf(editFarmForm.value.soilNutrients) === -1 && editFarmForm.value.soilNutrients !== ''" [value]="editFarmForm.value.soilNutrients" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.soilNutrients && ['Bajo','Medio','Alto'].indexOf(editFarmForm.value.soilNutrients) === -1 && editFarmForm.value.soilNutrients !== ''"
+                        [value]="editFarmForm.value.soilNutrients" disabled selected hidden>
                         {{ editFarmForm.value.soilNutrients }}
                       </option>
                       <option value="">No sé</option>
@@ -169,7 +286,9 @@
                   <div class="form-group mt-2">
                     <label>Sistema de riego</label>
                     <select formControlName="irrigationSystem" class="form-control farm-input boolean-select">
-                      <option *ngIf="editFarmForm.value.irrigationSystem !== null && editFarmForm.value.irrigationSystem !== true && editFarmForm.value.irrigationSystem !== false" [ngValue]="editFarmForm.value.irrigationSystem" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.irrigationSystem !== null && editFarmForm.value.irrigationSystem !== true && editFarmForm.value.irrigationSystem !== false"
+                        [ngValue]="editFarmForm.value.irrigationSystem" disabled selected hidden>
                         {{ editFarmForm.value.irrigationSystem }}
                       </option>
                       <option [ngValue]="null">No sé</option>
@@ -180,7 +299,9 @@
                   <div class="form-group mt-2">
                     <label>Tipo de sistema de riego</label>
                     <select formControlName="irrigationSystemType" class="form-control farm-input">
-                      <option *ngIf="editFarmForm.value.irrigationSystemType && ['Goteo','Aspersión','Superficie','Otro'].indexOf(editFarmForm.value.irrigationSystemType) === -1 && editFarmForm.value.irrigationSystemType !== ''" [value]="editFarmForm.value.irrigationSystemType" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.irrigationSystemType && ['Goteo','Aspersión','Superficie','Otro'].indexOf(editFarmForm.value.irrigationSystemType) === -1 && editFarmForm.value.irrigationSystemType !== ''"
+                        [value]="editFarmForm.value.irrigationSystemType" disabled selected hidden>
                         {{ editFarmForm.value.irrigationSystemType }}
                       </option>
                       <option value="">No sé</option>
@@ -193,7 +314,9 @@
                   <div class="form-group mt-2">
                     <label>Agua disponible</label>
                     <select formControlName="waterAvailable" class="form-control farm-input boolean-select">
-                      <option *ngIf="editFarmForm.value.waterAvailable !== null && editFarmForm.value.waterAvailable !== true && editFarmForm.value.waterAvailable !== false" [ngValue]="editFarmForm.value.waterAvailable" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.waterAvailable !== null && editFarmForm.value.waterAvailable !== true && editFarmForm.value.waterAvailable !== false"
+                        [ngValue]="editFarmForm.value.waterAvailable" disabled selected hidden>
                         {{ editFarmForm.value.waterAvailable }}
                       </option>
                       <option [ngValue]="null">No sé</option>
@@ -204,7 +327,9 @@
                   <div class="form-group mt-2">
                     <label>Tipo de uso de agua</label>
                     <select formControlName="waterUsageType" class="form-control farm-input">
-                      <option *ngIf="editFarmForm.value.waterUsageType && ['Riego','Consumo animal','Procesos','Otro'].indexOf(editFarmForm.value.waterUsageType) === -1 && editFarmForm.value.waterUsageType !== ''" [value]="editFarmForm.value.waterUsageType" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.waterUsageType && ['Riego','Consumo animal','Procesos','Otro'].indexOf(editFarmForm.value.waterUsageType) === -1 && editFarmForm.value.waterUsageType !== ''"
+                        [value]="editFarmForm.value.waterUsageType" disabled selected hidden>
                         {{ editFarmForm.value.waterUsageType }}
                       </option>
                       <option value="">No sé</option>
@@ -217,7 +342,9 @@
                   <div class="form-group mt-2">
                     <label>Uso de fertilizantes/pesticidas</label>
                     <select formControlName="fertilizerPesticideUse" class="form-control farm-input boolean-select">
-                      <option *ngIf="editFarmForm.value.fertilizerPesticideUse !== null && editFarmForm.value.fertilizerPesticideUse !== true && editFarmForm.value.fertilizerPesticideUse !== false" [ngValue]="editFarmForm.value.fertilizerPesticideUse" disabled selected hidden>
+                      <option
+                        *ngIf="editFarmForm.value.fertilizerPesticideUse !== null && editFarmForm.value.fertilizerPesticideUse !== true && editFarmForm.value.fertilizerPesticideUse !== false"
+                        [ngValue]="editFarmForm.value.fertilizerPesticideUse" disabled selected hidden>
                         {{ editFarmForm.value.fertilizerPesticideUse }}
                       </option>
                       <option [ngValue]="null">No sé</option>
@@ -229,8 +356,10 @@
               </details>
             </div>
             <div class="modal-footer dark-modal-footer">
-              <button type="button" class="farm-btn-cancel btn btn-danger" (click)="closeEditFarmModal()">Cancelar</button>
-              <button type="submit" class="btn btn-edit farm-btn farm-btn-edit" [disabled]="editFarmLoading || editFarmForm.invalid || editFarmForm.pristine">Guardar</button>
+              <button type="button" class="farm-btn-cancel btn btn-danger"
+                (click)="closeEditFarmModal()">Cancelar</button>
+              <button type="submit" class="btn btn-edit farm-btn farm-btn-edit"
+                [disabled]="editFarmLoading || editFarmForm.invalid || editFarmForm.pristine">Guardar</button>
             </div>
           </form>
         </app-modal>

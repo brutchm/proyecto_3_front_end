@@ -3,8 +3,13 @@
     min-width: 678px !important;
   // }
 }
+.animal-group-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
 
-.farm-create {
+.farm-create, newGroupForm {
   min-width: 344px;
   input, select {
     background-color: var(--input-bg);
@@ -19,6 +24,7 @@
     -moz-appearance: none;
     outline: none;
     transition: border-color 0.2s;
+    box-shadow: none;
   }
   select:focus, input:focus {
     border-color: var(--color-accent);

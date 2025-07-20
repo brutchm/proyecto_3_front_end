@@ -149,6 +149,15 @@ export const routes: Routes = [
           showInSidebar: false
         }
       },
+      {
+        path: 'animal-group',
+        loadComponent: () => import('./pages/animal-group/animal-group.component').then(m => m.AnimalGroupComponent),
+        data: {
+          authorities: [IRoleType.user],
+          name: 'Animal Group',
+          showInSidebar: false
+        }
+      }
     ],
   },
 ];
