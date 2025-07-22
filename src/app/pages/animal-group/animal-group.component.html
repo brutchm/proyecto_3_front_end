@@ -1,23 +1,109 @@
-<div class="mb-3">
-  <button class="btn btn-secondary" (click)="goBackToFarm()" *ngIf="farmId">
-    ← Volver a la finca
-  </button>
-</div>
-<div class="animal-group-message">
-  <h2>Detalles del Grupo de Animales</h2>
-  <ng-container *ngIf="loading">Cargando...</ng-container>
-  <ng-container *ngIf="error">{{ error }}</ng-container>
-  <ng-container *ngIf="groupAnimal && !loading && !error">
-    <p><strong>Nombre:</strong> {{ groupAnimal.groupName }}</p>
-    <p><strong>Especie:</strong> {{ groupAnimal.species }}</p>
-    <p><strong>Cantidad:</strong> {{ groupAnimal.count }}</p>
-    <p><strong>Unidad de medida:</strong> {{ groupAnimal.measure }}</p>
-    <p><strong>Tipo de producción:</strong> {{ groupAnimal.productionType }}</p>
-    <div class="animal-group-actions">
-      <button class="btn btn-edit farm-btn farm-btn-edit" (click)="onEdit()">Editar</button>
-      <button class="btn btn-delete" (click)="onRemove()">Eliminar</button>
+<h1 class="nameFarmSelected">
+{{ farmName }}
+</h1>
+<div class="animal-group-container">
+
+  <div class="top-button">
+    <a class="farm-back-link"  (click)="goBackToFarm()" *ngIf="farmId">
+      ← Volver al detalle de la finca
+    </a>
+  </div>
+
+  <div class="main-content">
+
+    <div class="info-section">
+      <h1>Grupo de Animales</h1>
+      <p>Aquí puedes ver el detalle del grupo y gestionar los animales asociados.</p>
+      <img src="assets/img/img-farms/vaca.png" alt="Animal group image" />
     </div>
-  </ng-container>
+
+    <div class="animal-group-message">
+      <h2>Detalles del Grupo de Animales</h2>
+      <ng-container *ngIf="loading">Cargando...</ng-container>
+      <ng-container *ngIf="error">{{ error }}</ng-container>
+      <ng-container *ngIf="groupAnimal && !loading && !error">
+        <p><strong>Nombre:</strong> {{ groupAnimal.groupName }}</p>
+        <p><strong>Especie:</strong> {{ groupAnimal.species }}</p>
+        <p><strong>Cantidad:</strong> {{ groupAnimal.count }}</p>
+        <p><strong>Unidad de medida:</strong> {{ groupAnimal.measure }}</p>
+        <p><strong>Tipo de producción:</strong> {{ groupAnimal.productionType }}</p>
+        <div class="animal-group-actions">
+          <button class="btn btn-edit farm-btn farm-btn-edit" (click)="onEdit()">Editar</button>
+          <button class="btn btn-delete" (click)="onRemove()">Eliminar</button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+<div class="animal-group-extra-container">
+  <div class="animal-group-info">
+    <h3>¡Registra tus Animales!</h3>
+    <p>Puedes asociar animales a este grupo utilizando el formulario ubicado a la derecha.</p>
+  </div>
+
+  <!-- formulario de registro de animales -->
+  <div class="animal-form-container">
+    <h2 class="mt-4">Registrar Animales</h2>
+    <form [formGroup]="animalForm" (ngSubmit)="submitAnimalForm()" novalidate autocomplete="off">
+      <div class="form-group mt-3">
+        <label>Especie</label>
+        <input formControlName="species" class="form-control" placeholder="Ej: Bovino, Porcino, Aves" />
+        <div *ngIf="animalForm.get('species')?.invalid && (animalSubmitted || animalForm.get('species')?.touched)" class="invalid-feedback d-block">
+          Este campo es requerido.
+        </div>
+      </div>
+
+      <div class="form-group mt-3">
+        <label>Raza</label>
+        <input formControlName="breed" class="form-control" placeholder="Ej: Holstein, Yorkshire, Leghorn"/>
+        <div *ngIf="animalForm.get('breed')?.invalid && (animalSubmitted || animalForm.get('breed')?.touched)" class="invalid-feedback d-block">
+          Este campo es requerido.
+        </div>
+      </div>
+
+      <div class="form-group mt-3">
+        <label>Cantidad</label>
+        <input type="number" min="1" formControlName="count" class="form-control"  placeholder="Ej: 25"/>
+        <div *ngIf="animalForm.get('count')?.invalid && (animalSubmitted || animalForm.get('count')?.touched)" class="invalid-feedback d-block">
+          Ingrese un número válido.
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary" [disabled]="animalLoading || animalForm.invalid">Registrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Lista de animales -->
+<ng-container *ngIf="groupAnimal && !loading && !error">
+  <h1>Animales del Grupo {{ groupAnimal.groupName }}:</h1>
+</ng-container>
+<div *ngIf="animals.length === 0"><p>No hay animales registrados en este grupo.</p></div>
+
+<!--scroll -->
+<div class="animal-card-container mt-3" *ngIf="animals.length > 0">
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let animal of animals">
+      <div class="animal-card card shadow-sm">
+        <div class="animal-card-header">
+          {{ animal.species }}
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>Raza:</strong> {{ animal.breed }}</p>
+          <p class="card-text"><strong>Cantidad:</strong> {{ animal.count }}</p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-primary" (click)="openEditAnimalsModal(animal)">Actualizar</button>
+            <button class="btn btn-sm btn-danger" (click)="openDeleteAnimalModal(animal)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
   <!-- Edit Modal -->
   <ng-template #editGroupModal>
@@ -115,4 +201,84 @@
       <ng-container *ngTemplateOutlet="deleteGroupModal"></ng-container>
     </div>
   </div>
+
+
+<ng-template #deleteAnimalModal>
+  <app-modal [hideFooter]="true" [useCustomBackGround]="true"
+    modalBodyClass="modal-body dark-modal-body"
+    modalFooterClass="modal-footer dark-modal-footer"
+    modalContentClass="modal-content dark-modal-content">
+    <div>
+      <div class="modal-body mb-4 dark-modal-body">
+        <span class="modal-title-text">
+          ¿Está seguro que desea eliminar el animal "{{ animalToDelete?.species }}"?
+        </span>
+      </div>
+      <div class="modal-footer dark-modal-footer">
+        <button class="btn btn-cancel" (click)="closeDeleteAnimalModal()" [disabled]="animalLoading">Cancelar</button>
+        <button class="btn btn-delete" (click)="confirmDeleteAnimal()" [disabled]="animalLoading">
+          <span *ngIf="!animalLoading">Eliminar</span>
+          <app-loader *ngIf="animalLoading" size="sm" />
+        </button>
+      </div>
+    </div>
+  </app-modal>
+</ng-template>
+
+<div *ngIf="showDeleteAnimalModal">
+  <div class="modal-backdrop"></div>
+  <div class="centered-modal">
+    <ng-container *ngTemplateOutlet="deleteAnimalModal"></ng-container>
+  </div>
 </div>
+
+<ng-template #editAnimalsModal>
+  <app-modal [hideFooter]="true" modalBodyClass="modal-body dark-modal-body"
+  modalContentClass="modal-content dark-modal-content create-farm-modal">
+
+  <div class="modal-body-custom">
+    <form [formGroup]="animalForm">
+      <div class="mb-3">
+        <label>Especie</label>
+        <input class="form-control" formControlName="species" />
+        <div *ngIf="animalForm.get('species')?.invalid && (animalSubmitted || animalForm.get('species')?.touched)" class="invalid-feedback d-block">
+          Este campo es requerido.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Raza</label>
+        <input class="form-control" formControlName="breed" />
+        <div *ngIf="animalForm.get('breed')?.invalid && (animalSubmitted || animalForm.get('breed')?.touched)" class="invalid-feedback d-block">
+          Este campo es requerido.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Cantidad</label>
+        <input class="form-control" type="number" formControlName="count" />
+        <div *ngIf="animalForm.get('count')?.invalid && (animalSubmitted || animalForm.get('count')?.touched)"
+             class="invalid-feedback d-block">
+          <ng-container *ngIf="animalForm.get('count')?.errors?.['required']">
+            Este campo es requerido.
+          </ng-container>
+          <ng-container *ngIf="animalForm.get('count')?.errors?.['min']">
+            La cantidad debe ser mayor a 0.
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+    <div class="modal-content-custom dark-theme-modal">
+        <div class="modal-footer dark-modal-footer">
+          <button type="button" class="farm-btn-cancel btn btn-danger" (click)="closeEditAnimalModal()">Cancelar</button>
+          <button class="btn btn-edit farm-btn farm-btn-edit" (click)="updateSelectedAnimal()" [disabled]="
+          animalForm.get('species')?.invalid ||
+          animalForm.get('breed')?.invalid ||
+          animalForm.get('count')?.invalid">
+            Guardar cambios
+          </button>
+        </div>
+    </div>
+  </app-modal>
+</ng-template>
