@@ -8,7 +8,7 @@ import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
 import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
@@ -23,7 +23,8 @@ export const appConfig: ApplicationConfig = {
       ])
     ),
     provideAnimationsAsync(),
+    provideAnimations(),
     MessageService,
-    provideAnimations()
+    ConfirmationService
   ]
 };
