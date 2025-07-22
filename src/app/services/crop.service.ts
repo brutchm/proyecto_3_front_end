@@ -58,11 +58,10 @@ export class CropService {
    * @param size - El tamaño de la página.
    * @returns Un Observable con la respuesta global que contiene los cultivos y la paginación.
    */
-  getCrops(page: number = 1, size: number = 10): Observable<GlobalResponse<ICrop[]>> {
+  getCrops(page: number = 1, size: number = 5): Observable<GlobalResponse<ICrop[]>> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    // Se utiliza el nuevo endpoint para obtener los cultivos del usuario autenticado.
     return this.http.get<GlobalResponse<ICrop[]>>(`${this.baseUrl}/my-crops`, { params });
   }
 
