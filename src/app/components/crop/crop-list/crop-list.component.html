@@ -1,0 +1,22 @@
+<div class="crop-list-container">
+  @if (crops.length > 0) {
+    @for (crop of crops; track crop.id) {
+      <div class="crop-item">
+        <div class="crop-info">
+          <span class="crop-name">Nombre: {{ crop.cropName }}</span>
+          <span class="crop-variety">Variedad: {{ crop.cropVariety }}</span>
+          <span class="crop-type">Tipo: {{ crop.cropType }}</span>
+          <img [src]="crop.cropPicture || 'https://placehold.co/600x400'" alt="Imagen del cultivo" class="crop-image" height="100" width="100">
+        </div>
+        <div class="crop-actions">
+           <p-button icon="pi pi-pencil" severity="primary" (click)="onEdit(crop)" [rounded]="true"></p-button>
+           <p-button icon="pi pi-times" severity="danger" (click)="onDelete(crop)"></p-button>
+        </div>
+      </div>
+    }
+  } @else {
+    <div class="empty-message">
+      No has registrado ningún cultivo todavía. ¡Empieza creando uno!
+    </div>
+  }
+</div>

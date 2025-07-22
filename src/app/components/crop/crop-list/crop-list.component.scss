@@ -1,0 +1,57 @@
+.crop-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    // Al pasar el mouse, el fondo y el borde toman el color de acento
+    background-color: rgba(var(--color-accent-rgb, 76, 175, 80), 0.05); // Se necesita una versión RGB para la transparencia
+    border-color: var(--color-accent);
+  }
+}
+
+.crop-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+// .crop-name {
+//   color: var(--color-text-primary);
+//   font-size: 1.1rem;
+//   font-weight: 500;
+// }
+
+.crop-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-secondary);
+  font-size: 1.2rem;
+  border: 2px dashed var(--color-divider);
+  border-radius: 8px;
+}
+
+p-button {
+
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
