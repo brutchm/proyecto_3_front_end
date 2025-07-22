@@ -263,13 +263,13 @@
 <!-- Mapa -->
 <div class="map-wrapper mt-4">
   <div class="d-flex justify-content-between align-items-center mb-2">
-    <label>Localización por GPS</label>
+    <label>Localización por Mapa</label>
     <i class="fa fa-pen edit-icon" title="Editar ubicación" (click)="enableMapEditing()" *ngIf="hasValidLocation"></i>
   </div>
   <label>Coordenadas actuales: {{ editableUser.businessLocation || 'No se ha indicado...' }}</label>
   <div id="map" class="map-container" [ngClass]="{ 'd-none': !hasValidLocation }"></div>
   <p *ngIf="!hasValidLocation" class="no-location-msg d-flex justify-content-between align-items-center">
-    <span>Todavía no se ha indicado una ubicación por GPS.</span>
+    <span>Todavía no se ha indicado una ubicación en mapa.</span>
     <button class="btn btn-outline-success btn-sm ms-2"
     style="border-color: #4CAF50;"
     (click)="initMapForEmptyLocation()"
