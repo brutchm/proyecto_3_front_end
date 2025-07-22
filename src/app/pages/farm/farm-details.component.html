@@ -14,10 +14,7 @@
           <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button"
             role="tab" aria-controls="details" aria-selected="true">Detalles</button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="cultivos-tab" data-bs-toggle="tab" data-bs-target="#cultivos" type="button"
-            role="tab" aria-controls="cultivos" aria-selected="false">Cultivos</button>
-        </li>
+
         <li class="nav-item d-flex align-items-center" role="presentation" style="gap: 0.5rem;">
           <button class="nav-link" id="animales-tab" data-bs-toggle="tab" data-bs-target="#animales" type="button"
             role="tab" aria-controls="animales" aria-selected="false">Animales</button>
@@ -68,11 +65,7 @@
             </details>
           </div>
         </div>
-        <div class="tab-pane fade" id="cultivos" role="tabpanel" aria-labelledby="cultivos-tab">
-          <div class="pt-3 pb-4 px-4 pr-4">
-            <p class="farm-card-text">(Aquí irán los cultivos de la finca)</p>
-          </div>
-        </div>
+       
         <div class="tab-pane fade" id="animales" role="tabpanel" aria-labelledby="animales-tab">
           <div class="pt-3 pb-4 px-4 pr-4">
             <ng-container *ngIf="animalGroupsLoading">
