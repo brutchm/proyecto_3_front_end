@@ -14,7 +14,26 @@
 
   <div class="form-field">
     <label for="cropType">Tipo Cultivo</label>
-    <input pInputText id="cropType" formControlName="cropType" />
+    <div class="conditional-input-group">
+
+      <p-dropdown 
+        id="cropType" 
+        formControlName="cropType" 
+        [options]="cropTypeOptions" 
+        placeholder="Seleccione un tipo">
+      </p-dropdown>
+    
+      <!-- solo aparece si se selecciona 'Otro' -->
+      @if (isOtherTypeSelected) {
+        <input 
+        pInputText 
+        id="customCropType" 
+        formControlName="customCropType" 
+        placeholder="Especifique el tipo"
+        class="conditional-input"
+        />
+      }
+    </div>
   </div>
 
   <div class="form-field">
