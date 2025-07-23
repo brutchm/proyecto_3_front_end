@@ -161,21 +161,18 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.user],
           name: "Mis fincas",
-          showInSidebar: true,
+          showInSidebar: false
         }
       },
       {
-        path: "farm-details",
-        loadComponent: () =>
-          import("./pages/farm/farm-details.component").then((m) =>
-            m.FarmDetailsComponent
-          ),
+        path: 'animal-group',
+        loadComponent: () => import('./pages/animal-group/animal-group.component').then(m => m.AnimalGroupComponent),
         data: {
           authorities: [IRoleType.user],
-          name: "Farm Details",
-          showInSidebar: false,
-        },
-      },
+          name: 'Animal Group',
+          showInSidebar: false
+        }
+      }
     ],
   },
 ];
