@@ -1,57 +1,115 @@
-.crop-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border: 1px solid var(--color-divider);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-
-  &:hover {
-    // Al pasar el mouse, el fondo y el borde toman el color de acento
-    background-color: rgba(var(--color-accent-rgb, 76, 175, 80), 0.05); // Se necesita una versión RGB para la transparencia
-    border-color: var(--color-accent);
+:host ::ng-deep {
+  .p-datatable .p-datatable-header {
+    background: transparent;
+    border: none;
+    padding: 1rem 0;
   }
-}
 
-.crop-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--color-text-primary);
-  font-size: 1.1rem;
-  font-weight: 500;
-}
+  .table-header {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-// .crop-name {
-//   color: var(--color-text-primary);
-//   font-size: 1.1rem;
-//   font-weight: 500;
-// }
+  .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--color-text-primary);
 
-.crop-actions {
-  display: flex;
-  gap: 0.5rem;
-}
+    &:focus {
+      border-color: var(--color-accent);
+    }
+  }
 
-.empty-message {
-  text-align: center;
-  padding: 3rem;
-  color: var(--color-text-secondary);
-  font-size: 1.2rem;
-  border: 2px dashed var(--color-divider);
-  border-radius: 8px;
-}
+  .p-datatable .p-datatable-thead > tr > th {
+    background: var(--card-bg);
+    color: var(--color-text-secondary);
+    border: none;
+    border-bottom: 2px solid var(--color-divider);
+  }
 
-p-button {
+  .p-datatable .p-datatable-tbody > tr {
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
 
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
+  .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: rgba(var(--color-accent-rgb, 76, 175, 80), 0.05) !important;
+  }
 
-  &:hover {
-    filter: brightness(0.9);
+  .p-datatable .p-datatable-tbody > tr > td {
+    border: none;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .crop-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .p-paginator {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+
+    
+    .p-paginator-first, .p-paginator-prev, .p-paginator-next, .p-paginator-last {
+      color: var(--color-text-secondary);
+
+      &:hover {
+        background-color: var(--dropdown-option-bg);
+      }
+    }
+    
+    .p-paginator-page {
+      color: var(--color-text-secondary);
+
+      &:hover {
+        background-color: var(--dropdown-option-bg);
+      }
+      &.p-highlight {
+        background: var(--color-accent);
+        color: var(--color-bg-main);
+      }
+    }
+
+    .p-dropdown {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      
+      &:hover {
+        border-color: var(--color-accent);
+      }
+
+      .p-dropdown-label {
+        border: none;
+      }
+
+      .p-dropdown-trigger {
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .p-dropdown-panel {
+      background: var(--dropdown-bg);
+      border: 1px solid var(--input-border);
+
+      .p-dropdown-item {
+        color: var(--dropdown-option-text);
+        text-align: center;
+        padding: 0.75rem 0rem;
+
+        &:hover {
+          background-color: var(--dropdown-option-bg);
+        }
+
+        &.p-highlight {
+          background: var(--color-accent);
+          color: var(--color-bg-main);
+        }
+      }
+    }
   }
 }
