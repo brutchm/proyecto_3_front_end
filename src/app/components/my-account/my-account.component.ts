@@ -18,6 +18,10 @@ export class MyAccountComponent implements OnInit {
     let user = localStorage.getItem('auth_user');
     if(user) {
       this.userName = JSON.parse(user)?.name;
+      if(!this.userName?.trim())
+      {
+        this.userName = JSON.parse(user)?.businessName;
+      }
     } 
   }
 

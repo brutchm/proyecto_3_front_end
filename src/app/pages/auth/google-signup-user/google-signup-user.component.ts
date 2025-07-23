@@ -4,30 +4,33 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { UserFormComponent } from '../../../components/user/user-from/user-form.component';
 import { CommonModule } from '@angular/common';
+import { timer } from 'rxjs';
+import { splitFullName, toTitleCase } from '../../../utils/string.utils';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 /**
  * @class GoogleUserSignupComponent
  * @description
  * Este componente controla el flujo para completar el registro de un usuario estándar.
  * Crea un FormGroup con los nombres de control estandarizados (`userName`, `userFirstSurename`, etc.)
- * que coinciden con la entidad del backend.
+ * que coinciden con la entidad del backend y lo pasa al formulario reutilizable.
  */
 @Component({
   selector: 'app-google-signup-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UserFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, UserFormComponent, ToastModule],
   templateUrl: './google-signup-user.component.html',
+  // providers: [MessageService]
 })
 export class GoogleUserSignupComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
 
-  /**
-   * El FormGroup que define la estructura y validadores para el formulario.
-   * Se pasa al componente hijo <app-user-form>.
-   */
   public userForm!: FormGroup;
+  private messageService: MessageService = inject(MessageService);
+
 
   /**
    * @method ngOnInit
@@ -38,19 +41,22 @@ export class GoogleUserSignupComponent implements OnInit {
   ngOnInit(): void {
     const registrationData = this.authService.getRegistrationData();
     if (!registrationData) {
-      alert("Token de registro no encontrado o inválido.");
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Token de registro no encontrado o inválido.' });
       this.router.navigate(['/login']);
       return;
     }
 
+    const lastNames = splitFullName(registrationData.family_name);
+
     this.userForm = this.fb.group({
       userEmail: [{ value: registrationData.email, disabled: true }],
-      userName: [registrationData.given_name || '', Validators.required],
-      userFirstSurename: [registrationData.family_name || '', Validators.required],
-      userSecondSurename: [''],
+      name: [toTitleCase(registrationData.given_name) || '', Validators.required],
+      userFirstSurename: [lastNames.first, Validators.required],
+      userSecondSurename: [lastNames.rest],
       userGender: [''],
       userPhoneNumber: [''],
       id: [null]
+      // No se incluyen los campos de contraseña.
     });
   }
 
@@ -61,10 +67,16 @@ export class GoogleUserSignupComponent implements OnInit {
    * del FormGroup del padre para mayor robustez.
    */
   public handleFinalSignup(): void {
-    const registrationToken = localStorage.getItem('registration_token');
-    if (this.userForm.invalid || !registrationToken) {
+    if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
-      alert("Por favor, completa todos los campos requeridos.");
+      this.messageService.add({ severity: 'warn', summary: 'Atención', detail: 'Por favor, completa todos los campos requeridos.' });
+      return;
+    }
+
+    const registrationToken = localStorage.getItem('registration_token');
+    if (!registrationToken) {
+      this.messageService.add({ severity: 'error', summary: 'Error de Sesión', detail: 'El token de registro ha expirado. Por favor, inténtalo de nuevo.' });
+      this.router.navigate(['/login']);
       return;
     }
 
@@ -72,12 +84,23 @@ export class GoogleUserSignupComponent implements OnInit {
 
     this.authService.completeGoogleUserSignup(registrationToken, finalUserData).subscribe({
       next: () => {
-        alert("¡Registro completado exitosamente! Por favor, inicia sesión.");
-        this.authService.logout();
-        this.router.navigate(['/login']);
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡Registro Exitoso!',
+          detail: 'Tu cuenta ha sido creada. Redirigiendo a login...'
+        });
+
+        timer(3000).subscribe(() => {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        });
       },
       error: (err) => {
-        alert(`Error en el registro: ${err.error?.message || err.error}`);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error en el Registro',
+          detail: err.error?.message || err.error || 'Ocurrió un error desconocido.'
+        });
       }
     });
   }

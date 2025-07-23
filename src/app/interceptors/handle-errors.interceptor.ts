@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 export const handleErrorsInterceptor: HttpInterceptorFn = (req, next) => {
@@ -21,7 +21,7 @@ export const handleErrorsInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 404) {
         throw { status: false };
       }
-      return of({ status: false });
+      return throwError(() => error);
     })
   );
 };

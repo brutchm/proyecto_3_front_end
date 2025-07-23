@@ -11,6 +11,7 @@ import { AuthService } from "../../../services/auth.service";
 import { ModalService } from "../../../services/modal.service";
 import { ModalComponent } from "../../../components/modal/modal.component";
 import { environment } from '../../../../environments/environment';
+import { validateEmail } from '../../../utils/emailValidator.utils'
 
 @Component({
   selector: "app-login",
@@ -69,7 +70,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   public onEmailChange(email: string): void {
     this.loginError = "";
@@ -85,7 +86,7 @@ export class LoginComponent {
       model = this.requestResetEmailModel;
     }
     if (!model) return;
-    const isEmailValid = this.validateEmail(model.value);
+    const isEmailValid = validateEmail(model.value);
     if (!isEmailValid || !model.valid) {
       model.control.setErrors({ invalidEmail: true });
     }
@@ -102,11 +103,15 @@ export class LoginComponent {
     this.clearErrors();
     this.submitted = true;
 
+    // Trim input values
+    this.loginForm.userEmail = this.loginForm.userEmail.trim();
+    this.loginForm.userPassword = this.loginForm.userPassword.trim();
+
     // Marcar campos como tocados
     this.emailModel.control.markAsTouched();
     this.passwordModel.control.markAsTouched();
 
-    const isEmailValid = this.validateEmail(this.emailModel.value);
+    const isEmailValid = validateEmail(this.emailModel.value);
     // Si algún campo no es válido, mostrar el modal
     if (!isEmailValid || !this.emailModel.valid || !this.passwordModel.valid) {
       this.modalService.displayModal("md", this.emptyFieldsModal);
@@ -114,7 +119,7 @@ export class LoginComponent {
     }
     this.loading = true;
     this.authService.login(this.loginForm).subscribe({
-      next: () => {
+      next: (data) => {
         this.loading = false;
         this.router.navigateByUrl("/app/dashboard");
       },
@@ -129,8 +134,8 @@ export class LoginComponent {
     event.preventDefault();
     this.clearErrors();
     this.submitted = true;
-    // Validar email
-    const isEmailValid = this.validateEmail(this.requestResetForm.email);
+    this.requestResetForm.email = this.requestResetForm.email.trim();
+    const isEmailValid = validateEmail(this.requestResetForm.email);
     if (!isEmailValid) {
       this.loginError = "Por favor ingrese un correo válido.";
       this.resetSuccess = "";
@@ -142,7 +147,6 @@ export class LoginComponent {
         this.loading = false;
         this.loginError = "";
         this.resetSuccess = "Correo de recuperación enviado.";
-        // Switch to reset form after a short delay
         setTimeout(() => {
           this.switchToReset();
         }, 1500);
@@ -159,12 +163,18 @@ export class LoginComponent {
     event.preventDefault();
     this.clearErrors();
     this.submitted = true;
-    // Validate all fields
-    const isEmailValid = this.validateEmail(this.resetForm.email);
+
+    this.resetForm.email = this.resetForm.email.trim();
+    this.resetForm.code = this.resetForm.code.trim();
+    this.resetForm.newPassword = this.resetForm.newPassword.trim();
+    this.resetForm.confirmPassword = this.resetForm.confirmPassword.trim();
+
+    const isEmailValid = validateEmail(this.resetForm.email);
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
     const isPasswordValid = passwordRegex.test(this.resetForm.newPassword);
     const isCodeValid = /^[a-zA-Z0-9]{6}$/.test(this.resetForm.code);
     const passwordsMatch = this.resetForm.newPassword === this.resetForm.confirmPassword;
+
     if (!isEmailValid) {
       this.resetError = "Por favor ingrese un correo válido.";
       this.resetSuccess = "";
@@ -191,6 +201,7 @@ export class LoginComponent {
     } else {
       this.confirmPasswordError = "";
     }
+
     this.loading = true;
     this.authService.resetPassword(this.resetForm).subscribe({
       next: (res: any) => {
@@ -206,15 +217,8 @@ export class LoginComponent {
     });
   }
 
-  public validateEmail(email: string): boolean {
-    console.log("Validando email:", email);
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
-
   public switchToRequestReset(): void {
     this.currentForm = "request-reset";
-    // Reset form values and messages
     this.requestResetForm.email = "";
     this.resetForm = { email: "", code: "", newPassword: "", confirmPassword: "" };
     this.loginError = "";
@@ -225,7 +229,6 @@ export class LoginComponent {
 
   public switchToReset(): void {
     this.currentForm = "reset";
-    // Copy the last entered email from requestResetForm
     this.resetForm.email = this.requestResetForm.email;
     this.resetForm.code = "";
     this.resetForm.newPassword = "";
@@ -238,7 +241,6 @@ export class LoginComponent {
 
   public switchToLogin(): void {
     this.currentForm = "login";
-    // Reset form values and messages
     this.loginForm = { userEmail: "", userPassword: "" };
     this.requestResetForm.email = "";
     this.resetForm = { email: "", code: "", newPassword: "", confirmPassword: "" };
@@ -257,12 +259,12 @@ export class LoginComponent {
   public toggleConfirmPassword(): void {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
+
   /**
    * Construye la URL de autenticación de Google y redirige al usuario.
    * Los parámetros se configuran según la documentación de OAuth 2.0.
    */
   public handleGoogleLogin(): void {
-    // Estas variables deben estar en tu archivo `environment.ts`
     const GOOGLE_CLIENT_ID = environment.googleClientId;
     const REDIRECT_URI = environment.googleRedirectUri;
 
@@ -271,8 +273,8 @@ export class LoginComponent {
       redirect_uri: REDIRECT_URI,
       response_type: 'code',
       scope: 'openid email profile',
-      access_type: 'offline', // Opcional: para obtener un refresh_token
-      prompt: 'consent' // Opcional: para que siempre pida consentimiento
+      access_type: 'offline',
+      prompt: 'consent'
     };
 
     const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams(params);

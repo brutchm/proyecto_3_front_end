@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSave()" class="crop-form">
+  <div class="form-field">
+    <label for="cropName">Nombre del Cultivo</label>
+    <input pInputText id="cropName" formControlName="cropName" />
+  </div>
+
+  <div class="form-field">
+    <label for="cropPicture">Imagen del Cultivo (URL)</label>
+    <div class="image-preview-container">
+      <img [src]="form.get('cropPicture')?.value || 'https://placehold.co/600x400'" alt="Vista previa del cultivo" class="image-preview">
+      <input pInputText id="cropPicture" formControlName="cropPicture" placeholder="https://ejemplo.com/imagen.png"/>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="cropType">Tipo Cultivo</label>
+    <div class="conditional-input-group">
+
+      <p-dropdown 
+        id="cropType" 
+        formControlName="cropType" 
+        [options]="cropTypeOptions" 
+        placeholder="Seleccione un tipo">
+      </p-dropdown>
+    
+      <!-- solo aparece si se selecciona 'Otro' -->
+      @if (isOtherTypeSelected) {
+        <input 
+        pInputText 
+        id="customCropType" 
+        formControlName="customCropType" 
+        placeholder="Especifique el tipo"
+        class="conditional-input"
+        />
+      }
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="cropVariety">Variedad del Cultivo</label>
+    <input pInputText id="cropVariety" formControlName="cropVariety" />
+  </div>
+
+  <div class="form-actions">
+    <button pButton pRipple type="submit" [label]="isEditMode ? 'Guardar' : 'Registrar'" [disabled]="form.invalid"></button>
+  </div>
+</form>

@@ -1,50 +1,201 @@
 <div class="header-bar">
   <i class="fa-solid fa-user"></i>
-  <h2>{{ profileService.user$().name || profileService.user$().businessName || 'Usuario sin nombre' }}</h2>
+  <h2>
+    <ng-container *ngIf="profileService.user$().role?.roleName !== 'CORPORATION'; else editBusinessName">
+      <!--  nombre personal -->
+      <ng-container *ngIf="!editing['name']; else editName">
+        {{ editableUser.name || 'Usuario sin nombre' }}
+        <i class="fa fa-pen edit-icon ms-2" (click)="editing['name'] = true"></i>
+      </ng-container>
+      <ng-template #editName>
+      <input [(ngModel)]="editableUser.name" placeholder="Nombre"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('name') }"(blur)="editing['name'] = false"/>
+      <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('name')">
+      El nombre es obligatorio.
+      </div>
+
+      </ng-template>
+    </ng-container>
+    
+    <ng-template #editBusinessName>
+      <!--  nombre de empresa -->
+      <ng-container *ngIf="!editing['businessName']; else businessNameInput">
+        {{ editableUser.businessName || 'Empresa sin nombre' }}
+        <i class="fa fa-pen edit-icon ms-2" (click)="editing['businessName'] = true"></i>
+      </ng-container>
+      <ng-template #businessNameInput>
+        <input [(ngModel)]="editableUser.businessName"placeholder="Nombre de empresa"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('businessName') }"(blur)="editing['businessName'] = false"/>
+      <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessName')">
+        El nombre de la empresa es obligatorio.
+      </div>
+      </ng-template>
+    </ng-template>
+    
+  </h2>
+
 </div>
+
+<div class="text-start" style="margin-bottom: 40px;">
+  <button class="btn btn-success"
+          (click)="updateProfile()"
+          [disabled]="hasErrors() || isProfileCompletelyEmpty || !hasChanges">
+    Actualizar Perfil
+  </button>
+</div>
+
 
 <div class="row info-container">
   <div class="col-6">
     <div class="shadow-sm body rounded px-4 py-4 h-100">
 
       <ng-container *ngIf="profileService.user$().role?.roleName !== 'CORPORATION'">
+        <!-- Primer Apellido -->
         <div class="border-bottom my-3">
           <label>Primer Apellido:</label>
-          <p>{{ profileService.user$().userFirstSurename || 'No se ha indicado el primer apellido.' }}</p>
+          <ng-container *ngIf="!editing['userFirstSurename']; else editUserFirstSurename">
+            <span>{{ editableUser.userFirstSurename || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['userFirstSurename'] = true"></i>
+          </ng-container>
+          <ng-template #editUserFirstSurename>
+            <input
+            [(ngModel)]="editableUser.userFirstSurename"
+            (ngModelChange)="updateErrorStatus()"
+            [ngClass]="{ 'is-invalid': isFieldInvalid('userFirstSurename') }" (blur)="editing['userFirstSurename'] = false"
+          />
+          <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('userFirstSurename')">
+            El primer apellido es obligatorio.
+          </div>
+        
+          </ng-template>
         </div>
+
+        <!-- Segundo Apellido -->
         <div class="border-bottom my-3">
           <label>Segundo Apellido:</label>
-          <p>{{ profileService.user$().userSecondSurename || 'No se ha indicado el segundo apellido.' }}</p>
+          <ng-container *ngIf="!editing['userSecondSurename']; else editUserSecondSurename">
+            <span>{{ editableUser.userSecondSurename || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['userSecondSurename'] = true"></i>
+          </ng-container>
+          <ng-template #editUserSecondSurename>
+            <input
+            [(ngModel)]="editableUser.userSecondSurename"
+            (ngModelChange)="updateErrorStatus()"
+            [ngClass]="{ 'is-invalid': isFieldInvalid('userSecondSurename') }"
+            (blur)="editing['userSecondSurename'] = false"
+          />
+          <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('userSecondSurename')">
+            El segundo apellido es obligatorio.
+          </div>
+          
+          </ng-template>
         </div>
+
+        <!-- Genero -->
         <div class="border-bottom my-3">
           <label>Género:</label>
-          <p>{{ profileService.user$().userGender || 'No se ha indicado el género.' }}</p>
+          <ng-container *ngIf="!editing['userGender']; else editUserGender">
+            <span>{{ editableUser.userGender || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['userGender'] = true"></i>
+          </ng-container>
+          <ng-template #editUserGender>
+            <select
+            [(ngModel)]="editableUser.userGender"
+            (ngModelChange)="updateErrorStatus()"
+            [ngClass]="{ 'is-invalid': isFieldInvalid('userGender') }"(blur)="editing['userGender'] = false"
+            class="form-control">
+            <option value="" disabled>Seleccione el género</option>
+            <option *ngFor="let gender of gender" [value]="gender">{{ gender }}</option>
+          </select>
+
+          <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('userGender')">
+            El género es obligatorio.
+          </div>          
+           
+          </ng-template>
         </div>
+
+        <!-- Teléfono -->
         <div class="border-bottom my-3">
           <label>Teléfono:</label>
-          <p>{{ profileService.user$().userPhoneNumber || 'No se ha indicado el número de teléfono.' }}</p>
+          <ng-container *ngIf="!editing['userPhoneNumber']; else editPhone">
+            <span>{{ editableUser.userPhoneNumber || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['userPhoneNumber'] = true"></i>
+          </ng-container>
+          <ng-template #editPhone>
+            <input
+            [(ngModel)]="editableUser.userPhoneNumber"
+            (ngModelChange)="updateErrorStatus()"
+            [ngClass]="{ 'is-invalid': isFieldInvalid('userPhoneNumber') }"(blur)="editing['userPhoneNumber'] = false"/>
+          <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('userPhoneNumber')">
+            El teléfono es obligatorio.
+          </div>
+           
+          </ng-template>
         </div>
       </ng-container>
 
+      <!-- CORPORATION -->
       <ng-container *ngIf="profileService.user$().role?.roleName === 'CORPORATION'">
         <div class="border-bottom my-3">
           <label>Misión:</label>
-          <p>{{ profileService.user$().businessMission || 'No se ha indicado la misión de la empresa.' }}</p>
+          <ng-container *ngIf="!editing['businessMission']; else editMission">
+            <span>{{ editableUser.businessMission || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['businessMission'] = true"></i>
+          </ng-container>
+          <ng-template #editMission>
+            <textarea rows="3"
+              [(ngModel)]="editableUser.businessMission"
+              (ngModelChange)="updateErrorStatus()"
+              [ngClass]="{ 'is-invalid': isFieldInvalid('businessMission') }"(blur)="editing['businessMission'] = false"
+            ></textarea>
+            <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessMission')">
+              La misión es obligatoria.
+            </div>
+           
+          </ng-template>
         </div>
+
         <div class="border-bottom my-3">
           <label>Visión:</label>
-          <p>{{ profileService.user$().businessVision || 'No se ha indicado la visión de la empresa.' }}</p>
+          <ng-container *ngIf="!editing['businessVision']; else editVision">
+            <span>{{ editableUser.businessVision || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['businessVision'] = true"></i>
+          </ng-container>
+          <ng-template #editVision>
+            <textarea rows="3"
+              [(ngModel)]="editableUser.businessVision"
+              (ngModelChange)="updateErrorStatus()"
+              [ngClass]="{ 'is-invalid': isFieldInvalid('businessVision') }"(blur)="editing['businessVision'] = false"
+            ></textarea>
+            <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessVision')">
+              La visión es obligatoria.
+            </div>
+          </ng-template>
         </div>
+
         <div class="border-bottom my-3">
           <label>ID Corporativo:</label>
-          <p>{{ profileService.user$().businessId || 'No se ha indicado el ID corporativo.' }}</p>
+          <ng-container *ngIf="!editing['businessId']; else editBusinessId">
+            <span>{{ editableUser.businessId || 'No se ha indicado...' }}</span>
+            <i class="fa fa-pen edit-icon" (click)="editing['businessId'] = true"></i>
+          </ng-container>
+          <ng-template #editBusinessId>
+            <input
+            [(ngModel)]="editableUser.businessId"
+            (ngModelChange)="updateErrorStatus()"
+            [ngClass]="{ 'is-invalid': isFieldInvalid('businessId') }"(blur)="editing['businessId'] = false"
+          />
+          <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessId')">
+            El ID corporativo es obligatorio.
+          </div>
+          </ng-template>
         </div>
+        
       </ng-container>
 
-
+    
       <div class="border-bottom my-3">
         <label>Correo Electrónico:</label>
-        <p>{{ profileService.user$().userEmail || 'No se ha indicado el correo electrónico.' }}</p>
+          <span>{{ editableUser.userEmail || 'No se ha indicado...' }}</span>
       </div>
     </div>
   </div>
@@ -53,35 +204,80 @@
     <div class="shadow-sm body rounded px-4 py-4 h-100">
       <div class="border-bottom my-3">
         <label>Rol:</label>
-        <p>{{ profileService.user$().role?.roleDescription || 'No se ha indicado el rol.' }}</p>
+        <span>{{ editableUser.role?.roleDescription || 'No se ha indicado...' }}</span>
       </div>
+
+      <!-- Pais -->
       <div class="border-bottom my-3">
         <label>País:</label>
-        <p>{{ profileService.user$().businessCountry || 'No se ha indicado el país.' }}</p>
+          <span>{{ editableUser.businessCountry || 'No se ha indicado...' }}</span>
       </div>
-      <div class="border-bottom my-3">
-        <label>Provincia:</label>
-        <p>{{ profileService.user$().businessStateProvince || 'No se ha indicado la provincia.' }}</p>
-      </div>
+
+<!-- Provincia -->
+<div class="border-bottom my-3">
+  <label>Provincia:</label>
+  <ng-container *ngIf="!editing['businessStateProvince']; else editProvince">
+    <span>{{ editableUser.businessStateProvince || 'No se ha indicado...' }}</span>
+    <i class="fa fa-pen edit-icon" (click)="editing['businessStateProvince'] = true"></i>
+  </ng-container>
+
+  <ng-template #editProvince>
+    <select
+      [(ngModel)]="editableUser.businessStateProvince"
+      (ngModelChange)="updateErrorStatus()"
+      [ngClass]="{ 'is-invalid': isFieldInvalid('businessStateProvince') }"(blur)="editing['businessStateProvince'] = false"
+      class="form-control">
+      <option value="" disabled>Seleccione una provincia</option>
+      <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
+    </select>
+
+    <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessStateProvince')">
+      La provincia es obligatoria.
+    </div>
+  </ng-template>
+</div>
+
+
+      <!-- Direcciones -->
       <div class="border-bottom my-3">
         <label>Otras Direcciones:</label>
-        <p>{{ profileService.user$().businessOtherDirections || 'No se han indicado otras direcciones.' }}</p>
+        <ng-container *ngIf="!editing['businessOtherDirections']; else editDirections">
+          <span>{{ editableUser.businessOtherDirections || 'No se ha indicado...' }}</span>
+          <i class="fa fa-pen edit-icon" (click)="editing['businessOtherDirections'] = true"></i>
+        </ng-container>
+        <ng-template #editDirections>
+          <textarea [(ngModel)]="editableUser.businessOtherDirections" rows="2" (blur)="editing['businessOtherDirections'] = false" (ngModelChange)="updateErrorStatus()"></textarea>
+        </ng-template>
       </div>
 
       <div class="my-3">
         <label>Última Actualización:</label>
-        <p>{{ profileService.user$().updatedAt ? (profileService.user$().updatedAt | date: 'dd/MM/yyyy') : 'No se ha indicado una fecha.' }}</p>
+        <p>{{ editableUser.updatedAt ? (editableUser.updatedAt | date: 'dd/MM/yyyy HH:mm:ss') : 'No se ha indicado una fecha.' }}</p>
       </div>
+
+
     </div>
   </div>
 </div>
 
-
-<div class="map-wrapper">
-  <label>Localización por GPS</label>
+<!-- Mapa -->
+<div class="map-wrapper mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <label>Localización por Mapa</label>
+    <i class="fa fa-pen edit-icon" title="Editar ubicación" (click)="enableMapEditing()" *ngIf="hasValidLocation"></i>
+  </div>
+  <label>Coordenadas actuales: {{ editableUser.businessLocation || 'No se ha indicado...' }}</label>
   <div id="map" class="map-container" [ngClass]="{ 'd-none': !hasValidLocation }"></div>
+  <p *ngIf="!hasValidLocation" class="no-location-msg d-flex justify-content-between align-items-center">
+    <span>Todavía no se ha indicado una ubicación en mapa.</span>
+    <button class="btn btn-outline-success btn-sm ms-2"
+    style="border-color: #4CAF50;"
+    (click)="initMapForEmptyLocation()"
+    title="Agregar ubicación">
+<i class="fa fa-plus"></i>
+</button>
 
-  <p *ngIf="!hasValidLocation" class="no-location-msg">
-    Todavía no se ha indicado una ubicación por GPS.
   </p>
 </div>
+
+

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterModule } from '@angular/router';
 import { TopbarComponent } from './elements/topbar/topbar.component';
 import { SidebarComponent } from './elements/sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,7 @@ import { SvgIconComponent } from '../svg-icon/svg-icon.component';
   imports: [
     CommonModule,
     RouterOutlet,
+    RouterModule,
     TopbarComponent,
     SidebarComponent,
     SvgIconComponent

@@ -64,13 +64,12 @@ export class CorporationFormComponent implements AfterViewInit {
       businessStateProvince: formData.businessStateProvince,
       businessOtherDirections: formData.businessOtherDirections,
       businessLocation: formData.businessLocation,
-      userName: formData.userName,
+      name: formData.name,
       userFirstSurename: formData.userFirstSurename,
       userSecondSurename: formData.userSecondSurename,
       userGender: formData.userGender,
       userPhoneNumber: formData.userPhoneNumber,
       userEmail: formData.userEmail,
-      // Asignamos la contraseña solo si existe, si no, es null.
       userPassword: formData.userPassword || null,
       role: {
         id: 3,
