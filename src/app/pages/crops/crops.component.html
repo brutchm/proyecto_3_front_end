@@ -1,0 +1,42 @@
+<p-toast></p-toast>
+ <p-confirmDialog key="deleteCrop">
+  <ng-template pTemplate="footer">
+    <div class="confirmation-buttons">
+        <p-button (click)="onRejectDelete()" label="Cancelar" severity="success" />
+        <p-button (click)="onConfirmDelete()" label="Eliminar" severity="danger"/>
+    </div>
+  </ng-template>
+</p-confirmDialog>
+
+<div class="crops-page-container">
+  <div class="toolbar">
+    <h2>Mis Cultivos</h2>
+    <button pButton type="button" label="Crear Cultivo" icon="pi pi-plus" (click)="showCreateDialog()"></button>
+  </div>
+
+  <app-crop-list 
+    [crops]="crops"
+    [isLoading]="isLoading" 
+    [totalRecords]="totalRecords"
+    [rows]="rows"
+    (pageChange)="loadCrops($event)"
+    (edit)="showEditDialog($event)" 
+    (delete)="handleDelete($event)">
+  </app-crop-list>
+</div>
+
+<p-dialog 
+  [header]="isEditMode ? 'Actualización de Cultivos' : 'Registro de Cultivos'" 
+  [(visible)]="displayDialog" 
+  [modal]="true" 
+  [style]="{ width: '35rem' }" 
+  [draggable]="false" 
+  [resizable]="false"
+  (onHide)="currentCropId = undefined">
+  
+  <app-crop-form 
+    [form]="cropForm" 
+    [isEditMode]="isEditMode"
+    (save)="handleSave()">
+  </app-crop-form>
+</p-dialog>

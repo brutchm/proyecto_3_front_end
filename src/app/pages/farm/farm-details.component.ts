@@ -104,8 +104,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   openNewGroupModal() {
     this.newGroupForm = this.fb.group({
       groupName: ["", Validators.required],
-      species: ["", Validators.required],
-      count: [1, [Validators.required, Validators.min(1)]],
       measure: ["", Validators.required],
       productionType: ["", Validators.required],
       isActive: [true, Validators.required],

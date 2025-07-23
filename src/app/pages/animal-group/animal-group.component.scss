@@ -1,7 +1,7 @@
 .animal-group-message {
   margin: 2rem auto;
   padding: 2rem;
-  background: #f8f8f8;
+  background: var(--card-bg);;
   border-radius: 8px;
   max-width: 400px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -127,4 +127,310 @@ button.btn.btn-edit.farm-btn.farm-btn-edit {
     color: var(--color-text-primary);
     margin-bottom: 0.35rem;
   }
+}
+
+
+
+// Contenedor general con botón superior
+.animal-group-container {
+  background-color: var(--color-divider);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem;
+  color: var(--color-text-primary);
+  gap: 2rem;
+  .top-button {
+    align-self: flex-start;
+
+    .btn {
+      background-color: var(--color-btn-blue);
+      color: var(--color-btn-secondary-text);
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: var(--color-btn-secondary-hover);
+      }
+    }
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    .info-section {
+      flex: 1;
+      max-width: 450px;
+      color: white;
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 1.5rem;
+      }
+
+
+    }
+
+    .animal-group-message {
+      flex: 1;
+      background-color: var(--color-divider);
+      color: var(--color-text-primary);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+      max-width: 500px;
+
+      h2 {
+        margin-bottom: 1.5rem;
+        color: var(--color-accent);
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+
+        strong {
+          color: var(--color-text-primary);
+        }
+      }
+
+      .animal-group-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+
+        .btn {
+          border-radius: 6px;
+          padding: 0.5rem 1.5rem;
+          font-weight: 500;
+          font-size: 0.95rem;
+          border: none;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &.btn-edit {
+            background-color: var(--color-btn-primary);
+            color: var(--color-btn-primary-text);
+
+            &:hover {
+              background-color: var(--color-btn-primary-hover);
+            }
+          }
+
+          &.btn-delete {
+            background-color: var(--color-warning);
+            color: var(--color-btn-primary-text);
+
+            &:hover {
+              background-color: #d32f2f;
+            }
+
+            &:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  transition: background-color 0.2s, opacity 0.2s;
+  border: none;
+  cursor: pointer;
+
+  &.btn-primary {
+    background-color: var(--color-btn-primary);
+    color: var(--color-btn-primary-text);
+
+    &:hover {
+      background-color: var(--color-btn-primary-hover);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &.btn-secondary {
+    background-color: var(--color-btn-secondary);
+    color: var(--color-btn-secondary-text);
+
+    &:hover {
+      background-color: var(--color-btn-secondary-hover);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &.btn-danger {
+    background-color: var(--color-warning);
+    color: var(--color-btn-primary-text);
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &.btn-blue {
+    background-color: var(--color-btn-blue);
+    color: var(--color-btn-primary-text);
+  }
+}
+
+
+p,h2,label{
+
+  color: var(--color-text-primary);
+}
+.animal-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+  overflow: hidden;
+  p{
+
+    color: var(--color-text-primary);
+  }
+}
+
+.animal-card-header {
+  background-color: #3ba86d;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-divider);
+}
+.animal-card-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.animal-card-container::-webkit-scrollbar-thumb {
+  background-color: #3ba86d;
+  border-radius: 4px;
+}
+.animal-card-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 1rem; 
+  border: 3px solid var(--color-divider);
+}
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+
+input.form-control {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+}
+
+input.form-control::placeholder {
+  color: var(--color-text-secondary);
+}
+
+input.form-control:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+}
+
+
+label {
+  color: var(--color-text-secondary);
+}
+
+
+.btn.btn-primary {
+  background-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+}
+
+.btn.btn-primary:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.animal-group-extra-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: var(--color-divider);
+  border-radius: 8px;
+  h3 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+  }
+}
+
+
+.animal-group-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.animal-form-container {
+  flex: 1;
+  min-width: 300px;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.info-section img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  border: none;
+}
+
+.nameFarmSelected{
+
+  color: var(--color-accent);
 }

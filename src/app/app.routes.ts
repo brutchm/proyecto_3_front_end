@@ -2,7 +2,6 @@ import { Routes } from "@angular/router";
 import { LoginComponent } from "./pages/auth/login/login.component";
 import { AppLayoutComponent } from "./components/app-layout/app-layout.component";
 import { SignUpComponent } from "./pages/auth/sign-up/signup.component";
-import { UsersComponent } from "./pages/users/users.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { AccessDeniedComponent } from "./pages/access-denied/access-denied.component";
 import { AdminRoleGuard } from "./guards/admin-role.guard";
@@ -10,10 +9,6 @@ import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { GuestGuard } from "./guards/guest.guard";
 import { IRoleType } from "./interfaces";
 import { ProfileComponent } from "./pages/profile/profile.component";
-import { GamesComponent } from "./pages/games/games.component";
-import { OrdersComponent } from "./pages/orders/orders.component";
-import { PreferenceListPageComponent } from "./pages/preferenceList/preference-list.component";
-import { SportTeamComponent } from "./pages/sport-team/sport-team.component";
 import { CorporationComponent } from "./pages/users/corporation/corporation.component";
 import { FarmComponent } from "./pages/farm/farm.component";
 import { AuthCallbackComponent } from "./pages/auth/callback/auth-callback.component";
@@ -22,6 +17,7 @@ import { GoogleUserSignupComponent } from "./pages/auth/google-signup-user/googl
 import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-corporation/google-signup-corporation.component";
 import { ListCorporationComponent } from "./pages/users/corporation/listCorporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
+import { CropsComponent } from './pages/crops/crops.component';
 
 export const routes: Routes = [
   {
@@ -82,19 +78,6 @@ export const routes: Routes = [
         redirectTo: "users",
         pathMatch: "full",
       },
-      // {
-      //   path: "users",
-      //   component: UsersComponent,
-      //   canActivate: [AdminRoleGuard],
-      //   data: {
-      //     authorities: [
-      //       IRoleType.admin,
-      //       IRoleType.superAdmin,
-      //     ],
-      //     name: "Users",
-      //     showInSidebar: true,
-      //   },
-      // },
       {
         path: "dashboard",
         component: DashboardComponent,
@@ -109,6 +92,15 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'crops',
+        component: CropsComponent,
+        data: {
+          name: 'Mis Cultivos',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
         path: "profile",
         component: ProfileComponent,
         data: {
@@ -121,24 +113,6 @@ export const routes: Routes = [
           showInSidebar: false,
         },
       },
-      // {
-      //   path: 'profileCorporation',
-      //   component: ProfileCorporationComponent,
-      //   data: {
-      //     authorities: [
-      //       IRoleType.admin,
-      //       IRoleType.superAdmin,
-      //       IRoleType.user
-      //     ],
-      //     name: 'profileCorporation',
-      //     showInSidebar: false
-      //   }
-      //       IRoleType.user,
-      //     ],
-      //     name: "profile",
-      //     showInSidebar: false,
-      //   },
-      // },
       {
         path: "listCorporation",
         component: ListCorporationComponent,

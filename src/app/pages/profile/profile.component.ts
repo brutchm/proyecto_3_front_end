@@ -58,8 +58,7 @@ updateErrorStatus(): void {
 
   f['businessCountry'] = !u.businessCountry?.trim();
   f['businessStateProvince'] = !u.businessStateProvince?.trim();
-  f['businessOtherDirections'] = !u.businessOtherDirections?.trim();
-
+  f['businessOtherDirections'] = false;
   if (role === 'CORPORATION') {
     f['businessName'] = !u.businessName?.trim();
     f['businessMission'] = !u.businessMission?.trim();
@@ -81,6 +80,10 @@ updateErrorStatus(): void {
 
     effect(() => {
       const user = this.profileService.user$();
+
+      if (!user.businessCountry?.trim()) {//en caso de que se registre nulo en la bd
+        user.businessCountry = CountryEnum.COSTA_RICA;
+      }
       this.editableUser = { ...user };
       this.originalUser = { ...user };
 
@@ -209,6 +212,9 @@ updateErrorStatus(): void {
 
   updateProfile() {
     const u = this.editableUser;
+    if (!u.businessCountry?.trim()) {
+      u.businessCountry = CountryEnum.COSTA_RICA;
+    }
     const myUser: IUser = {
       id: u.id,
       name: u.name,
