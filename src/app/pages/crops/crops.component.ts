@@ -12,6 +12,7 @@ import { ICrop } from '../../interfaces/crop.interface';
 import { CropService, GlobalResponse } from '../../services/crop.service';
 import { CropListComponent } from '../../components/crop/crop-list/crop-list.component';
 import { CropFormComponent } from '../../components/crop/crop-form/crop-form.component';
+import { TablePageEvent } from 'primeng/table';
 
 /**
  * @class CropsComponent
@@ -42,20 +43,27 @@ export class CropsComponent implements OnInit {
   displayDialog: boolean = false;
   isEditMode: boolean = false;
   currentCropId?: number;
+
   isLoading: boolean = true;
+  totalRecords: number = 0;
+  rows: number = 5;
 
   private cropToDelete: ICrop | null = null;
 
   ngOnInit(): void {
-    this.loadCrops();
     this.initializeForm();
+    this.loadCrops({ first: 0, rows: this.rows });
   }
 
-  loadCrops(): void {
+  loadCrops(event?: { first: number, rows: number }): void {
     this.isLoading = true;
-    this.cropService.getCrops().subscribe({
+    const page = event ? (event.first / event.rows) + 1 : 1;
+    const size = event ? event.rows : this.rows;
+
+    this.cropService.getCrops(page, size).subscribe({
       next: (response: GlobalResponse<ICrop[]>) => {
-        this.crops = response.data.filter(crop => crop.isActive);
+        this.crops = response.data;
+        this.totalRecords = response['meta'].totalElements;
         this.isLoading = false;
       },
       error: () => {
@@ -69,8 +77,15 @@ export class CropsComponent implements OnInit {
     this.cropForm = this.fb.group({
       cropName: ['', Validators.required],
       cropType: [''],
-      cropVariety: [''],
-      cropPicture: ['']
+      cropPicture: [''],
+      customCropType: [''], 
+      cropVariety: ['']
+    });
+
+    this.cropForm.get('cropType')?.valueChanges.subscribe(value => {
+      if (value !== 'Otro') {
+        this.cropForm.get('customCropType')?.reset('');
+      }
     });
   }
 
@@ -140,7 +155,6 @@ export class CropsComponent implements OnInit {
    * Contiene la lógica de negocio que antes estaba en el callback 'accept'.
    */
   onConfirmDelete(): void {
-    // Cierra el diálogo
     this.confirmationService.close();
 
     if (this.cropToDelete && this.cropToDelete.id) {

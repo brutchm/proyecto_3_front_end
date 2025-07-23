@@ -15,7 +15,11 @@
   </div>
 
   <app-crop-list 
-    [crops]="crops" 
+    [crops]="crops"
+    [isLoading]="isLoading" 
+    [totalRecords]="totalRecords"
+    [rows]="rows"
+    (pageChange)="loadCrops($event)"
     (edit)="showEditDialog($event)" 
     (delete)="handleDelete($event)">
   </app-crop-list>
