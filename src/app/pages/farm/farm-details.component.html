@@ -107,24 +107,7 @@
                           class="invalid-feedback">
                           Este campo es requerido.</div>
                       </div>
-                      <div class="form-group mt-3">
-                        <label>Especie</label>
-                        <input formControlName="species" class="form-control farm-input"
-                          [class.is-invalid]="newGroupForm.controls['species'].invalid && (newGroupForm.controls['species'].dirty || newGroupForm.controls['species'].touched)" />
-                        <div
-                          *ngIf="newGroupForm.controls['species'].invalid && (newGroupForm.controls['species'].dirty || newGroupForm.controls['species'].touched)"
-                          class="invalid-feedback">
-                          Este campo es requerido.</div>
-                      </div>
-                      <div class="form-group mt-3">
-                        <label>Cantidad</label>
-                        <input formControlName="count" class="form-control farm-input" type="number" min="1"
-                          [class.is-invalid]="newGroupForm.controls['count'].invalid && (newGroupForm.controls['count'].dirty || newGroupForm.controls['count'].touched)" />
-                        <div
-                          *ngIf="newGroupForm.controls['count'].invalid && (newGroupForm.controls['count'].dirty || newGroupForm.controls['count'].touched)"
-                          class="invalid-feedback">
-                          Ingrese un número válido.</div>
-                      </div>
+                     
                       <div class="form-group mt-3">
                         <label>Unidad de medida</label>
                         <select formControlName="measure" class="form-control farm-input"

@@ -23,8 +23,6 @@
       <ng-container *ngIf="error">{{ error }}</ng-container>
       <ng-container *ngIf="groupAnimal && !loading && !error">
         <p><strong>Nombre:</strong> {{ groupAnimal.groupName }}</p>
-        <p><strong>Especie:</strong> {{ groupAnimal.species }}</p>
-        <p><strong>Cantidad:</strong> {{ groupAnimal.count }}</p>
         <p><strong>Unidad de medida:</strong> {{ groupAnimal.measure }}</p>
         <p><strong>Tipo de producción:</strong> {{ groupAnimal.productionType }}</p>
         <div class="animal-group-actions">
@@ -118,20 +116,6 @@
               [class.is-invalid]="editGroupForm.controls['groupName'].invalid && (editGroupForm.controls['groupName'].dirty || editGroupForm.controls['groupName'].touched)" />
             <div *ngIf="editGroupForm.controls['groupName'].invalid && (editGroupForm.controls['groupName'].dirty || editGroupForm.controls['groupName'].touched)" class="invalid-feedback">
               Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
-            <label>Especie</label>
-            <input formControlName="species" class="form-control farm-input"
-              [class.is-invalid]="editGroupForm.controls['species'].invalid && (editGroupForm.controls['species'].dirty || editGroupForm.controls['species'].touched)" />
-            <div *ngIf="editGroupForm.controls['species'].invalid && (editGroupForm.controls['species'].dirty || editGroupForm.controls['species'].touched)" class="invalid-feedback">
-              Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
-            <label>Cantidad</label>
-            <input formControlName="count" class="form-control farm-input" type="number" min="1"
-              [class.is-invalid]="editGroupForm.controls['count'].invalid && (editGroupForm.controls['count'].dirty || editGroupForm.controls['count'].touched)" />
-            <div *ngIf="editGroupForm.controls['count'].invalid && (editGroupForm.controls['count'].dirty || editGroupForm.controls['count'].touched)" class="invalid-feedback">
-              Ingrese un número válido.</div>
           </div>
           <div class="form-group mt-3">
             <label>Unidad de medida</label>

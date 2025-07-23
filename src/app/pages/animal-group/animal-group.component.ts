@@ -114,8 +114,6 @@ export class AnimalGroupComponent {
     if (!this.groupAnimal) return;
     this.editGroupForm = this.fb.group({
       groupName: [this.groupAnimal.groupName, Validators.required],
-      species: [this.groupAnimal.species, Validators.required],
-      count: [this.groupAnimal.count, [Validators.required, Validators.min(1)]],
       measure: [this.groupAnimal.measure, Validators.required],
       productionType: [this.groupAnimal.productionType, Validators.required],
     });
