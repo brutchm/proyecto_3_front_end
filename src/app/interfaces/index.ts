@@ -12,9 +12,22 @@ export interface IResponse<T> {
 export interface IUser {
   id?: number;
   name?: string;
-  lastname?: string;
-  email?: string;
-  password?: string;
+  userFirstSurename?: string;
+  userSecondSurename?: string;
+  
+  businessName?: string;
+  businessMission?: string;
+  businessVision?: string;
+  businessId?: string;
+  businessCountry?: string;
+  businessStateProvince?: string;
+  businessOtherDirections?: string;
+  businessLocation?: string;
+  userGender?: string;
+  userPhoneNumber?: string;
+  
+  userEmail?: string;
+  userPassword?: string;
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -38,33 +51,17 @@ export enum IFeedbackStatus {
 }
 
 export enum IRoleType {
-  admin = "ROLE_ADMIN",
   user = "ROLE_USER",
+  admin = "ROLE_CORPORATION",
   superAdmin = 'ROLE_SUPER_ADMIN'
 }
 
 export interface IRole {
   createdAt: string;
-  description: string;
+  roleDescription: string;
   id: number;
-  name : string;
+  roleName : string;
   updatedAt: string;
-}
-
-export interface IGame {
-  id?: number;
-  name?: string;
-  imgURL?: string;
-  status?: string;
-  description?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface IOrder {
-  id?: number;
-  description?: string;
-  total?: number;
 }
 
 export interface ISearch {
@@ -74,33 +71,4 @@ export interface ISearch {
   pageSize?: number;
   totalElements?: number;
   totalPages?:number;
-}
-
-export interface IMovie {
-  id?: number;
-  title?: string;
-  director?: string;
-  description?: string;
-}
-
-export interface IPreferenceList {
-  id?: number;
-  name?: string;
-  movies?: IMovie[];
-}
-
-export interface ISportTeam {
-  id?: number;
-  name?: string;
-  players?: IPlayer[];
-  stadium?: string;
-  founded?: number;
-  coach?: string;
-  isInClubsWorldCup?: boolean;
-  teamLogo?: string;
-}
-
-export interface IPlayer {
-  id?: number;
-  name?: string;
 }

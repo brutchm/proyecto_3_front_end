@@ -1,0 +1,222 @@
+.about-project-section {
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  // flex-direction: column;
+  // flex-wrap: wrap;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+  .about-box, .project-box {
+    background: rgba(34,36,40,0.85);
+    border: 1px solid var(--color-divider);
+    color: var(--color-text-primary);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border-radius: 1rem;
+    min-width: 220px;
+    min-height: 180px;
+    flex: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .about-box:hover, .project-box:hover {
+    box-shadow: 0 6px 32px rgba(76,175,80,0.10);
+    border-color: var(--color-accent);
+  }
+  h2 {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+  }
+  p {
+    color: var(--color-text-secondary);
+    font-size: 1.08rem;
+    margin-bottom: 0;
+  }
+}
+.hero-section {
+  margin-bottom: 5rem  !important;
+  .hero-img {
+    margin: 0 auto;
+    display: block;
+    background: #181A20;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+    max-width: 460px;
+    width: 100%;
+    border: 1.5px solid var(--color-divider);
+  }
+  h1 {
+    color: var(--color-text-primary);
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 1.5rem;
+  }
+  .lead {
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.vision-mission-section {
+  gap: 2rem;
+  margin-bottom: 5rem;
+  display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // @media (min-width: 768px) {
+  //   flex-direction: row;
+  // }
+  .vision-box, .mission-box {
+    background: rgba(34,36,40,0.85);
+    border: 1px solid var(--color-divider);
+    color: var(--color-text-primary);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border-radius: 1rem;
+    min-width: 220px;
+    min-height: 180px;
+    flex: 1 !important;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .vision-box:hover, .mission-box:hover {
+    box-shadow: 0 6px 32px rgba(76,175,80,0.10);
+    border-color: var(--color-accent);
+  }
+  h2 {
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
+  }
+  p {
+    color: var(--color-text-secondary);
+    font-size: 1.08rem;
+    margin-bottom: 0;
+  }
+}
+
+
+
+.portfolio-landing {
+  background: linear-gradient(135deg, #23272F 0%, #181A20 100%);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  padding: 2.5rem 1.5rem;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  border: 1.5px solid var(--color-divider);
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio-landing::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  opacity: 0.08;
+  z-index: 0;
+}
+
+.portfolio-landing section {
+  position: relative;
+  z-index: 1;
+}
+
+.portfolio-landing h1, .portfolio-landing h2, .portfolio-landing h3, .portfolio-landing h4 {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.portfolio-landing .lead {
+  color: var(--color-text-secondary);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-section .card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  color: var(--color-text-primary);
+}
+.team-section .card:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 6px 32px rgba(76,175,80,0.10);
+  border-color: var(--color-accent);
+}
+
+.card-img-top {
+  border: 3px solid var(--color-accent);
+  background: #23272F;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.portfolio-landing .btn-primary {
+  background: var(--color-accent);
+  color: var(--color-btn-primary-text);
+  border: none;
+  border-radius: 2rem;
+  padding: 0.75rem 2.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.portfolio-landing .btn-primary:hover {
+  background: var(--color-btn-primary-hover);
+  box-shadow: 0 4px 16px rgba(76,175,80,0.18);
+}
+
+.portfolio-landing .card-title {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+.portfolio-landing .card-text {
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .portfolio-landing {
+    padding: 1.2rem 0.5rem;
+  }
+}
+
+.team-section .card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.team-section .card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+
+.card-img-top {
+  border: 4px solid #f8f9fa;
+}
+
+@media (max-width: 768px) {
+  .portfolio-landing {
+    padding: 1rem 0.5rem;
+  }
+}

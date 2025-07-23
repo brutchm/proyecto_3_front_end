@@ -1,47 +1,184 @@
-.login-container {
+.login {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
-  background-position: left;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 20px 20%;
+  background: var(--color-bg-main);
+  font-family: var(--font-family-base);
+}
+
+.login-card {
+  background-color: var(--card-bg);
+  border-radius: 24px;
+  padding: 64px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  color: var(--color-text-primary);
+  min-width: 678px;
+  border: 1px solid var(--card-border);
+}
+
+.login h4 {
+  font-weight: var(--table-header-font-weight);
+  font-size: 36px;
+  margin-bottom: 16px;
+  color: var(--color-text-primary);
+}
+
+.login p {
+  font-size: 16px;
+  margin-bottom: 32px;
+  color: var(--color-text-secondary);
+}
+
+form {
+  max-width: 380px;
+}
+
+.form-control {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-family-base);
+}
+
+.password-wrapper {
   position: relative;
-  &::before {
-    content: '';
+
+  .eye-btn {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
-    z-index: 1;
+    right: 20px;
+    top: 48%;
+    transform: translateY(-48%);
+    cursor: pointer;
+    background: none;
+    border: none; 
+    outline: none;
+    opacity: 0.6;
   }
-  .login-card {
-    position: relative;
-    z-index: 2;
-    width: 50%;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-    margin: 0 auto;
-    background-color: #fff;
+}
+
+.form-control::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.form-control:focus {
+  border-color: var(--color-accent);
+  box-shadow: none;
+  color: var(--color-text-primary);
+}
+
+.forgot-password {
+  text-align: right;
+}
+
+.btn-primary {
+  background-color: var(--color-btn-primary);
+  border-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: var(--font-family-base);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-btn-primary-hover);
+  border-color: var(--color-btn-primary-hover);
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: var(--color-link-active);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+.google-login {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--input-border);
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--dropdown-bg);
+  color: var(--input-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: var(--font-family-base);
+}
+
+.google-login img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.google-login:hover {
+  background-color: var(--dropdown-option-bg);
+}
+
+.btn-google-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  color: var(--input-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: var(--font-family-base);
+}
+
+.is-invalid {
+  border: 1px solid var(--color-warning) !important;
+}
+
+.is-valid {
+  border: 1px solid var(--color-success) !important;
+}
+
+[data-handler-form] {
+
+  [data-login-form]{
+    display: block;
   }
-  @media screen and (min-width: 801px) and (max-width: 1500px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 60%;
-      .login-main {
-        padding: 0px;
-      }
-    }
+
+  [data-login-reset-pass]{
+    display: none;
   }
-  @media screen and (max-width: 800px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 100%;
-      .login-main {
-        padding: 0px;
-      }
-    }
+}
+
+
+[data-handler-form="login" ] {
+
+  [data-login-form]{
+    display: block;
+  }
+
+  [data-login-reset-pass]{
+    display: none;
+  }
+}
+
+
+[data-handler-form="reset" ] {
+
+  [data-login-form]{
+    display: none;
+  }
+
+  [data-login-reset-pass]{
+    display: block;
   }
 }

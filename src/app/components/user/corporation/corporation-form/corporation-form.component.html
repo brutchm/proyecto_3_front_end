@@ -1,0 +1,234 @@
+<div class="container-form-wrapper">
+  <div class="description-section">
+    <h2>¡Bienvenido!</h2>
+    <p>
+      Por favor complete la información para registrar su corporación. Esta
+      información será utilizada para crear su perfil empresarial y brindarle
+      una mejor experiencia.
+    </p>
+    <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2)" />
+    <p class="small text-white-50">¿Ya tienes una cuenta?</p>
+    <a href="/login" class="btn btn-outline-light">Iniciar Sesión</a>
+  </div>
+
+  <form [formGroup]="form" class="corporation-form">
+    <div class="row">
+      <div class="col-full">
+        <h2 class="text-center">Registrar Corporación</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="businessName" class="form-label"
+          >Nombre de la Empresa*</label
+        >
+        <input
+          id="businessName"
+          formControlName="businessName"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese el nombre de la empresa"
+        />
+        @if (form.controls['businessName'].invalid &&
+        (form.controls['businessName'].dirty ||
+        form.controls['businessName'].touched)) {
+        <div class="text-danger mt-1">El nombre de la empresa es requerido</div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="businessId" class="form-label"
+          >Identificación Empresarial*</label
+        >
+        <input
+          id="businessId"
+          formControlName="businessId"
+          type="text"
+          class="form-control"
+          placeholder="Ingrese el número de identificación"
+        />
+        @if (form.controls['businessId'].invalid &&
+        (form.controls['businessId'].dirty ||
+        form.controls['businessId'].touched)) {
+        <div class="text-danger mt-1">El ID es requerido</div>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="businessMission" class="form-label">Misión*</label>
+        <textarea
+          id="businessMission"
+          formControlName="businessMission"
+          class="form-control"
+          rows="3"
+          placeholder="Ingrese la misión empresarial"
+        ></textarea>
+        @if (form.controls['businessMission'].invalid &&
+        (form.controls['businessMission'].dirty ||
+        form.controls['businessMission'].touched)) {
+        <div class="text-danger mt-1">La misión de la empresa es requerida</div>
+        }
+      </div>
+      <div class="col-1-2 mb-3">
+        <label for="businessVision" class="form-label">Visión*</label>
+        <textarea
+          id="businessVision"
+          formControlName="businessVision"
+          class="form-control"
+          rows="3"
+          placeholder="Ingrese la visión empresarial"
+        ></textarea>
+        @if (form.controls['businessVision'].invalid &&
+        (form.controls['businessVision'].dirty ||
+        form.controls['businessVision'].touched)) {
+        <div class="text-danger mt-1">La visión de la empresa es requerida</div>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="businessCountry" class="form-label">País*</label>
+        <select
+          id="businessCountry"
+          formControlName="businessCountry"
+          class="form-control"
+        >
+          <option *ngFor="let country of countries" [value]="country">
+            {{ country }}
+          </option>
+        </select>
+        @if (form.controls['businessCountry'].invalid &&
+        (form.controls['businessCountry'].dirty ||
+        form.controls['businessCountry'].touched)) {
+        <div class="text-danger mt-1">El país es requerido</div>
+        }
+      </div>
+
+      <div class="col-1-2 mb-3">
+        <label for="businessStateProvince" class="form-label">Provincia*</label>
+        <select
+          id="businessStateProvince"
+          formControlName="businessStateProvince"
+          class="form-control"
+        >
+          <option value="" disabled selected>Seleccione una provincia</option>
+          <option *ngFor="let province of provinces" [value]="province">
+            {{ province }}
+          </option>
+        </select>
+        @if (form.controls['businessStateProvince'].invalid &&
+        (form.controls['businessStateProvince'].dirty ||
+        form.controls['businessStateProvince'].touched)) {
+        <div class="text-danger mt-1">La provincia es requerida</div>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="businessOtherDirections" class="form-label"
+          >Otras Direcciones</label
+        >
+        <textarea
+          id="businessOtherDirections"
+          formControlName="businessOtherDirections"
+          class="form-control"
+          rows="2"
+          placeholder="Direcciones adicionales"
+        ></textarea>
+
+        <div class="spacer-vertical"></div>
+        <label for="businessLocation" class="form-label">Coordenadas</label>
+        <input
+          id="businessLocation"
+          formControlName="businessLocation"
+          type="text"
+          class="form-control"
+          readonly
+        />
+      </div>
+
+      <div class="col-1-2 mb-3">
+        <label for="businessLocation" class="form-label"
+          >Localización en Mapa</label
+        >
+        <div id="map" class="map-container mb-2"></div>
+      </div>
+    </div>
+    <div class="col-1-2 mb-3">
+      <label for="userEmail" class="form-label">Correo Electrónico*</label>
+      <input
+        id="userEmail"
+        formControlName="userEmail"
+        type="email"
+        class="form-control"
+        placeholder="correo@ejemplo.com"
+      />
+      @if (form.controls['userEmail'].invalid &&
+      (form.controls['userEmail'].dirty || form.controls['userEmail'].touched))
+      {
+      <div class="text-danger mt-1">Ingrese un correo válido</div>
+      }
+    </div>
+
+    @if (form.controls['userPassword']) {
+    <div class="col-1-2 mb-3">
+      <label for="userPassword" class="form-label">Contraseña*</label>
+      <input
+        id="userPassword"
+        formControlName="userPassword"
+        type="password"
+        class="form-control"
+        placeholder="Ingrese una contraseña"
+      />
+      @if (form.controls['userPassword'].invalid &&
+      (form.controls['userPassword'].dirty ||
+      form.controls['userPassword'].touched)) {
+      <div class="text-danger mt-1">
+        @if (form.controls['userPassword'].errors?.['required']) { La contraseña
+        es requerida } @if
+        (form.controls['userPassword'].errors?.['insecurePassword']) { La
+        contraseña debe tener al menos 8 caracteres, una mayúscula, una
+        minúscula, un número y un carácter especial }
+      </div>
+      }
+    </div>
+    } @if (form.controls['confirmPassword']) {
+    <div class="row">
+      <div class="col-1-2 mb-3">
+        <label for="confirmPassword" class="form-label"
+          >Confirme nuevamente su Contraseña*</label
+        >
+        <input
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          type="password"
+          class="form-control"
+          placeholder="Confirme la contraseña"
+        />
+        @if ((form.controls['confirmPassword'].invalid ||
+        form.errors?.['passwordMismatch']) &&
+        (form.controls['confirmPassword'].dirty ||
+        form.controls['confirmPassword'].touched)) {
+        <div class="text-danger mt-1">
+          La confirmación de la contraseña es requerida y deben coincidir
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <div class="text-end mt-3">
+      <button
+        (click)="callSave()"
+        [disabled]="form.invalid"
+        class="btn btn-primary"
+      >
+        Registrarse
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<div class="container-form-wrapper">
+  <div class="description-section">
+    <h2>¡Bienvenido!</h2>
+    <p>
+      Estás a un solo paso de completar tu perfil. Por favor, indícanos qué tipo
+      de cuenta deseas crear en la plataforma.
+    </p>
+    <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2)" />
+    <p class="small text-white-50">¿Necesitas volver?</p>
+    <a routerLink="/login" class="btn btn-outline-light"
+      >Cancelar e Ir a Login</a
+    >
+  </div>
+
+  <div class="selection-form">
+    <h2 class="text-center">Selecciona tu Tipo de Cuenta</h2>
+    <p class="text-center text-muted mt-2">
+      Elige el perfil que mejor se adapte a tus necesidades.
+    </p>
+
+    <div class="button-group">
+      <a routerLink="/auth/google-signup-user" class="btn btn-primary btn-lg">
+        <i class="pi pi-user me-2"></i>
+        Administrador de Fincas
+      </a>
+      <a
+        routerLink="/auth/google-signup-corporation"
+        class="btn btn-secondary btn-lg"
+      >
+        <i class="pi pi-building me-2"></i>
+        Corporación
+      </a>
+    </div>
+  </div>
+</div>

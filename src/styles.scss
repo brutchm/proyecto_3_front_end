@@ -1,33 +1,18 @@
-:root {
-  --theme-default: #7366ff;
-  --theme-secondary: #f73164;
-  --light-background: rgba(242, 243, 247, 0.7);
-  --body-font-color: #2f2f3b;
-  --chart-border: #ecf3fa;
-  --recent-chart-bg: #fcfcfd;
-  --light-bg: #f6f7f9;
-  --white: #fff;
-  --light2: #f5f6f9;
-  --sidebar-border: rgba(0, 0, 0, 0.1);
-  --chart-text-color: rgba(82, 82, 108, 0.8);
-  --recent-dashed-border: rgba(82, 82, 108, 0.3);
-  --chart-dashed-border: rgba(82, 82, 108, 0.2);
-  --chart-progress-light: rgba(82, 82, 108, 0.1);
-  --recent-box-bg: #f2f4f7;
-  --recent-border: rgba(97, 101, 122, 0.25);
-  --course-light-btn: #f2f3f7;
-  --course-bg: #f7f7f7;
-  --balance-profie-bg: #e0dfef;
-  --view-grid-bg: #ecf3fa80;
-  --view-border-marker: #cfcdfc;
-
-  --fc-button-bg-color: var(--theme-default);
-  --fc-button-active-bg-color: var(--theme-default);
-  --fc-button-active-border-color: var(--theme-default);
-  --fc-button-border-color: var(--theme-default);
-  --fc-button-hover-bg-color: var(--theme-default);
-  --fc-button-hover-border-color: var(--theme-default);
+// Farm details back link styling
+.farm-back-link {
+  display: inline-block;
+  margin: 1.5rem 0 1rem 0;
+  color: var(--color-accent);
+  font-weight: 500;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover {
+    color: var(--color-btn-primary-hover);
+    text-decoration: underline;
+  }
 }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 body[class="dark-only"] {
   --light-background: rgba(31, 32, 40, 0.65);
@@ -44,6 +29,59 @@ body[class="dark-only"] {
   --view-grid-bg: var(--light-bg);
   --view-border-marker: #2c2c45d4;
 }
+
+:root, body {
+  /* Base Colors */
+  --color-bg-main: #1E1E1E; /* Fondo Principal */
+  --color-text-primary: #E0E0E0; /* Texto Primario */
+  --color-text-secondary: #B0B0B0; /* Texto Secundario */
+  --color-accent: #4CAF50; /* Color de Acento */
+  --color-btn-primary: #4CAF50; /* Botón Primario */
+  --color-btn-primary-text: #E0E0E0;
+  --color-btn-primary-hover: #388E3C;
+  --color-btn-secondary: #388E3C; /* Botón Secundario */
+  --color-btn-blue: #07508b; /* Botón Azul */
+  --color-btn-secondary-text: #E0E0E0;
+  --color-btn-secondary-hover: #4CAF50;
+  --color-warning: #F44336; /* Advertencias */
+  --color-success: #98CC67; /* Éxito/Confirmación */
+  --color-success-text: #1E1E1E;
+  --color-link-active: #4CAF50; /* Enlace Activo */
+  --color-divider: #2E2E2E; /* Divisores/Bordes */
+
+  /* Inputs & Dropdowns */
+  --input-bg: #252523;
+  --input-border: #494947;
+  --input-text: #E0E0E0;
+  --dropdown-bg: #1E1E1E;
+  --dropdown-option-bg: #2E2E2E;
+  --dropdown-option-text: #E0E0E0;
+
+  /* Table */
+  --table-header-font-weight: 700;
+  --table-row-bg: #1E1E1E;
+  --table-border: #2E2E2E;
+  --table-text: #E0E0E0;
+
+  /* Card */
+  --card-bg: #1E1E1E;
+  --card-border: #2E2E2E;
+
+  /* Progress Bar */
+  --progress-bar-color: #2E2E2E;
+  --progress-bar-bg: #1E1E1E;
+  --progress-bar-text: #E0E0E0;
+
+  /* Alerts */
+  --alert-error-bg: #F44336;
+  --alert-error-text: #E0E0E0;
+  --alert-success-bg: #98CC67;
+  --alert-success-text: #1E1E1E;
+
+  /* Misc */
+  --font-family-base: 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 // scss variables
 @import "./assets/utils/variables";
 //start template styles
@@ -52,11 +90,19 @@ body[class="dark-only"] {
 
 html, body { 
   height: 100%; 
+  background-color: var(--color-bg-main);
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .error-snackbar .mdc-snackbar__surface{
   background-color: rgb(197, 49, 49) !important;
+}
+
+body {
+  font-family: var(--font-family-base) !important;
+}
+
+main {
+   font-family: var(--font-family-base) !important;
 }
 
 .success-snackbar .mdc-snackbar__surface{
@@ -65,17 +111,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li .sidebar-link {
-  text-decoration: none;
+body { margin: 0; background-color: var(--color-bg-main); }
 }
 
 
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links {
+  background-color: var(--alert-error-bg) !important;
   height: calc(93vh - 115px) !important;
   left: -300px;
   z-index: 99;
   transition: color 1s ease;
   /* overflow: auto; */
+  background-color: var(--color-bg-main) !important;
+  color: var(--alert-success-text) !important;
   /* color: rgba(0, 0, 0, 0); */
-  margin-top: 20px;
+  margin-top: 0px;
   margin-bottom: 30px;
 }

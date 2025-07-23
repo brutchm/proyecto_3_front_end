@@ -1,0 +1,11 @@
+<div class="animal-group-card" [class.inactive]="!groupAnimal.isActive">
+  <div class="animal-group-svg">
+   <img src="https://png.pngtree.com/png-vector/20230808/ourmid/pngtree-animal-farm-vector-png-image_6893202.png" alt="">
+  </div>
+  <div class="animal-group-content">
+    <div class="animal-group-header">
+      <h4>{{ groupAnimal.groupName }}</h4>
+    </div>
+    <button class="animal-group-link" type="button" (click)="goToDetails()">Ver detalles</button>
+  </div>
+</div>
