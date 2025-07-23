@@ -1,0 +1,62 @@
+<p-table
+  #dt
+  [value]="crops"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  [paginator]="true"
+  [lazy]="false"
+  (onPage)="onPage($event)"
+  [globalFilterFields]="['cropName', 'cropType', 'cropVariety']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [rowHover]="true"
+  [loading]="isLoading"
+  paginatorPosition="bottom"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} cultivos"
+  [rowsPerPageOptions]="[5, 10, 20]"
+>
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input 
+          pInputText 
+          type="text" 
+          (input)="applyFilterGlobal($event, 'contains')" 
+          placeholder="Buscar cultivo..." 
+        />
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 8rem">Imagen</th>
+      <th pSortableColumn="cropName">Nombre <p-sortIcon field="cropName"></p-sortIcon></th>
+      <th pSortableColumn="cropType">Tipo <p-sortIcon field="cropType"></p-sortIcon></th>
+      <th pSortableColumn="cropVariety">Variedad <p-sortIcon field="cropVariety"></p-sortIcon></th>
+      <th style="width: 10rem" class="text-center">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-crop>
+    <tr>
+      <td>
+        <img 
+          [src]="crop.cropPicture || 'https://placehold.co/100x100/373737/E0E0E0?text=Cultivo'" 
+          alt="Imagen de {{ crop.cropName }}" 
+          class="crop-image"
+        />
+      </td>
+      <td>{{ crop.cropName }}</td>
+      <td>{{ crop.cropType || 'No especificado' }}</td>
+      <td>{{ crop.cropVariety || 'No especificado' }}</td>
+      <td class="text-center">
+        <button pButton pRipple pTooltip="Editar" tooltipPosition="top" icon="pi pi-pencil" class="p-button-rounded p-button-text" (click)="onEdit(crop)"></button>
+        <button pButton pRipple pTooltip="Eliminar" tooltipPosition="top" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="onDelete(crop)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" class="text-center p-4">No se encontraron cultivos que coincidan con la búsqueda.</td>
+    </tr>
+  </ng-template>
+</p-table>
