@@ -130,17 +130,23 @@ export const routes: Routes = [
         }
       },
       {
-        path: "farm-details",
-        loadComponent: () =>
-          import("./pages/farm/farm-details.component").then((m) =>
-            m.FarmDetailsComponent
-          ),
+        path: 'farm-details',
+        loadComponent: () => import('./pages/farm/farm-details.component').then(m => m.FarmDetailsComponent),
         data: {
           authorities: [IRoleType.user],
-          name: "Farm Details",
-          showInSidebar: false,
-        },
+          name: "Mis fincas",
+          showInSidebar: false
+        }
       },
+      {
+        path: 'animal-group',
+        loadComponent: () => import('./pages/animal-group/animal-group.component').then(m => m.AnimalGroupComponent),
+        data: {
+          authorities: [IRoleType.user],
+          name: 'Animal Group',
+          showInSidebar: false
+        }
+      }
     ],
   },
 ];

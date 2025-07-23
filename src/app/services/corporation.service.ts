@@ -34,6 +34,7 @@ private router = inject(Router);
           }, 2000);
       }),
       catchError((err) => {
+        alert('Error al registrar la corporación');
         const backendMessage = err?.error?.message || 'Ocurrió un error al registrarse como usuario corporativo';
         this.alertService.displayAlert('error', backendMessage, 'center', 'top', ['error-snackbar']);
         console.error('Error del backend:', err);
