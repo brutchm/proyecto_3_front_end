@@ -77,9 +77,9 @@
           class="form-control"
         >
           <option value="" disabled selected>Seleccione...</option>
-          <option value="MALE">Masculino</option>
-          <option value="FEMALE">Femenino</option>
-          <option value="OTHER">Otro</option>
+          <option value="MASCULINO">Masculino</option>
+          <option value="FEMENINO">Femenino</option>
+          <option value="OTRO">Otro</option>
         </select>
       </div>
     </div>
@@ -160,11 +160,6 @@
     </div>
 
     <div class="text-end mt-3">
-      <!-- @if(signUpError) {
-      <p class="text-danger text-start">{{ signUpError }}</p>
-      } @else if (successMessage) {
-      <p class="text-success text-start">{{ successMessage }}</p>
-      } -->
       <button
         type="submit"
         [disabled]="signupForm.invalid"
