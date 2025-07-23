@@ -1,33 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { IUser } from '../../../interfaces';
 import { timer } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-
-/**
- * @fileoverview Validador personalizado para asegurar que la contraseña y su confirmación coincidan.
- */
-export const passwordMatchValidator: ValidatorFn = (form: AbstractControl): ValidationErrors | null => {
-  const password = form.get('userPassword')?.value;
-  const confirmPassword = form.get('confirmPassword')?.value;
-  return password === confirmPassword ? null : { passwordMismatch: true };
-};
-
-/**
- * @fileoverview Validador personalizado para la fortaleza de la contraseña.
- */
-function securePasswordValidator(control: AbstractControl): ValidationErrors | null {
-  const value = control.value;
-  // Expresión regular para 8+ caracteres, con al menos una mayúscula, una minúscula, un número y un símbolo.
-  const securePasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-  return securePasswordRegex.test(value)
-    ? null
-    : { insecurePassword: true };
-}
+import { passwordMatchValidator, securePasswordValidator } from "../../../utils/passwordValidator.utils";
 
 /**
  * @class SignUpComponent

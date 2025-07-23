@@ -47,7 +47,6 @@ export class GoogleCorporationSignupComponent implements OnInit {
   ngOnInit(): void {
     const registrationData = this.authService.getRegistrationData();
     if (!registrationData) {
-      alert("Token de registro no encontrado o inválido. Serás redirigido.");
       this.router.navigate(['/login']);
       return;
     }
