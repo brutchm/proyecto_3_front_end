@@ -15,7 +15,7 @@ import { AuthCallbackComponent } from "./pages/auth/callback/auth-callback.compo
 import { FinishRegistrationComponent } from "./pages/auth/finish-registration/finish-registration.component";
 import { GoogleUserSignupComponent } from "./pages/auth/google-signup-user/google-signup-user.component";
 import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-corporation/google-signup-corporation.component";
-import { ListCorporationComponent } from "./pages/users/corporation/listCorporations.component";
+import { ListCorporationComponent } from "./pages/users/corporation/list-corporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { CropsComponent } from './pages/crops/crops.component';
 
