@@ -1,185 +1,44 @@
-<div class="farm-page">
-  <h1 class="farm-title">Mis Fincas</h1>
-  <div class="farm-btn-group">
-    <button class="farm-btn" style="background-color: var(--color-btn-secondary);" (click)="fetchFarms()" [disabled]="loading">
-      Recargar Fincas
-    </button>
-    <button class="farm-btn farm-btn-create" (click)="openCreateFarmModal()">
-      Crear finca
-    </button>
+<p-toast></p-toast>
+
+<div class="farm-page-container">
+  <div class="toolbar">
+    <h2 class="page-title">Mis Fincas</h2>
+    <div class="actions">
+        <!-- <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText placeholder="Buscar por nombre..." (input)="onFilter(dv, $event)" class="search-input">
+        </span> -->
+        <button pButton type="button" label="Crear Finca" icon="pi pi-plus" (click)="showCreateDialog()"></button>
+    </div>
   </div>
-  <ng-template #createFarmModal>
-    <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
-      modalContentClass="modal-content dark-modal-content create-farm-modal">
-      <form [formGroup]="createFarmForm" (ngSubmit)="submitCreateFarm()" class="farm-create" novalidate
-      autocomplete="off">
-        <div class="modal-body mb-4 dark-modal-body">
-          <h2 class="modal-title-text">Crear finca</h2>
-          <div class="form-group mt-3">
-              <label>Nombre de la finca</label>
-              <input formControlName="farmName" class="form-control farm-input"
-                [class.is-invalid]="createFarmForm.controls['farmName'].invalid && (createFarmForm.controls['farmName'].dirty || createFarmForm.controls['farmName'].touched)" />
-              <div *ngIf="createFarmForm.controls['farmName'].invalid && (createFarmForm.controls['farmName'].dirty || createFarmForm.controls['farmName'].touched)" class="invalid-feedback">
-                Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
-              <label>Provincia</label>
-              <select formControlName="farmStateProvince" class="form-control farm-input"
-                [class.is-invalid]="createFarmForm.controls['farmStateProvince'].invalid && (createFarmForm.controls['farmStateProvince'].dirty || createFarmForm.controls['farmStateProvince'].touched)">
-                <option *ngFor="let province of provinces" [value]="province">{{ province }}</option>
-              </select>
-              <div *ngIf="createFarmForm.controls['farmStateProvince'].invalid && (createFarmForm.controls['farmStateProvince'].dirty || createFarmForm.controls['farmStateProvince'].touched)"
-                class="invalid-feedback">Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
-              <label>Otras direcciones</label>
-              <input formControlName="farmOtherDirections" class="form-control farm-input"
-                [class.is-invalid]="createFarmForm.controls['farmOtherDirections'].invalid && (createFarmForm.controls['farmOtherDirections'].dirty || createFarmForm.controls['farmOtherDirections'].touched)" />
-              <div *ngIf="createFarmForm.controls['farmOtherDirections'].invalid && (createFarmForm.controls['farmOtherDirections'].dirty || createFarmForm.controls['farmOtherDirections'].touched)"
-                class="invalid-feedback">Este campo es requerido.</div>
-          </div>
-          <div class="form-group mt-3">
-              <label>Ubicación (seleccione en el mapa)</label>
-              <div class="d-flex align-items-center gap-2">
-                <input formControlName="farmLocation" class="form-control farm-input" readonly
-                  [class.is-invalid]="createFarmForm.controls['farmLocation'].invalid && (createFarmForm.controls['farmLocation'].dirty || createFarmForm.controls['farmLocation'].touched)" />
-              </div>
-              <div id="create-farm-map" class="location-map"></div>
-              <div *ngIf="createFarmForm.controls['farmLocation'].invalid && (createFarmForm.controls['farmLocation'].dirty || createFarmForm.controls['farmLocation'].touched)"
-                class="invalid-feedback">Debe seleccionar una ubicación en el mapa.</div>
-          </div>
-          <div class="form-group mt-3">
-              <label>Tamaño</label>
-              <input formControlName="farmSize" class="form-control farm-input" type="number" min="0" step="0.01"
-                [class.is-invalid]="createFarmForm.controls['farmSize'].invalid && (createFarmForm.controls['farmSize'].dirty || createFarmForm.controls['farmSize'].touched)" />
-              <div *ngIf="createFarmForm.controls['farmSize'].invalid && (createFarmForm.controls['farmSize'].dirty || createFarmForm.controls['farmSize'].touched)" class="invalid-feedback">
-                Ingrese un número válido.</div>
-          </div>
-          <div class="form-group mt-3 mb-3">
-              <label>Unidad de medida</label>
-              <select formControlName="farmMeasureUnit" class="form-control farm-input"
-                [class.is-invalid]="createFarmForm.controls['farmMeasureUnit'].invalid && (createFarmForm.controls['farmMeasureUnit'].dirty || createFarmForm.controls['farmMeasureUnit'].touched)">
-                <option *ngFor="let unit of measureUnits" [value]="unit">{{ unit }}</option>
-              </select>
-              <div *ngIf="createFarmForm.controls['farmMeasureUnit'].invalid && (createFarmForm.controls['farmMeasureUnit'].dirty || createFarmForm.controls['farmMeasureUnit'].touched)"
-                class="invalid-feedback">Este campo es requerido.</div>
-          </div>
-          <details class="farm-accordion mt-3">
-            <summary>
-              <span>Información Técnica</span>
-              <svg class="accordion-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 7.5L9 11.5L13 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </summary>
-            <div class="accordion-content">
-              <div class="form-group mt-2">
-                <label>pH del suelo</label>
-                <select formControlName="soilPh" class="form-control farm-input">
-                  <option value="">No seleccionado</option>
-                  <option value="Ácido">Ácido</option>
-                  <option value="Neutro">Neutro</option>
-                  <option value="Alcalino">Alcalino</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Nutrientes del suelo</label>
-                <select formControlName="soilNutrients" class="form-control farm-input">
-                  <option value="">No seleccionado</option>
-                  <option value="Bajo">Bajo</option>
-                  <option value="Medio">Medio</option>
-                  <option value="Alto">Alto</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Sistema de riego</label>
-                <select formControlName="irrigationSystem" class="form-control farm-input boolean-select">
-                  <option [ngValue]="null">No seleccionado</option>
-                  <option [ngValue]="true">Sí</option>
-                  <option [ngValue]="false">No</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Tipo de sistema de riego</label>
-                <select formControlName="irrigationSystemType" class="form-control farm-input">
-                  <option value="">No seleccionado</option>
-                  <option value="Goteo">Goteo</option>
-                  <option value="Aspersión">Aspersión</option>
-                  <option value="Superficie">Superficie</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Agua disponible</label>
-                <select formControlName="waterAvailable" class="form-control farm-input boolean-select">
-                  <option [ngValue]="null">No seleccionado</option>
-                  <option [ngValue]="true">Sí</option>
-                  <option [ngValue]="false">No</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Tipo de uso de agua</label>
-                <select formControlName="waterUsageType" class="form-control farm-input">
-                  <option value="">No seleccionado</option>
-                  <option value="Riego">Riego</option>
-                  <option value="Consumo animal">Consumo animal</option>
-                  <option value="Procesos">Procesos</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
-              <div class="form-group mt-2">
-                <label>Uso de fertilizantes/pesticidas</label>
-                <select formControlName="fertilizerPesticideUse" class="form-control farm-input boolean-select">
-                  <option [ngValue]="null">No seleccionado</option>
-                  <option [ngValue]="true">Sí</option>
-                  <option [ngValue]="false">No</option>
-                </select>
-              </div>
+
+    <p-dataView #dv [value]="farms" layout="grid" [loading]="isLoading">
+    <ng-template pTemplate="grid" let-items>
+        <div class="grid">
+            <div *ngFor="let farmItem of items" class="farm-card-wrapper">
+                <app-farm-card *ngIf="farmItem && farmItem.farm" [farmData]="farmItem" (viewDetails)="handleViewDetails($event)"></app-farm-card>
             </div>
-          </details>
-          
         </div>
-        <div class="modal-footer dark-modal-footer">
-          <button type="button" class="btn btn-cancel farm-btn farm-btn-cancel accent-red"
-            (click)="closeCreateFarmModal()">Cancelar</button>
-          <button type="submit" class="btn btn-create farm-btn farm-btn-create accent"
-            [disabled]="createFarmLoading || createFarmForm.invalid">Crear</button>
-        </div>
-      </form>
-    </app-modal>
-  </ng-template>
-  <div *ngIf="showCreateFarmModal">
-    <div class="modal-backdrop"></div>
-    <div class="centered-modal create-farm">
-      <ng-container *ngTemplateOutlet="createFarmModal"></ng-container>
-    </div>
-  </div>
-  <app-loader *ngIf="loading" class="mt-3"></app-loader>
-
-  <div *ngIf="error" class="farm-error">
-    {{ error }}
-    <button *ngIf="error.includes('inicia sesión')" class="farm-btn farm-btn-secondary" (click)="goToLogin()">Ir a
-      Login</button>
-  </div>
-
-  <div *ngIf="farms && !error" class="mt-4">
-    <div *ngIf="farms?.length > 0; else noFarms" class="farm-cards-grid">
-      <div *ngFor="let item of farms; let i = index" class="farm-card">
-        <h2 class="farm-card-title">{{ item.farm.farmName }}</h2>
-        <div class="pt-3 pb-4 px-4 pr-4">
-          <div id="farm-map-{{i}}" class="farm-map mb-4"></div>
-          <p class="farm-card-text"><strong>País:</strong> {{ item.farm.farmCountry }}</p>
-          <p class="farm-card-text"><strong>Provincia:</strong> {{ item.farm.farmStateProvince }}</p>
-          <p class="farm-card-text"><strong>Ubicación:</strong> {{ item.farm.farmLocation }}</p>
-          <p class="farm-card-text"><strong>Tamaño:</strong> {{ item.farm.farmSize }} {{ item.farm.farmMeasureUnit }}
-          </p>
-          <p class="farm-card-text"><strong>Direcciones:</strong> {{ item.farm.farmOtherDirections }}</p>
-          <a class="farm-details-link" (click)="goToFarmDetails(item.farm.id)">Ver detalles</a>
-        </div>
-
-      </div>
-    </div>
-    <ng-template #noFarms>
-      <p class="farm-no-farms">No tienes fincas registradas.</p>
     </ng-template>
-  </div>
+
+    <ng-template pTemplate="loading">
+        <div class="grid">
+            <div *ngFor="let item of skeletonItems" class="farm-card-wrapper">
+                <p-skeleton height="400px" styleClass="mb-2"></p-skeleton>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <div class="empty-message">
+            <i class="pi pi-map-marker" style="font-size: 3rem"></i>
+            <p>No se encontraron fincas que coincidan con la búsqueda.</p>
+            <small>Intenta con otro término o crea una nueva finca.</small>
+        </div>
+    </ng-template>
+  </p-dataView>
 </div>
+
+<p-dialog header="Crear Nueva Finca" [(visible)]="displayDialog" [modal]="true" [style]="{width: '70vw', 'min-width': '750px'}" [draggable]="false" [resizable]="false">
+    <app-farm-form *ngIf="displayDialog" [form]="farmForm" (save)="handleSave()"></app-farm-form>
+</p-dialog>
