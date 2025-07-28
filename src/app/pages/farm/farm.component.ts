@@ -91,14 +91,6 @@ export class FarmComponent implements OnInit {
     dv.filter(filterValue, "farm.farmName");
   }
 
-  public logItem(item: any, index: number): boolean {
-    console.log(
-      `[Debug] Item en índice ${index}:`,
-      JSON.stringify(item, null, 2)
-    );
-    return true;
-  }
-
   initializeForm(): void {
     this.farmForm = this.fb.group({
       farmName: ["", Validators.required],
