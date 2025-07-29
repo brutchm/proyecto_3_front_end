@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { UserFormComponent } from '../../../components/user/user-from/user-form.component';
+import { UserFormComponent } from '../../../components/user/user-form/user-form.component';
 import { CommonModule } from '@angular/common';
 import { timer } from 'rxjs';
 import { splitFullName, toTitleCase } from '../../../utils/string.utils';

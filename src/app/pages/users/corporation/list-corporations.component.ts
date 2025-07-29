@@ -8,14 +8,14 @@ import { ICorporation } from "../../../interfaces/corporation.interface";
 import { ListCorporationService } from "../../../services/listCorporations.service";
 import { ModalService } from "../../../services/modal.service";
 import { AuthService } from "../../../services/auth.service";
-import { ListCorporationListComponent } from "../../../components/user/corporation/coporation-list/corporation-list.component";
-import { CorporationViewComponent } from "../../../components/user/corporation/coporation-list/corporationView.component";
+import { ListCorporationListComponent } from "../../../components/user/corporation/corporation-list/corporation-list.component";
+import { CorporationViewComponent } from "../../../components/user/corporation/corporation-list/corporationView.component";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-listCorporation",
-  templateUrl: "./listCorporations.component.html",
-  styleUrls: ["./listCorporations.component.scss"],
+  templateUrl: "./list-corporations.component.html",
+  styleUrls: ["./list-corporations.component.scss"],
   standalone: true,
   imports: [
     CorporationViewComponent,
