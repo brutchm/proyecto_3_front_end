@@ -3,7 +3,9 @@
   [pListCorporationList]="listCorporationService.listCorporation$()"
   (callUpdateModalMethod)="openEditListCorporationModal($event)"
 />
-
+<app-pagination
+  [service]="listCorporationService"
+/>
 <ng-template #editListCorporationModal>
   <app-modal [hideFooter]="true">
     <div class="modal-content-custom dark-theme-modal">
@@ -19,4 +21,5 @@
     </div>
   </app-modal>
 </ng-template>
+
 }

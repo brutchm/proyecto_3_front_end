@@ -15,7 +15,7 @@ import { ICorporation } from '../interfaces/corporation.interface';
     }
     public search: ISearch = { 
       page: 1,
-      size: 5
+      size: 8
     }
   
     public totalItems: any = [];
