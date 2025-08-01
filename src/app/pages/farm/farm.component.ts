@@ -15,7 +15,7 @@ import {
   IFarmTechnicalInfo,
 } from "../../services/farm.service";
 
-import { MessageService } from "primeng/api";
+import { MessageService, PrimeNGConfig } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { DataView, DataViewModule } from "primeng/dataview";
 import { DialogModule } from "primeng/dialog";
@@ -59,9 +59,18 @@ export class FarmComponent implements OnInit {
 
   skeletonItems = new Array(6);
 
+  constructor(
+    //para poder configurar los mensajes en español que pone primeng
+    private primengConfig: PrimeNGConfig) {
+    }
+
   ngOnInit(): void {
     this.initializeForm();
     this.loadFarms();
+    this.filteredFarms = this.farms;
+    this.primengConfig.setTranslation({
+      emptyMessage: 'No se encontraron resultados',//mensaje en espanol
+    });
   }
 
   loadFarms(): void {
@@ -72,6 +81,7 @@ export class FarmComponent implements OnInit {
           (item) => item && item.farm && item.farm.farmLocation.includes(",")
         );
         this.farms = validFarms;
+        this.filteredFarms = validFarms; 
         this.isLoading = false;
       },
       error: () => {
@@ -172,4 +182,19 @@ export class FarmComponent implements OnInit {
         }),
     });
   }
+
+     
+  filteredFarms: IFarmResponse[] = [];
+  searchTerm: string = '';
+  onSearchChange(value: string) {
+    this.searchTerm = value.toLowerCase();
+    this.filteredFarms = this.farms.filter(farm =>
+      farm.farm.farmName.toLowerCase().includes(this.searchTerm) ||
+      farm.farm.farmCountry.toLowerCase().includes(this.searchTerm) ||
+      farm.farm.farmStateProvince.toLowerCase().includes(this.searchTerm)
+    );
+  }
+
+
+
 }

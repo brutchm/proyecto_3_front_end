@@ -136,3 +136,19 @@ select:focus {
   border-color: #81C784;
   box-shadow: 0 0 0 2px rgba(129, 199, 132, 0.2);
 }
+
+// PrimeNG Overrides
+:host ::ng-deep {
+  .p-button {
+    background: var(--color-accent);
+  }
+
+  .p-inputtext,
+  .p-dropdown,
+  .p-inputtextarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+  }
+}

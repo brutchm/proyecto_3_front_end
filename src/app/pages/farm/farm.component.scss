@@ -62,6 +62,13 @@
 }
 
 // --- PrimeNG Overrides ---
+::ng-deep .p-dataview-emptymessage {
+  background-color: #1e1e1e;
+  color: var(--color-text-primary);
+  padding: 1.5rem;
+  text-align: center;
+}
+
 :host ::ng-deep {
   .p-button {
     border: none;

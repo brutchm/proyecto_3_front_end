@@ -1,11 +1,16 @@
 @if (areActionsAvailable) {
   <app-listCorporation-list
   [pListCorporationList]="listCorporationService.listCorporation$()"
+  [showAll]="showAll"
+  (toggleShowAllEvent)="toggleShowAll()"
   (callUpdateModalMethod)="openEditListCorporationModal($event)"
 />
+
 <app-pagination
+  *ngIf="corporations().length > 0 && !showAll"
   [service]="listCorporationService"
 />
+
 <ng-template #editListCorporationModal>
   <app-modal [hideFooter]="true">
     <div class="modal-content-custom dark-theme-modal">

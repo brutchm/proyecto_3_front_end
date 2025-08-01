@@ -3,8 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { ICorporation } from "../../../../interfaces/corporation.interface";
 import { AuthService } from "../../../../services/auth.service";
 import * as L from 'leaflet';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { debounceTime, Subject } from "rxjs";
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -20,7 +21,8 @@ L.Icon.Default.mergeOptions({
   standalone: true,
     imports: [
       ReactiveFormsModule,
-      CommonModule
+      CommonModule,
+      FormsModule
     ]
 })
 export class ListCorporationListComponent implements AfterViewChecked, OnChanges {
@@ -32,6 +34,7 @@ export class ListCorporationListComponent implements AfterViewChecked, OnChanges
 set pListCorporationList(value: ICorporation[]) {
   this._pListCorporationList = value;
   this.mapsInitialized = false;
+  this.corporationsOriginal = value;
 }
 
 get pListCorporationList(): ICorporation[] {
@@ -70,8 +73,9 @@ ngOnChanges(changes: SimpleChanges): void {
         this.leafletMaps.forEach(m => m.remove());
         this.leafletMaps = [];
       
-        const validCorporations = this.pListCorporationList.filter(c => this.isValidCoordinates(c.businessLocation));
-      
+       // const validCorporations = this.pListCorporationList.filter(c => this.isValidCoordinates(c.businessLocation));
+       const validCorporations = this.corporationsToDisplay.filter(c => this.isValidCoordinates(c.businessLocation));
+
         this.mapContainers.forEach((containerRef, index) => {
           const corporation = validCorporations[index];
           if (!corporation) return;
@@ -99,43 +103,11 @@ ngOnChanges(changes: SimpleChanges): void {
           }, 300);
       
           this.leafletMaps.push(map);
+          this.corporationsToDisplay.filter(c => this.isValidCoordinates(c.businessLocation));
         });
+        
       }
        
-      
-      /*private initMaps(): void {
-        const validCorporations = this.pListCorporationList.filter(c => this.isValidCoordinates(c.businessLocation));
-      
-        this.mapContainers.forEach((containerRef, index) => {
-          const corporation = validCorporations[index];
-          if (!corporation) {
-            return;
-          }
-      
-          const container = containerRef.nativeElement as HTMLElement;
-
-          container.innerHTML = '';
-          container.style.height = '150px';
-          container.style.width = '100%';
-      
-          const [latStr, lngStr] = corporation.businessLocation!.split(',');
-          const lat = parseFloat(latStr);
-          const lng = parseFloat(lngStr);
-      
-          const map = L.map(container).setView([lat, lng], 13);
-      
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-          }).addTo(map);
-      
-          L.marker([lat, lng]).addTo(map);
-      
-          
-          setTimeout(() => {
-            map.invalidateSize();
-          }, 300);
-        });
-      }*/
       ngOnDestroy(): void {
         this.mapsInitialized = false;
         this.leafletMaps.forEach(m => m.remove());
@@ -160,12 +132,71 @@ ngOnChanges(changes: SimpleChanges): void {
   public authService: AuthService = inject(AuthService);
   public areActionsAvailable: boolean = false;
   public route: ActivatedRoute = inject(ActivatedRoute);
+  //public showAll: boolean = false;
 
+  
   ngOnInit(): void {
     this.authService.getUserAuthorities();
     this.route.data.subscribe( data => {
       this.areActionsAvailable = this.authService.areActionsAvailable(data['authorities'] ? data['authorities'] : []);
     });
+
+
+    this.filteredCorporations = this.pListCorporationList;
+    this.searchTermSubject.pipe(
+      debounceTime(500)
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.mapsInitialized = false;
+  
+      setTimeout(() => {
+        if (this.mapContainers && this.mapContainers.length > 0) {
+          this.initMaps();
+          this.mapsInitialized = true;
+        }
+      }, 300);
+    });
+    
   }
+
+
+  filteredCorporations: ICorporation[] = [];
+  public searchTermSubject = new Subject<string>();
+  public searchTerm: string = '';
+  public corporationsOriginal: ICorporation[] = [];
+
+  //para mostrar o no la paginación de la lista
+  @Input() showAll: boolean = false;
+  @Output() toggleShowAllEvent = new EventEmitter<void>();
+  
+  toggleShowAll(): void {
+    this.toggleShowAllEvent.emit();
+    if(!this.showAll){//se borra el filtro cuando el boton muestra toda la info
+      this.searchTerm = '';
+    }
+  }
+  
+  
+  get corporationsToDisplay(): ICorporation[] {
+    const term = this.searchTerm.trim().toLowerCase();
+  
+    return this.pListCorporationList.filter(corp =>
+      corp.businessName?.toLowerCase().includes(term) ||
+      corp.businessCountry?.toLowerCase().includes(term) ||
+      corp.businessStateProvince?.toLowerCase().includes(term) ||
+      corp.businessId?.toLowerCase().includes(term)
+    );
+  }
+
+  onSearchTermChange() {
+    this.mapsInitialized = false;
+    setTimeout(() => {
+      if (this.mapContainers && this.mapContainers.length > 0) {
+        this.initMaps();
+        this.mapsInitialized = true;
+      }
+    }, 300);
+  }
+  
 
 }

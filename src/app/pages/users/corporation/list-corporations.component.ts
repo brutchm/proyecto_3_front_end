@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, inject, Output, TemplateRef, ViewChild } from "@angular/core";
+import { Component, computed, effect, EventEmitter, inject, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
 import { PaginationComponent } from "../../../components/pagination/pagination.component";
@@ -11,6 +11,8 @@ import { AuthService } from "../../../services/auth.service";
 import { ListCorporationListComponent } from "../../../components/user/corporation/corporation-list/corporation-list.component";
 import { CorporationViewComponent } from "../../../components/user/corporation/corporation-list/corporationView.component";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { CommonModule } from "@angular/common";
+import { IResponse } from "../../../interfaces";
 
 @Component({
   selector: "app-listCorporation",
@@ -18,13 +20,14 @@ import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ["./list-corporations.component.scss"],
   standalone: true,
   imports: [
+    CommonModule,
     CorporationViewComponent,
     ListCorporationListComponent,
     PaginationComponent,
     ModalComponent
   ]
 })
-export class ListCorporationComponent {
+export class ListCorporationComponent  implements OnInit {
   @ViewChild('editListCorporationModal') editModalTemplate!: TemplateRef<any>;
   public listCorporationList: ICorporation[] = []
   public listCorporationService: ListCorporationService = inject(ListCorporationService);
@@ -50,11 +53,13 @@ export class ListCorporationComponent {
   public areActionsAvailable: boolean = false;
   public route: ActivatedRoute = inject(ActivatedRoute);
 
+  public corporations = computed(() => this.listCorporationService.listCorporation$());
   ngOnInit(): void {
     this.authService.getUserAuthorities();
     this.route.data.subscribe( data => {
       this.areActionsAvailable = this.authService.areActionsAvailable(data['authorities'] ? data['authorities'] : []);
     });
+
   }
 
   constructor() {
@@ -82,5 +87,26 @@ export class ListCorporationComponent {
     });
     this.modalService.displayModal('lg', this.editListCorporationModal);
   }
+
+  public showAll: boolean = false;
+
+  toggleShowAll(value?: boolean): void {
+    this.showAll = value !== undefined ? value : !this.showAll;
+  
+    if (this.showAll) {
+      // listar todo sin paginacion
+      this.listCorporationService.findAll().subscribe({
+        next: (response: IResponse<ICorporation[]>) => {
+          this.listCorporationService.listCorporationSignal.set(response.data);
+        },
+        error: (err: any) => console.error('Error al obtener todos los datos:', err)
+      });
+    } else {
+      // obtener paginacion
+      this.listCorporationService.search.page = 1;
+      this.listCorporationService.getAll();
+    }
+  }
+  
 
 }

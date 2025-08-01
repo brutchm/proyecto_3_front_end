@@ -4,15 +4,22 @@
   <div class="toolbar">
     <h2 class="page-title">Mis Fincas</h2>
     <div class="actions">
-        <!-- <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input type="search" pInputText placeholder="Buscar por nombre..." (input)="onFilter(dv, $event)" class="search-input">
-        </span> -->
         <button pButton type="button" label="Crear Finca" icon="pi pi-plus" (click)="showCreateDialog()"></button>
     </div>
+</div>
+<div class="mb-3">
+    <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+          placeholder="Buscar finca por nombre, país o provincia"
+          class="search-input"
+        />
+      </div>
   </div>
-
-    <p-dataView #dv [value]="farms" layout="grid" [loading]="isLoading">
+  <p-dataView #dv [value]="filteredFarms" layout="grid" [loading]="isLoading">
     <ng-template pTemplate="grid" let-items>
         <div class="grid">
             <div *ngFor="let farmItem of items" class="farm-card-wrapper">

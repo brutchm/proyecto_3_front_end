@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  inject,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -9,7 +10,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FarmService, IFarm } from "../../services/farm.service";
-import { AlertService } from "../../services/alert.service";
 import { LocationMapComponent } from "../../components/farm-map/farm-map.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { ModalComponent } from "../../components/modal/modal.component";
@@ -27,7 +27,13 @@ import {
 } from "../../interfaces/group-animal.interface";
 import { AnimalGroupCardComponent } from "../../components/animal-group/animal-group-card.component";
 import * as L from "leaflet";
-
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { DataView, DataViewModule } from "primeng/dataview";
+import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { SkeletonModule } from "primeng/skeleton";
 @Component({
   selector: "app-farm-details",
   standalone: true,
@@ -40,6 +46,12 @@ import * as L from "leaflet";
     ReactiveFormsModule,
     FormsModule,
     AnimalGroupCardComponent,
+    ButtonModule,
+    DataViewModule,
+    DialogModule,
+    ToastModule,
+    InputTextModule,
+    SkeletonModule,
   ],
   templateUrl: "./farm-details.component.html",
   styleUrl: "./farm-details.component.scss",
@@ -90,13 +102,12 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   newGroupLoading = false;
   // For production type select
   productionTypes = Object.values(ProductionTypeEnum);
-
+ private messageService = inject(MessageService);
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private farmService: FarmService,
     private fb: FormBuilder,
-    private alertService: AlertService,
     private animalService: AnimalService,
   ) {
   }
@@ -138,17 +149,14 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.newGroupLoading = false;
         this.showNewGroupModal = false;
         this.fetchAnimalGroups();
-        this.alertService.displayAlert(
-          "success",
-          "Grupo de animales creado correctamente",
-          "center",
-          "top",
-          ["success-snackbar"],
-        );
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Grupo de animales creado correctamente",
+        });
       },
       error: () => {
         this.newGroupLoading = false;
-        // Optionally show error
       },
     });
   }
@@ -319,18 +327,20 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       next: () => {
         this.editFarmLoading = false;
         this.showEditFarmModal = false;
-        this.alertService.displayAlert(
-          "success",
-          "Finca editada correctamente",
-          "center",
-          "top",
-          ["success-snackbar"],
-        );
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Finca editada correctamente.",
+        });
         this.fetchFarm();
       },
       error: () => {
         this.editFarmLoading = false;
-        // Optionally show error
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo editar la finca.",
+        });
       },
     });
   }
@@ -385,12 +395,33 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.router.navigate(["/app/farm"]);
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Finca eliminada correctamente.",
+        });
       },
       error: () => {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.error = "No se pudo eliminar la finca.";
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo eliminar la finca.",
+        });
       },
     });
   }
+
+groupSearchTerm: string = '';
+filteredAnimalGroups(): IGroupAnimal[] {
+  if (!this.groupSearchTerm) return this.animalGroups;
+
+  const term = this.groupSearchTerm.toLowerCase();
+  return this.animalGroups.filter(group =>
+    group.groupName.toLowerCase().includes(term)
+  );
+}
+
 }
