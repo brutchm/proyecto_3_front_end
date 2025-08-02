@@ -215,6 +215,17 @@
               <div class="form-group mt-3">
                 <label>Ubicación (seleccione en el mapa)</label>
                 <div class="d-flex align-items-center gap-2">
+                  <span class="p-input-icon-right">
+                    <i *ngIf="isSearchingLocation" class="pi pi-spin pi-spinner"></i>
+                    <i *ngIf="!isSearchingLocation" class="pi pi-search"></i>
+                    <input
+                      #searchLocationInput
+                      pInputText
+                      (input)="onLocationInput()"
+                      placeholder="Ej: San José, Costa Rica"
+                    />
+                  </span>
+          
                   <input formControlName="farmLocation" class="form-control farm-input" readonly
                     [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmLocation'].invalid" />
                 </div>

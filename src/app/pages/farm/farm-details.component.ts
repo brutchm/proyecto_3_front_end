@@ -70,7 +70,16 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   technicalInfo: any = null;
   loading = false;
   error: string = "";
-
+  @ViewChild("searchLocationInput")
+  searchLocationInput!: ElementRef<HTMLInputElement>;
+  private readonly defaultIcon = L.icon({
+    iconUrl: "assets/leaflet/marker-icon.png",
+    shadowUrl: "assets/leaflet/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
   provinces: string[] = [
     "San José",
     "Alajuela",
@@ -94,7 +103,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   editFarmSubmitted = false;
   editFarmLoading = false;
   private editFarmMapInstance: L.Map | null = null;
-
+  private marker: L.Marker | null = null;
   // New group modal state
   showNewGroupModal = false;
   newGroupForm!: FormGroup;
@@ -171,7 +180,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 0);
         this.fetchFarm();
-        //this.fetchAnimalGroups();
       }
     });
   }
@@ -424,4 +432,61 @@ filteredAnimalGroups(): IGroupAnimal[] {
   );
 }
 
+isSearchingLocation = false;
+private debounceTimer: any;
+onLocationInput(): void {
+  this.isSearchingLocation = true;
+  clearTimeout(this.debounceTimer);
+  this.debounceTimer = setTimeout(() => {
+    this.searchLocation();
+  }, 500);
+}
+
+  async searchLocation(): Promise<void> {
+    const query = this.searchLocationInput.nativeElement.value;
+    if (!query || query.length < 3) {
+      this.isSearchingLocation = false;
+      return;
+    }
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      query
+    )}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        const newLatLng: L.LatLng = L.latLng(parseFloat(lat), parseFloat(lon));
+        this.editFarmMapInstance?.setView(newLatLng, 14);
+        this.addOrMoveMarker(newLatLng);
+        this.editFarmForm
+          .get("farmLocation")
+          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
+        this.editFarmForm.markAsDirty();
+      }
+    } catch (error) {
+      console.error("Error en la búsqueda de ubicación:", error);
+    } finally {
+      this.isSearchingLocation = false;
+    }
+  }
+  private addOrMoveMarker(latlng: L.LatLng | [number, number]): void {
+    if (this.marker) {
+      this.marker.setLatLng(latlng);
+    } else {
+      this.marker = L.marker(latlng, {
+        draggable: true,
+        icon: this.defaultIcon,
+      }).addTo(this.editFarmMapInstance!);
+      this.marker.on("dragend", (e) => {
+        const newLatLng = e.target.getLatLng();
+        this.editFarmForm
+          .get("farmLocation")
+          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
+        this.editFarmForm.markAsDirty();
+      });
+    }
+  }
 }

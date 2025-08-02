@@ -72,7 +72,6 @@ export class ListCorporationComponent  implements OnInit {
   }
   
   openEditListCorporationModal(listCorporation: ICorporation) {
-    console.log("x openEditListCorporationModal", listCorporation);
     this.listCorporationForm.patchValue({
       id: JSON.stringify(listCorporation.id),
       businessId: listCorporation.businessId,

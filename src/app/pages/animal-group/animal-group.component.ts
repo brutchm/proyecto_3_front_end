@@ -139,7 +139,6 @@ export class AnimalGroupComponent {
 
   submitEditGroup() {
     this.editGroupSubmitted = true;
-    console.log(this.editGroupForm);
     if (this.editGroupForm.invalid || !this.farmId || !this.groupId) {
       this.messageService.add({
         severity: "error",
@@ -242,7 +241,6 @@ submitAnimalForm() {
     animalGroup: { id: Number(this.groupId) },
     isActive: true,
   };
-  console.log("user 2: "+this.userId)
   this.animalService.createAnimal({ farmId: this.farmId, ...animalData }).subscribe({
     next: () => {
       this.animalLoading = false;
@@ -293,14 +291,12 @@ fetchAnimals() {
   }
   
   openEditAnimalsModal(animal: IAnimal) {
-    console.log("openModal", animal);
     this.animalForm.patchValue({
       id: animal.id,
       species: animal.species,
       breed: animal.breed,
       count: animal.count
     })
-    console.log("Editando animal:", animal.id);
     this.modalService.displayModal('lg', this.editAnimalsModal);
   }
 

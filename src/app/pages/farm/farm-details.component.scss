@@ -1,7 +1,5 @@
 .centered-modal.create-farm {
-  // app-modal {
     min-width: 678px !important;
-  // }
 }
 .animal-group-cards-grid {
   display: grid;
@@ -112,7 +110,6 @@ button.btn.btn-edit.farm-btn.farm-btn-edit {
 
 .farm-card-title {
   padding: 8px 16px;
-  // border-radius: 42px;
   background-color: var(--color-success);
   text-align: center;
   color: var(--color-bg-main)  !important;

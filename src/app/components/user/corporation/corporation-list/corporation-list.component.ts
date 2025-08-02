@@ -73,7 +73,6 @@ ngOnChanges(changes: SimpleChanges): void {
         this.leafletMaps.forEach(m => m.remove());
         this.leafletMaps = [];
       
-       // const validCorporations = this.pListCorporationList.filter(c => this.isValidCoordinates(c.businessLocation));
        const validCorporations = this.corporationsToDisplay.filter(c => this.isValidCoordinates(c.businessLocation));
 
         this.mapContainers.forEach((containerRef, index) => {
@@ -126,15 +125,12 @@ ngOnChanges(changes: SimpleChanges): void {
         return !isNaN(lat) && !isNaN(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
       }
       
-  //@Input() pListCorporationList: ICorporation[] = [];
   @Output() callUpdateModalMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
   @Output() callDeleteMethod: EventEmitter<ICorporation> = new EventEmitter<ICorporation>();
   public authService: AuthService = inject(AuthService);
   public areActionsAvailable: boolean = false;
   public route: ActivatedRoute = inject(ActivatedRoute);
-  //public showAll: boolean = false;
 
-  
   ngOnInit(): void {
     this.authService.getUserAuthorities();
     this.route.data.subscribe( data => {
