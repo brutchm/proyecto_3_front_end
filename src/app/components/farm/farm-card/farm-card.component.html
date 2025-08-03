@@ -1,0 +1,27 @@
+<div class="farm-card">
+  <h3 class="farm-card-title">{{ farmData.farm.farmName }}</h3>
+  <div class="farm-card-content">
+    <div #mapContainer class="farm-map mb-3"></div>
+    <p class="farm-card-text">
+      <strong>País:</strong> {{ farmData.farm.farmCountry }}
+    </p>
+    <p class="farm-card-text">
+      <strong>Provincia:</strong> {{ farmData.farm.farmStateProvince }}
+    </p>
+    <p class="farm-card-text">
+      <strong>Ubicación:</strong> {{ farmData.farm.farmLocation }}
+    </p>
+    <p class="farm-card-text">
+      <strong>Tamaño:</strong> {{ farmData.farm.farmSize }}
+      {{ farmData.farm.farmMeasureUnit }}
+    </p>
+    <p class="farm-card-text">
+      <strong>Dirección:</strong> {{ farmData.farm.farmOtherDirections }}
+    </p>
+    <div class="farm-card-actions">
+      <a class="farm-details-link" (click)="viewDetails.emit(farmData.farm.id)"
+        >Ver detalles</a
+      >
+    </div>
+  </div>
+</div>

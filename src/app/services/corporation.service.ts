@@ -24,37 +24,6 @@ export class CorporationService extends BaseService<ICorporation> {
   private alertService: AlertService = inject(AlertService);
 
   private router = inject(Router);
-  // save(item: ICorporation): Observable<IResponse<ICorporation>> {
-  //   return this.add(item).pipe(
-  //     tap((response) => {
-  //       this.alertService.displayAlert(
-  //         "success",
-  //         response.message,
-  //         "center",
-  //         "top",
-  //         ["success-snackbar"]
-  //       );
-  //       setTimeout(() => {
-  //         this.router.navigate(["/login"]);
-  //       }, 2000);
-  //     }),
-  //     catchError((err) => {
-  //       alert("Error al registrar la corporación");
-  //       const backendMessage =
-  //         err?.error?.message ||
-  //         "Ocurrió un error al registrarse como usuario corporativo";
-  //       this.alertService.displayAlert(
-  //         "error",
-  //         backendMessage,
-  //         "center",
-  //         "top",
-  //         ["error-snackbar"]
-  //       );
-  //       console.error("Error del backend:", err);
-  //       throw err;
-  //     })
-  //   );
-  // }
   save(item: ICorporation): Observable<IResponse<ICorporation>> {
     return this.add(item);
   }

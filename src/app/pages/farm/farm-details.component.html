@@ -76,10 +76,27 @@
             </ng-container>
             <ng-container *ngIf="!animalGroupsLoading && !animalGroupsError">
               <ng-container *ngIf="animalGroups.length > 0; else noGroups">
+                <!-- Filtro de busqueda para grupos de animales -->
+                <div class="mb-3">
+                  <div class="search-container">
+                    <i class="bi bi-search search-icon"></i>
+                    <input
+                    type="text"
+                    class="search-input"
+                    placeholder="Buscar grupo de animales por nombre..."
+                    [(ngModel)]="groupSearchTerm" />
+                  </div>
+                </div>
+                
                 <div class="animal-group-cards-grid">
-                  <app-animal-group-card *ngFor="let group of animalGroups" [groupAnimal]="group"
+                  <app-animal-group-card *ngFor="let group of filteredAnimalGroups()" [groupAnimal]="group"
                     [farmId]="farmId || ''"></app-animal-group-card>
                 </div>
+
+                <div *ngIf="filteredAnimalGroups().length === 0" class="text-center mt-4">
+                  No se encontraron resultados.
+                </div>
+                
         
               </ng-container>
               <ng-template #noGroups>
@@ -198,6 +215,17 @@
               <div class="form-group mt-3">
                 <label>Ubicación (seleccione en el mapa)</label>
                 <div class="d-flex align-items-center gap-2">
+                  <span class="p-input-icon-right">
+                    <i *ngIf="isSearchingLocation" class="pi pi-spin pi-spinner"></i>
+                    <i *ngIf="!isSearchingLocation" class="pi pi-search"></i>
+                    <input
+                      #searchLocationInput
+                      pInputText
+                      (input)="onLocationInput()"
+                      placeholder="Ej: San José, Costa Rica"
+                    />
+                  </span>
+          
                   <input formControlName="farmLocation" class="form-control farm-input" readonly
                     [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmLocation'].invalid" />
                 </div>

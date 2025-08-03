@@ -4,7 +4,7 @@ import { IUser } from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
-import { UserFormComponent } from '../user-from/user-form.component';
+import { UserFormComponent } from '../user-form/user-form.component';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 
