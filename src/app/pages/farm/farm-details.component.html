@@ -12,12 +12,18 @@
       <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button"
-            role="tab" aria-controls="details" aria-selected="true">Detalles</button>
+            role="tab" aria-controls="details" aria-selected="true" (click)="triggerResizeEvent()">Detalles</button>
         </li>
 
         <li class="nav-item d-flex align-items-center" role="presentation" style="gap: 0.5rem;">
           <button class="nav-link" id="animales-tab" data-bs-toggle="tab" data-bs-target="#animales" type="button"
-            role="tab" aria-controls="animales" aria-selected="false">Animales</button>
+            role="tab" aria-controls="animales" aria-selected="false" (click)="triggerResizeEvent()">Animales</button>
+        </li>
+
+        <!-- Parcelas Tab -->
+        <li class="nav-item d-flex align-items-center" role="presentation" style="gap: 0.5rem;">
+          <button class="nav-link" id="parcelas-tab" data-bs-toggle="tab" data-bs-target="#parcelas" type="button"
+            role="tab" aria-controls="parcelas" aria-selected="false" (click)="triggerResizeEvent()">Parcelas</button>
         </li>
       </ul>
       <div class="tab-content">
@@ -65,7 +71,7 @@
             </details>
           </div>
         </div>
-       
+
         <div class="tab-pane fade" id="animales" role="tabpanel" aria-labelledby="animales-tab">
           <div class="pt-3 pb-4 px-4 pr-4">
             <ng-container *ngIf="animalGroupsLoading">
@@ -80,14 +86,11 @@
                 <div class="mb-3">
                   <div class="search-container">
                     <i class="bi bi-search search-icon"></i>
-                    <input
-                    type="text"
-                    class="search-input"
-                    placeholder="Buscar grupo de animales por nombre..."
-                    [(ngModel)]="groupSearchTerm" />
+                    <input type="text" class="search-input" placeholder="Buscar grupo de animales por nombre..."
+                      [(ngModel)]="groupSearchTerm" />
                   </div>
                 </div>
-                
+
                 <div class="animal-group-cards-grid">
                   <app-animal-group-card *ngFor="let group of filteredAnimalGroups()" [groupAnimal]="group"
                     [farmId]="farmId || ''"></app-animal-group-card>
@@ -96,20 +99,20 @@
                 <div *ngIf="filteredAnimalGroups().length === 0" class="text-center mt-4">
                   No se encontraron resultados.
                 </div>
-                
-        
+
+
               </ng-container>
               <ng-template #noGroups>
                 <div class="farm-card-text">No hay grupos de animales registrados para esta finca.</div>
               </ng-template>
 
               <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-primary" style="background-color: var(--color-accent);" (click)="openNewGroupModal()">Nuevo grupo</button>
+                <button class="btn btn-primary" style="background-color: var(--color-accent);"
+                  (click)="openNewGroupModal()">Nuevo grupo</button>
               </div>
 
               <ng-template #newGroupModal>
-                <app-modal [hideFooter]="true" [useCustomBackGround]="true"
-                  modalBodyClass="modal-body dark-modal-body"
+                <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
                   modalContentClass="modal-content dark-modal-content create-farm-modal">
                   <form [formGroup]="newGroupForm" (ngSubmit)="submitNewGroup()" class="farm-create" novalidate
                     autocomplete="off">
@@ -124,7 +127,7 @@
                           class="invalid-feedback">
                           Este campo es requerido.</div>
                       </div>
-                     
+
                       <div class="form-group mt-3">
                         <label>Unidad de medida</label>
                         <select formControlName="measure" class="form-control farm-input"
@@ -133,7 +136,9 @@
                           <option value="kilos">Kilos</option>
                           <option value="litros">Litros</option>
                         </select>
-                        <div *ngIf="newGroupForm.controls['measure'].invalid && (newGroupForm.controls['measure'].dirty || newGroupForm.controls['measure'].touched)" class="invalid-feedback">
+                        <div
+                          *ngIf="newGroupForm.controls['measure'].invalid && (newGroupForm.controls['measure'].dirty || newGroupForm.controls['measure'].touched)"
+                          class="invalid-feedback">
                           Este campo es requerido.</div>
                       </div>
                       <div class="form-group mt-3">
@@ -167,6 +172,39 @@
               </div>
 
             </ng-container>
+          </div>
+        </div>
+
+        <!-- Parcelas Tab Content -->
+        <div class="tab-pane fade" id="parcelas" role="tabpanel" aria-labelledby="parcelas-tab">
+          <div class="pt-3 pb-4 px-4 pr-4">
+            <div class="mb-4">
+              <div class="parcelas-indication-message">
+                <strong>Interacción:</strong> Puede hacer clic en las figuras (parcelas) del mapa para ver la información detallada de cada parcela.
+              </div>
+              <app-location-map *ngIf="farm?.farmLocation" [coordinates]="farm.farmLocation" [parcelasGeoJSON]="parcelasGeoJSON" (clickFigures)="onClickFigures($event)"></app-location-map>
+              <div *ngIf="selectedParcela" class="parcelas-details-box mt-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="details-title">Información de la parcela seleccionada</div>
+                  <div>
+                    <button class="btn btn-sm btn-edit me-2" style="background: var(--color-accent); color: #fff; border: none;" (click)="onClickEditarParcela()">Editar</button>
+                    <button class="btn btn-sm btn-danger" style="background: var(--color-warning); color: #fff; border: none;" (click)="onClickEliminarParcela()">Eliminar</button>
+                  </div>
+                </div>
+                <div *ngFor="let key of selectedParcela | keyvalue" class="details-row">
+                  <span class="details-label">{{ key.key }}:</span>
+                  <span class="details-value">{{ key.value }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-end">
+              <button class="btn btn-primary" style="background-color: var(--color-accent);"
+                (click)="showCreateParcelaDialog()">Nueva parcela</button>
+            </div>
+            <p-dialog [header]="editParcelaMode ? 'Editar Parcela' : 'Nueva Parcela'" [(visible)]="displayDialog" [modal]="true"
+              [style]="{width: '70vw', 'min-width': '750px'}" [draggable]="false" [resizable]="false">
+              <app-parcelas-form *ngIf="displayDialog" [form]="parcelaForm" [farmLocation]="farm?.farmLocation" [parcelasGeoJSON]="parcelasGeoJSON" [editMode]="editParcelaMode" [title]="editParcelaMode ? 'Editar Parcela' : 'Nueva Parcela'" (save)="handleSave()" (cancel)="displayDialog = false"></app-parcelas-form>
+            </p-dialog>
           </div>
         </div>
       </div>
@@ -218,14 +256,10 @@
                   <span class="p-input-icon-right">
                     <i *ngIf="isSearchingLocation" class="pi pi-spin pi-spinner"></i>
                     <i *ngIf="!isSearchingLocation" class="pi pi-search"></i>
-                    <input
-                      #searchLocationInput
-                      pInputText
-                      (input)="onLocationInput()"
-                      placeholder="Ej: San José, Costa Rica"
-                    />
+                    <input #searchLocationInput pInputText (input)="onLocationInput()"
+                      placeholder="Ej: San José, Costa Rica" />
                   </span>
-          
+
                   <input formControlName="farmLocation" class="form-control farm-input" readonly
                     [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmLocation'].invalid" />
                 </div>
@@ -400,6 +434,29 @@
         <div class="modal-backdrop"></div>
         <div class="centered-modal">
           <ng-container *ngTemplateOutlet="deleteFarmModal"></ng-container>
+        </div>
+      </div>
+      <!-- Eliminar Parcela Modal -->
+      <ng-template #deleteParcelaModal>
+        <app-modal [hideFooter]="true" [useCustomBackGround]="true" modalBodyClass="modal-body dark-modal-body"
+          modalFooterClass="modal-footer dark-modal-footer" modalContentClass="modal-content dark-modal-content">
+          <div>
+            <div class="modal-body mb-4 dark-modal-body">
+              <span class="modal-title-text">¿Está seguro que desea eliminar esta parcela?</span>
+            </div>
+            <div class="modal-footer dark-modal-footer">
+              <button class="btn btn-cancel" (click)="closeDeleteParcelaModal()">Cancelar</button>
+              <button class="btn btn-delete" (click)="confirmDeleteParcela()">
+                <span>Eliminar</span>
+              </button>
+            </div>
+          </div>
+        </app-modal>
+      </ng-template>
+      <div *ngIf="showDeleteParcelaModal">
+        <div class="modal-backdrop"></div>
+        <div class="centered-modal">
+          <ng-container *ngTemplateOutlet="deleteParcelaModal"></ng-container>
         </div>
       </div>
     </div>

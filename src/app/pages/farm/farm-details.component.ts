@@ -20,6 +20,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { FarmFormComponent } from "../../components/farm/farm-form/farm-form.component";
+import { ParcelasFormComponent } from "../../components/parcelas/parcelas-form/parcelas-form.component";
 import { AnimalService } from "../../services/animal.service";
 import {
   IGroupAnimal,
@@ -34,6 +36,8 @@ import { DialogModule } from "primeng/dialog";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
 import { SkeletonModule } from "primeng/skeleton";
+import { ParcelasService } from "../../services/parcelas.service";
+
 @Component({
   selector: "app-farm-details",
   standalone: true,
@@ -52,11 +56,21 @@ import { SkeletonModule } from "primeng/skeleton";
     ToastModule,
     InputTextModule,
     SkeletonModule,
+    FarmFormComponent,
+    ParcelasFormComponent,
   ],
   templateUrl: "./farm-details.component.html",
   styleUrl: "./farm-details.component.scss",
 })
 export class FarmDetailsComponent implements OnInit, AfterViewInit {
+
+  parcelasGeoJSON: string[] = [];
+
+  // Parcelas creation dialog and form
+  displayDialog: boolean = false;
+  parcelaForm!: FormGroup;
+  parcelasLoading: boolean = false;
+
   animalGroups: IGroupAnimal[] = [];
   animalGroupsLoading = false;
   animalGroupsError = "";
@@ -104,6 +118,18 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   editFarmLoading = false;
   private editFarmMapInstance: L.Map | null = null;
   private marker: L.Marker | null = null;
+
+
+  // Parcelas tab map logic
+  parcelasInfo: any[] = [];
+  selectedParcela: any = null;
+  indexCurrentSelectedParcela: number | null = null;
+  showDeleteParcelaModal: boolean = false;
+  editParcelaMode: boolean = false;
+  parcelaToEdit: any = null;
+
+  @ViewChild('parcelasMapContainer') parcelasMapContainer!: ElementRef<HTMLDivElement>;
+
   // New group modal state
   showNewGroupModal = false;
   newGroupForm!: FormGroup;
@@ -111,7 +137,8 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   newGroupLoading = false;
   // For production type select
   productionTypes = Object.values(ProductionTypeEnum);
- private messageService = inject(MessageService);
+  private messageService = inject(MessageService);
+  private parcelasService = inject(ParcelasService);
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -119,6 +146,66 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private animalService: AnimalService,
   ) {
+  }
+
+    // Handler for polygon clicks in map
+  onClickFigures(idx: number) {
+    this.indexCurrentSelectedParcela = idx;
+    this.selectedParcela = this.parcelasInfo[idx];
+    console.log("Selected parcela:", idx, this.selectedParcela);
+  }
+
+  onClickEliminarParcela() {
+    this.showDeleteParcelaModal = true;
+  }
+
+  closeDeleteParcelaModal() {
+    this.showDeleteParcelaModal = false;
+  }
+
+  confirmDeleteParcela() {
+    if (!this.selectedParcela || !this.farmId) return;
+    this.parcelasService.eliminarParcela(this.farmId, this.selectedParcela.id).subscribe({
+      next: () => {
+        this.showDeleteParcelaModal = false;
+        this.selectedParcela = null;
+        this.getParcelas();
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Parcela eliminada correctamente.",
+        });
+      },
+      error: () => {
+        this.showDeleteParcelaModal = false;
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo eliminar la parcela.",
+        });
+      },
+    });
+  }
+
+  public getParcelas(): void {
+    if (!this.farmId) return;
+    this.parcelasService.getParcelas(this.farmId).subscribe({
+      next: (res) => {
+        const parcelas = res.data || [];
+        this.parcelasGeoJSON = parcelas.map(p => typeof p.geometryPolygon === 'string' ? p.geometryPolygon : '').filter(g => !!g);
+        this.parcelasInfo = parcelas;
+        if (this.indexCurrentSelectedParcela !== null && this.parcelasInfo[this.indexCurrentSelectedParcela]) {
+          this.selectedParcela = this.parcelasInfo[this.indexCurrentSelectedParcela];
+        } else {
+          this.selectedParcela = null;
+        }
+        console.log("Parcelas fetched:", this.parcelasGeoJSON, this.parcelasInfo);
+      },
+      error: () => {
+        this.parcelasGeoJSON = [];
+        this.parcelasInfo = [];
+      }
+    });
   }
 
   openNewGroupModal() {
@@ -132,6 +219,13 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     this.showNewGroupModal = true;
   }
 
+    // Called when tab button is clicked to trigger a window resize event for map refresh
+  triggerResizeEvent() {
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 300);
+  }
+ 
   closeNewGroupModal() {
     this.showNewGroupModal = false;
   }
@@ -172,6 +266,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
+      console.log("Route params:", params);
       this.farmId = params.get("id");
       if (!this.farmId) {
         this.router.navigate(["/app/farm"]);
@@ -182,6 +277,98 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.fetchFarm();
       }
     });
+    // Parcelas form setup
+    this.parcelaForm = this.fb.group({
+      plotName: ['', Validators.required],
+      plotDescription: ['', Validators.required],
+      plotType: ['', Validators.required],
+      currentUsage: ['', Validators.required],
+      geometryPolygon: ['', Validators.required]
+    });
+    console.log("FarmDetailsComponent initialized", this.farmId);
+    // Fetch parcelas for the map
+    if (this.farmId) {
+      console.log("Fetching parcelas for farmId:", this.farmId);
+      this.parcelasService.getParcelas(this.farmId).subscribe({
+        next: (res) => {
+          console.log("Parcelas response:", res);
+          this.parcelasInfo = res.data || [];
+          this.parcelasGeoJSON = (res.data || [])
+            .map(p => typeof p.geometryPolygon === 'string' ? p.geometryPolygon : '')
+            .filter(g => !!g);
+        },
+        error: () => {
+          this.parcelasGeoJSON = [];
+        }
+      });
+    }
+  }
+
+  onClickEditarParcela() {
+    this.editParcelaMode = true;
+    this.parcelaToEdit = this.selectedParcela;
+    this.displayDialog = true;
+    // Patch form with parcela data
+    if (this.parcelaForm && this.parcelaToEdit) {
+      this.parcelaForm.patchValue({
+        plotName: this.parcelaToEdit.plotName || '',
+        plotDescription: this.parcelaToEdit.plotDescription || '',
+        plotType: this.parcelaToEdit.plotType || '',
+        currentUsage: this.parcelaToEdit.currentUsage || '',
+        geometryPolygon: this.parcelaToEdit.geometryPolygon || ''
+      });
+    }
+  }
+
+  showCreateParcelaDialog() {
+    this.parcelaForm.reset();
+    this.editParcelaMode = false;
+    this.parcelaToEdit = null;
+    this.displayDialog = true;
+  }
+
+  handleSave() {
+    if (this.parcelaForm.invalid) {
+      this.parcelaForm.markAllAsTouched();
+      return;
+    }
+    this.parcelasLoading = true;
+    const parcelaData = {
+      ...this.parcelaForm.value,
+      isActive: true // Always active on creation
+    };
+    const farmId = this.farm?.id || this.farmId;
+    if (this.editParcelaMode && this.parcelaToEdit) {
+      // Call updateParcela (to be implemented in service)
+      this.parcelasService.updateParcela(farmId as string, this.parcelaToEdit.id, parcelaData).subscribe({
+        next: () => {
+          this.displayDialog = false;
+          this.parcelasLoading = false;
+          this.editParcelaMode = false;
+          this.parcelaToEdit = null;
+          this.messageService.add({severity:'success', summary:'Parcela editada', detail:'La parcela fue editada exitosamente.'});
+          this.getParcelas();
+        },
+        error: () => {
+          this.parcelasLoading = false;
+          this.messageService.add({severity:'error', summary:'Error', detail:'No se pudo editar la parcela.'});
+        }
+      });
+    } else {
+      // Create mode
+      this.parcelasService.createParcela(farmId as string, parcelaData).subscribe({
+        next: () => {
+          this.displayDialog = false;
+          this.parcelasLoading = false;
+          this.messageService.add({severity:'success', summary:'Parcela creada', detail:'La parcela fue creada exitosamente.'});
+          this.getParcelas();
+        },
+        error: () => {
+          this.parcelasLoading = false;
+          this.messageService.add({severity:'error', summary:'Error', detail:'No se pudo crear la parcela.'});
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -422,25 +609,25 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     });
   }
 
-groupSearchTerm: string = '';
-filteredAnimalGroups(): IGroupAnimal[] {
-  if (!this.groupSearchTerm) return this.animalGroups;
+  groupSearchTerm: string = "";
+  filteredAnimalGroups(): IGroupAnimal[] {
+    if (!this.groupSearchTerm) return this.animalGroups;
 
-  const term = this.groupSearchTerm.toLowerCase();
-  return this.animalGroups.filter(group =>
-    group.groupName.toLowerCase().includes(term)
-  );
-}
+    const term = this.groupSearchTerm.toLowerCase();
+    return this.animalGroups.filter((group) =>
+      group.groupName.toLowerCase().includes(term)
+    );
+  }
 
-isSearchingLocation = false;
-private debounceTimer: any;
-onLocationInput(): void {
-  this.isSearchingLocation = true;
-  clearTimeout(this.debounceTimer);
-  this.debounceTimer = setTimeout(() => {
-    this.searchLocation();
-  }, 500);
-}
+  isSearchingLocation = false;
+  private debounceTimer: any;
+  onLocationInput(): void {
+    this.isSearchingLocation = true;
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.searchLocation();
+    }, 500);
+  }
 
   async searchLocation(): Promise<void> {
     const query = this.searchLocationInput.nativeElement.value;
@@ -449,9 +636,11 @@ onLocationInput(): void {
       return;
     }
 
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      query
-    )}`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${
+      encodeURIComponent(
+        query,
+      )
+    }`;
 
     try {
       const response = await fetch(url);

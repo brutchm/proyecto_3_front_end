@@ -11,19 +11,28 @@ import { CommonModule } from '@angular/common';
 })
 export class LocationMapComponent implements OnInit {
   @Input() coordinates: string = '';
+  @Input() parcelasGeoJSON: string[] = [];
   @Output() coordinatesChange = new EventEmitter<string>();
+  @Output() clickFigures = new EventEmitter<number>();
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef<HTMLDivElement>;
   private map: L.Map | null = null;
   private marker: L.Marker | null = null;
+  private parcelasLayer: L.LayerGroup | null = null;
 
   ngOnInit(): void {
     this.initMap();
+  }
+
+  ngOnChanges(): void {
+    this.refreshMap();
+    this.drawParcelas();
   }
 
   public refreshMap(): void {
     setTimeout(() => {
       if (this.map) {
         this.map.invalidateSize();
+        this.drawParcelas();
       }
     }, 100);
   }
@@ -50,6 +59,38 @@ export class LocationMapComponent implements OnInit {
         shadowSize: [41, 41]
       });
       this.marker = L.marker([lat, lng], { draggable: false, icon: markerIcon }).addTo(this.map);
+      this.drawParcelas();
     }, 0);
+  }
+
+  private drawParcelas(): void {
+    if (!this.map) return;
+    if (this.parcelasLayer) {
+      this.map.removeLayer(this.parcelasLayer);
+    }
+    this.parcelasLayer = L.layerGroup();
+    if (this.parcelasGeoJSON && this.parcelasGeoJSON.length > 0) {
+      this.parcelasGeoJSON.forEach((geoStr, idx) => {
+        if (geoStr) {
+          try {
+            const geo = JSON.parse(geoStr);
+            let latlngs = [];
+            if (geo.type === 'Polygon' && Array.isArray(geo.coordinates)) {
+              latlngs = geo.coordinates[0].map(([lng, lat]: [number, number]) => [lat, lng]);
+            } else if (geo.type === 'MultiPolygon' && Array.isArray(geo.coordinates)) {
+              latlngs = geo.coordinates[0][0].map(([lng, lat]: [number, number]) => [lat, lng]);
+            }
+            if (latlngs.length > 0) {
+              const polygon = L.polygon(latlngs, { color: 'red', weight: 3, fillOpacity: 0.3 });
+              polygon.on('click', (e) => {
+                this.clickFigures.emit(idx);
+              });
+              polygon.addTo(this.parcelasLayer!);
+            }
+          } catch (e) {}
+        }
+      });
+    }
+    this.parcelasLayer.addTo(this.map);
   }
 }
