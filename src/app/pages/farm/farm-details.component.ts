@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  inject,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -10,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FarmService, IFarm } from "../../services/farm.service";
+import { AlertService } from "../../services/alert.service";
 import { LocationMapComponent } from "../../components/farm-map/farm-map.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { ModalComponent } from "../../components/modal/modal.component";
@@ -27,13 +27,7 @@ import {
 } from "../../interfaces/group-animal.interface";
 import { AnimalGroupCardComponent } from "../../components/animal-group/animal-group-card.component";
 import * as L from "leaflet";
-import { MessageService } from "primeng/api";
-import { ButtonModule } from "primeng/button";
-import { DataView, DataViewModule } from "primeng/dataview";
-import { DialogModule } from "primeng/dialog";
-import { ToastModule } from "primeng/toast";
-import { InputTextModule } from "primeng/inputtext";
-import { SkeletonModule } from "primeng/skeleton";
+
 @Component({
   selector: "app-farm-details",
   standalone: true,
@@ -46,12 +40,6 @@ import { SkeletonModule } from "primeng/skeleton";
     ReactiveFormsModule,
     FormsModule,
     AnimalGroupCardComponent,
-    ButtonModule,
-    DataViewModule,
-    DialogModule,
-    ToastModule,
-    InputTextModule,
-    SkeletonModule,
   ],
   templateUrl: "./farm-details.component.html",
   styleUrl: "./farm-details.component.scss",
@@ -70,16 +58,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   technicalInfo: any = null;
   loading = false;
   error: string = "";
-  @ViewChild("searchLocationInput")
-  searchLocationInput!: ElementRef<HTMLInputElement>;
-  private readonly defaultIcon = L.icon({
-    iconUrl: "assets/leaflet/marker-icon.png",
-    shadowUrl: "assets/leaflet/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-  });
+
   provinces: string[] = [
     "San José",
     "Alajuela",
@@ -103,7 +82,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   editFarmSubmitted = false;
   editFarmLoading = false;
   private editFarmMapInstance: L.Map | null = null;
-  private marker: L.Marker | null = null;
+
   // New group modal state
   showNewGroupModal = false;
   newGroupForm!: FormGroup;
@@ -111,12 +90,13 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   newGroupLoading = false;
   // For production type select
   productionTypes = Object.values(ProductionTypeEnum);
- private messageService = inject(MessageService);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private farmService: FarmService,
     private fb: FormBuilder,
+    private alertService: AlertService,
     private animalService: AnimalService,
   ) {
   }
@@ -158,14 +138,17 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.newGroupLoading = false;
         this.showNewGroupModal = false;
         this.fetchAnimalGroups();
-        this.messageService.add({
-          severity: "success",
-          summary: "Éxito",
-          detail: "Grupo de animales creado correctamente",
-        });
+        this.alertService.displayAlert(
+          "success",
+          "Grupo de animales creado correctamente",
+          "center",
+          "top",
+          ["success-snackbar"],
+        );
       },
       error: () => {
         this.newGroupLoading = false;
+        // Optionally show error
       },
     });
   }
@@ -180,6 +163,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 0);
         this.fetchFarm();
+        //this.fetchAnimalGroups();
       }
     });
   }
@@ -335,20 +319,18 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       next: () => {
         this.editFarmLoading = false;
         this.showEditFarmModal = false;
-        this.messageService.add({
-          severity: "success",
-          summary: "Éxito",
-          detail: "Finca editada correctamente.",
-        });
+        this.alertService.displayAlert(
+          "success",
+          "Finca editada correctamente",
+          "center",
+          "top",
+          ["success-snackbar"],
+        );
         this.fetchFarm();
       },
       error: () => {
         this.editFarmLoading = false;
-        this.messageService.add({
-          severity: "error",
-          summary: "Error",
-          detail: "No se pudo editar la finca.",
-        });
+        // Optionally show error
       },
     });
   }
@@ -403,90 +385,12 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.router.navigate(["/app/farm"]);
-        this.messageService.add({
-          severity: "success",
-          summary: "Éxito",
-          detail: "Finca eliminada correctamente.",
-        });
       },
       error: () => {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.error = "No se pudo eliminar la finca.";
-        this.messageService.add({
-          severity: "error",
-          summary: "Error",
-          detail: "No se pudo eliminar la finca.",
-        });
       },
     });
-  }
-
-groupSearchTerm: string = '';
-filteredAnimalGroups(): IGroupAnimal[] {
-  if (!this.groupSearchTerm) return this.animalGroups;
-
-  const term = this.groupSearchTerm.toLowerCase();
-  return this.animalGroups.filter(group =>
-    group.groupName.toLowerCase().includes(term)
-  );
-}
-
-isSearchingLocation = false;
-private debounceTimer: any;
-onLocationInput(): void {
-  this.isSearchingLocation = true;
-  clearTimeout(this.debounceTimer);
-  this.debounceTimer = setTimeout(() => {
-    this.searchLocation();
-  }, 500);
-}
-
-  async searchLocation(): Promise<void> {
-    const query = this.searchLocationInput.nativeElement.value;
-    if (!query || query.length < 3) {
-      this.isSearchingLocation = false;
-      return;
-    }
-
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-      query
-    )}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data && data.length > 0) {
-        const { lat, lon } = data[0];
-        const newLatLng: L.LatLng = L.latLng(parseFloat(lat), parseFloat(lon));
-        this.editFarmMapInstance?.setView(newLatLng, 14);
-        this.addOrMoveMarker(newLatLng);
-        this.editFarmForm
-          .get("farmLocation")
-          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
-        this.editFarmForm.markAsDirty();
-      }
-    } catch (error) {
-      console.error("Error en la búsqueda de ubicación:", error);
-    } finally {
-      this.isSearchingLocation = false;
-    }
-  }
-  private addOrMoveMarker(latlng: L.LatLng | [number, number]): void {
-    if (this.marker) {
-      this.marker.setLatLng(latlng);
-    } else {
-      this.marker = L.marker(latlng, {
-        draggable: true,
-        icon: this.defaultIcon,
-      }).addTo(this.editFarmMapInstance!);
-      this.marker.on("dragend", (e) => {
-        const newLatLng = e.target.getLatLng();
-        this.editFarmForm
-          .get("farmLocation")
-          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
-        this.editFarmForm.markAsDirty();
-      });
-    }
   }
 }

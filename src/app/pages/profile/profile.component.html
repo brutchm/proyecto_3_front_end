@@ -1,5 +1,3 @@
-<p-toast></p-toast>
-
 <div class="header-bar">
   <i class="fa-solid fa-user"></i>
   <h2>
@@ -10,7 +8,7 @@
         <i class="fa fa-pen edit-icon ms-2" (click)="editing['name'] = true"></i>
       </ng-container>
       <ng-template #editName>
-      <input pInputText [(ngModel)]="editableUser.name" placeholder="Nombre"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('name') }"(blur)="editing['name'] = false"/>
+      <input [(ngModel)]="editableUser.name" placeholder="Nombre"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('name') }"(blur)="editing['name'] = false"/>
       <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('name')">
       El nombre es obligatorio.
       </div>
@@ -25,7 +23,7 @@
         <i class="fa fa-pen edit-icon ms-2" (click)="editing['businessName'] = true"></i>
       </ng-container>
       <ng-template #businessNameInput>
-        <input pInputText [(ngModel)]="editableUser.businessName"placeholder="Nombre de empresa"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('businessName') }"(blur)="editing['businessName'] = false"/>
+        <input [(ngModel)]="editableUser.businessName"placeholder="Nombre de empresa"(ngModelChange)="updateErrorStatus()"[ngClass]="{ 'is-invalid': isFieldInvalid('businessName') }"(blur)="editing['businessName'] = false"/>
       <div class="invalid-feedback d-block" *ngIf="isFieldInvalid('businessName')">
         El nombre de la empresa es obligatorio.
       </div>
@@ -37,7 +35,7 @@
 </div>
 
 <div class="text-start" style="margin-bottom: 40px;">
-  <button  pButton type="button" class="btn btn-success"
+  <button class="btn btn-success"
           (click)="updateProfile()"
           [disabled]="hasErrors() || isProfileCompletelyEmpty || !hasChanges">
     Actualizar Perfil
@@ -58,7 +56,7 @@
             <i class="fa fa-pen edit-icon" (click)="editing['userFirstSurename'] = true"></i>
           </ng-container>
           <ng-template #editUserFirstSurename>
-            <input pInputText
+            <input
             [(ngModel)]="editableUser.userFirstSurename"
             (ngModelChange)="updateErrorStatus()"
             [ngClass]="{ 'is-invalid': isFieldInvalid('userFirstSurename') }" (blur)="editing['userFirstSurename'] = false"
@@ -78,7 +76,7 @@
             <i class="fa fa-pen edit-icon" (click)="editing['userSecondSurename'] = true"></i>
           </ng-container>
           <ng-template #editUserSecondSurename>
-            <input   pInputText
+            <input
             [(ngModel)]="editableUser.userSecondSurename"
             (ngModelChange)="updateErrorStatus()"
             [ngClass]="{ 'is-invalid': isFieldInvalid('userSecondSurename') }"
@@ -123,7 +121,7 @@
             <i class="fa fa-pen edit-icon" (click)="editing['userPhoneNumber'] = true"></i>
           </ng-container>
           <ng-template #editPhone>
-            <input   pInputText
+            <input
             [(ngModel)]="editableUser.userPhoneNumber"
             (ngModelChange)="updateErrorStatus()"
             [ngClass]="{ 'is-invalid': isFieldInvalid('userPhoneNumber') }"(blur)="editing['userPhoneNumber'] = false"/>
@@ -144,7 +142,7 @@
             <i class="fa fa-pen edit-icon" (click)="editing['businessMission'] = true"></i>
           </ng-container>
           <ng-template #editMission>
-            <textarea pInputTextarea rows="3"
+            <textarea rows="3"
               [(ngModel)]="editableUser.businessMission"
               (ngModelChange)="updateErrorStatus()"
               [ngClass]="{ 'is-invalid': isFieldInvalid('businessMission') }"(blur)="editing['businessMission'] = false"
@@ -181,7 +179,7 @@
             <i class="fa fa-pen edit-icon" (click)="editing['businessId'] = true"></i>
           </ng-container>
           <ng-template #editBusinessId>
-            <input   pInputText
+            <input
             [(ngModel)]="editableUser.businessId"
             (ngModelChange)="updateErrorStatus()"
             [ngClass]="{ 'is-invalid': isFieldInvalid('businessId') }"(blur)="editing['businessId'] = false"

@@ -1,11 +1,9 @@
-import { inject, Injectable, NgZone } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
 import { IGoogleAuthResponse, IRegistrationTokenPayload } from '../interfaces/googleAuth.interface';
 import { Observable, firstValueFrom, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
-import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +12,7 @@ export class AuthService {
   private accessToken!: string;
   private expiresIn! : number;
   private user: IUser = {userEmail: '', authorities: []};
-
   private http: HttpClient = inject(HttpClient);
-  private router: Router = inject(Router);
-  private messageService: MessageService = inject(MessageService);
-  private zone: NgZone = inject(NgZone);
 
   constructor() {
     this.load();
@@ -107,21 +101,11 @@ export class AuthService {
     return this.http.post<ILoginResponse>('auth/signup', user);
   }
 
-  public logout(message?: string) {
+  public logout() {
     this.accessToken = '';
     localStorage.removeItem('access_token');
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('auth_user');
-
-    if (message) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Atención',
-        detail: message,
-      });
-    }
-
-    this.router.navigateByUrl('/login');
   }
 
   public getUserAuthorities(): IAuthority[] | undefined {

@@ -1,27 +1,7 @@
 <div class="corporation-container mt-4">
   <h1 class="title_center">Corporaciones registradas en el sistema</h1>
-
-  @if (corporationsOriginal.length > 0) {
-    <div class="search-container">
-      <i class="bi bi-search search-icon"></i>
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Buscar corporaciones"
-        [value]="searchTerm"
-        (input)="searchTermSubject.next($any($event.target).value)"
-      />
-      <button class="btn-show-all" (click)="toggleShowAll()">
-        <i [ngClass]="showAll ? 'bi bi-list' : 'bi bi-arrows-expand'" class="btn-icon"></i>
-        {{ showAll ? 'Ver por páginas' : 'Mostrar Todo' }}
-      </button>
-      
-    </div>
-  }
- 
-  
   <div class="row">
-    @for (corporation of corporationsToDisplay; track corporation) {
+    @for (corporation of pListCorporationList; track corporation) {
       <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
         <div class="card-custom">
           
@@ -33,7 +13,7 @@
             <div *ngIf="isValidCoordinates(corporation.businessLocation)" #mapContainer class="map-container"></div>
             <div *ngIf="!isValidCoordinates(corporation.businessLocation)" class="alert alert-warning">
               <i class="fa-solid fa-triangle-exclamation"></i>
-              Todavía no se ha indicado una ubicación por mapa.
+              Todavía no se ha indicado una ubicación por GPS.
             </div>
             
             <div class="card-body-custom pt-3 px-3 pb-2">
@@ -45,19 +25,13 @@
          
           <div class="card-footer-custom">
             <button class="btn-yellow"(click)="callUpdateModalMethod.emit(corporation)">Ver Perfil</button>
+<!--<button class="btn-green">Suscribir</button>-->
           </div>
         </div>
       </div>
     } @empty {
-      <div class="col-12 text-center mt-4">
-        <p class="text-center" *ngIf="searchTerm?.trim(); else noData">
-          No se encontraron resultados para esta búsqueda.
-        </p>
-        <ng-template #noData>
-          <p id="message" class="text-center">
-            No hay usuarios corporativos activos registrados actualmente.
-          </p>
-        </ng-template>
+      <div class="col-12">
+        <p id="message" class="text-center">No hay usuarios corporativos activos registrados actualmente.</p>
       </div>
     }
   </div>

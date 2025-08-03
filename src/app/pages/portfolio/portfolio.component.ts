@@ -12,9 +12,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss']
 })
-
+// ...existing code...
 export class PortfolioComponent {
   teamMembers = [
+    // {
+    //   nombre: 'Brandon Rutch Murillo',
+    //   rol: 'Coordinador',
+    //   descripcion: 'Backend, BD, React, organizado, comunicativo. Correo: brutchm@ucenfotec.ac.cr, Tel: 8368 2520, Poás, Alajuela.'
+    // },
     {
       nombre: 'Fabián Miranda Loaiza',
       rol: 'Desarrollo',

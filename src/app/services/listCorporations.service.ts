@@ -9,17 +9,17 @@ import { ICorporation } from '../interfaces/corporation.interface';
 
   export class ListCorporationService  extends BaseService<ICorporation>{
     protected override source: string = 'users/listcorporations';
-    public listCorporationSignal = signal<ICorporation[]>([]);
+    private listCorporationSignal = signal<ICorporation[]>([]);
     get listCorporation$() {
       return this.listCorporationSignal;
     }
     public search: ISearch = { 
       page: 1,
-      size: 8
+      size: 5
     }
   
     public totalItems: any = [];
-    
+  
     getAll () {
       this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({
         next: (response: IResponse<ICorporation[]>) => {

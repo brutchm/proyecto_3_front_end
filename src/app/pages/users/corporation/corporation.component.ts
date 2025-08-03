@@ -71,6 +71,14 @@ export class CorporationComponent {
     });
   }
 
+  // saveCorporation(item: ICorporation) {
+  //   this.corporationService.save(item).subscribe({
+  //     next: () => this.corporationForm.reset(),
+  //     error: () => {
+  //     },
+  //   });
+  // }
+
   /**
      * @method saveCorporation
      * @description

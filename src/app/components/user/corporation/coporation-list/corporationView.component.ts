@@ -37,6 +37,8 @@ export class CorporationViewComponent implements AfterViewInit {
   
     const map = L.map('map').setView([lat, lng], 13);
   
+    console.log(`Initializing map at index for coords [${lat}, ${lng}]`);
+  
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
