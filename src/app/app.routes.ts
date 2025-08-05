@@ -18,6 +18,7 @@ import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-cor
 import { ListCorporationComponent } from "./pages/users/corporation/list-corporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { CropsComponent } from './pages/crops/crops.component';
+import { TransactionsComponent } from "./pages/transactions/transactions.component";
 
 export const routes: Routes = [
   {
@@ -79,28 +80,6 @@ export const routes: Routes = [
         pathMatch: "full",
       },
       {
-        path: "dashboard",
-        component: DashboardComponent,
-        data: {
-          authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: "Dashboard",
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'crops',
-        component: CropsComponent,
-        data: {
-          name: 'Mis Cultivos',
-          authorities: [IRoleType.user],
-          showInSidebar: true
-        }
-      },
-      {
         path: "profile",
         component: ProfileComponent,
         data: {
@@ -126,11 +105,25 @@ export const routes: Routes = [
         },
       },
       {
-        path: "farm",
-        component: FarmComponent,
+        path: "animal-group",
+        loadComponent: () =>
+          import("./pages/animal-group/animal-group.component").then((m) =>
+            m.AnimalGroupComponent
+          ),
         data: {
           authorities: [IRoleType.user],
-          name: "Mis fincas",
+          name: "Animal Group",
+          showInSidebar: false,
+        },
+      },
+      {
+        path: "transactions",
+        component: TransactionsComponent,
+        data: {
+          authorities: [
+            IRoleType.user,
+          ],
+          name: "Transacciones",
           showInSidebar: true,
         },
       },
@@ -147,15 +140,34 @@ export const routes: Routes = [
         },
       },
       {
-        path: "animal-group",
-        loadComponent: () =>
-          import("./pages/animal-group/animal-group.component").then((m) =>
-            m.AnimalGroupComponent
-          ),
+        path: "farm",
+        component: FarmComponent,
         data: {
           authorities: [IRoleType.user],
-          name: "Animal Group",
-          showInSidebar: false,
+          name: "Mis fincas",
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'crops',
+        component: CropsComponent,
+        data: {
+          name: 'Mis Cultivos',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: "dashboard",
+        component: DashboardComponent,
+        data: {
+          authorities: [
+            IRoleType.admin,
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: "Dashboard",
+          showInSidebar: true,
         },
       },
     ],

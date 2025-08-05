@@ -86,24 +86,25 @@
 }
 
 ::ng-deep .p-dropdown-panel {
-  background: var(--dropdown-bg);
+  background: var(--dropdown-bg, #2a2a2a);
   border: 1px solid var(--input-border);
 
   .p-dropdown-item {
-    color: var(--dropdown-option-text);
+    color: var(--dropdown-option-text, #e0e0e0);
 
     &:hover {
-      background-color: var(--dropdown-option-bg);
+      background-color: var(--dropdown-option-hover-bg, #424242);
+      color: var(--dropdown-option-text, #e0e0e0);
     }
 
-    &:focus {
-      background-color: var(--dropdown-option-hover-bg);
-      color: var(--dropdown-option-hover-text);
+    &.p-focus {
+      background-color: var(--dropdown-option-hover-bg, #424242);
+      color: var(--dropdown-option-text, #e0e0e0);
     }
 
     &.p-highlight {
       background: var(--color-accent);
-      color: var(--color-bg-main);
+      color: var(--color-bg-main, #ffffff);
     }
   }
 }
