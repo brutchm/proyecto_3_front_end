@@ -1,7 +1,50 @@
+// Tips/Recommendation message box styles
+.parcela-tips-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--alert-success-bg);
+  color: var(--color-accent)  !important;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.parcela-tips-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+.parcela-tips-text {
+  flex: 1;
+}
+.parcelas-indication-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--color-accent);
+  color: var(--color-bg-main);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.parcela-tips-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+.parcela-tips-text {
+  flex: 1;
+}
 .farm-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .form-grid {
@@ -37,11 +80,17 @@
 }
 
 .location-map {
-  height: 250px;
+  height: 380px;
   width: 100%;
   border-radius: 8px;
   border: 1px solid var(--input-border);
   margin-top: 0.5rem;
+}
+// Flex row for form fields
+.form-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
 }
 
 .form-actions {

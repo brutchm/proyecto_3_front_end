@@ -180,7 +180,8 @@
           <div class="pt-3 pb-4 px-4 pr-4">
             <div class="mb-4">
               <div class="parcelas-indication-message">
-                <strong>Interacción:</strong> Puede hacer clic en las figuras (parcelas) del mapa para ver la información detallada de cada parcela.
+                <span class="parcela-tips-icon">💡</span>
+                <span class="parcela-tips-text">Interacción: Puede hacer clic en las figuras (parcelas) del mapa para ver la información detallada de cada parcela.</span>
               </div>
               <app-location-map *ngIf="farm?.farmLocation" [coordinates]="farm.farmLocation" [parcelasGeoJSON]="parcelasGeoJSON" (clickFigures)="onClickFigures($event)"></app-location-map>
               <div *ngIf="selectedParcela" class="parcelas-details-box mt-3">
@@ -191,9 +192,22 @@
                     <button class="btn btn-sm btn-danger" style="background: var(--color-warning); color: #fff; border: none;" (click)="onClickEliminarParcela()">Eliminar</button>
                   </div>
                 </div>
-                <div *ngFor="let key of selectedParcela | keyvalue" class="details-row">
-                  <span class="details-label">{{ key.key }}:</span>
-                  <span class="details-value">{{ key.value }}</span>
+                <div class="details-title">Detalles de la Parcela</div>
+                <div class="details-row">
+                  <span class="details-label">Nombre:</span>
+                  <span class="details-value">{{ selectedParcela.plotName }}</span>
+                </div>
+                <div class="details-row">
+                  <span class="details-label">Descripción:</span>
+                  <span class="details-value">{{ selectedParcela.plotDescription }}</span>
+                </div>
+                <div class="details-row">
+                  <span class="details-label">Uso actual:</span>
+                  <span class="details-value">{{ selectedParcela.currentUsage }}</span>
+                </div>
+                <div class="details-row">
+                  <span class="details-label">Tipo de parcela:</span>
+                  <span class="details-value">{{ selectedParcela.plotType }}</span>
                 </div>
               </div>
             </div>

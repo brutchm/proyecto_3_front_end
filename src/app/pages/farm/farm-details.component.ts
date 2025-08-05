@@ -152,7 +152,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   onClickFigures(idx: number) {
     this.indexCurrentSelectedParcela = idx;
     this.selectedParcela = this.parcelasInfo[idx];
-    console.log("Selected parcela:", idx, this.selectedParcela);
   }
 
   onClickEliminarParcela() {
@@ -199,7 +198,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         } else {
           this.selectedParcela = null;
         }
-        console.log("Parcelas fetched:", this.parcelasGeoJSON, this.parcelasInfo);
       },
       error: () => {
         this.parcelasGeoJSON = [];
@@ -266,7 +264,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
-      console.log("Route params:", params);
       this.farmId = params.get("id");
       if (!this.farmId) {
         this.router.navigate(["/app/farm"]);
@@ -285,13 +282,10 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       currentUsage: ['', Validators.required],
       geometryPolygon: ['', Validators.required]
     });
-    console.log("FarmDetailsComponent initialized", this.farmId);
     // Fetch parcelas for the map
     if (this.farmId) {
-      console.log("Fetching parcelas for farmId:", this.farmId);
       this.parcelasService.getParcelas(this.farmId).subscribe({
         next: (res) => {
-          console.log("Parcelas response:", res);
           this.parcelasInfo = res.data || [];
           this.parcelasGeoJSON = (res.data || [])
             .map(p => typeof p.geometryPolygon === 'string' ? p.geometryPolygon : '')

@@ -142,33 +142,6 @@ body { margin: 0; background-color: var(--color-bg-main); }
 }
 
 :host ::ng-deep {
-  .p-button {
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    height: 2.5rem;
-    background: var(--color-accent);
-  }
-
-  .p-dataview .p-dataview-header {
-    background: transparent;
-    border: none;
-    padding: 0;
-  }
-
-  .p-dataview .p-dataview-content .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 0;
-    margin: 0 -1rem;
-  }
-
-  .p-skeleton {
-    background-color: var(--card-bg) !important;
-    border-radius: 16px;
-  }
-
   .p-dialog {
     background-color: var(--color-accent);
     border-radius: 12px;

@@ -238,6 +238,18 @@ export class ParcelasFormComponent implements AfterViewInit, OnDestroy {
         this.form.get('geometryPolygon')?.setValue(JSON.stringify(geojson.geometry));
         this.form.markAsDirty();
       });
+      // In edit mode, update coordinates when polygon is edited
+      this.map.on('draw:edited', (event: any) => {
+        const layers = event.layers;
+        layers.eachLayer((layer: any) => {
+          if (layer instanceof L.Polygon) {
+            const geojson = layer.toGeoJSON();
+            this.drawnPolygonGeoJson = geojson;
+            this.form.get('geometryPolygon')?.setValue(JSON.stringify(geojson.geometry));
+            this.form.markAsDirty();
+          }
+        });
+      });
     } else {
       // In edit mode, update coordinates when polygon is edited
       this.map.on('draw:edited', (event: any) => {
@@ -248,7 +260,6 @@ export class ParcelasFormComponent implements AfterViewInit, OnDestroy {
             this.drawnPolygonGeoJson = geojson;
             this.form.get('geometryPolygon')?.setValue(JSON.stringify(geojson.geometry));
             this.form.markAsDirty();
-            console.log('geometryPolygon updated:', this.form.get('geometryPolygon')?.value);
           }
         });
       });
