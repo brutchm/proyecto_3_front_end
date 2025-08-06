@@ -1,0 +1,36 @@
+
+<div class="crops-page-container">
+  <div class="toolbar">
+    <h2>¡Busca por Cultivos y Publica tus precios!</h2>
+  </div>
+
+
+<app-crop-list 
+  [crops]="crops"
+  [isLoading]="isLoading" 
+  [totalRecords]="totalRecords"
+  [rows]="rows"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  (pageChange)="loadCrops($event)"
+  (publishPrice)="openPriceModal($event)">
+</app-crop-list>
+
+
+<p-dialog 
+  [header]="'Publicar Precio del Cultivo: ' + selectedCropName" 
+  [(visible)]="showPriceModal" 
+  [modal]="true" 
+  [closable]="true"
+  (onHide)="priceMarketForm.reset()" 
+  [style]="{width: '600px', height: '485px' }"
+>
+  <app-prices-market-form 
+    [crop]="selectedCrop!" 
+    (priceSubmitted)="onPriceSubmitted()">
+  </app-prices-market-form>
+
+</p-dialog>
+  
+</div>
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

@@ -18,6 +18,9 @@ import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-cor
 import { ListCorporationComponent } from "./pages/users/corporation/list-corporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { CropsComponent } from './pages/crops/crops.component';
+import { PriceMarketComponent } from "./pages/prices-market/priceMarket.component";
+import { MyPricesListComponent } from "./pages/prices-market/myPrices.component";
+
 
 export const routes: Routes = [
   {
@@ -97,6 +100,24 @@ export const routes: Routes = [
         data: {
           name: 'Mis Cultivos',
           authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'price-market-list',
+        component: MyPricesListComponent,
+        data: {
+          name: 'Mis Precios',
+          authorities: [IRoleType.admin],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'price-market-crops',
+        component: PriceMarketComponent,
+        data: {
+          name: 'Publicar Precios',
+          authorities: [IRoleType.admin],
           showInSidebar: true
         }
       },
