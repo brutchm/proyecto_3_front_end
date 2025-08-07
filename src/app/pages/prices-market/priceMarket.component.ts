@@ -24,7 +24,7 @@ import { DialogService } from 'primeng/dynamicdialog';
   imports: [
     CommonModule, ReactiveFormsModule, ButtonModule, ToastModule,
     ConfirmDialogModule, DialogModule, ToolbarModule, TooltipModule,PriceListComponent,
-    PricesMarketFormComponent,PricesMarketListComponent,//sino lo pongo me dan otros errores distintos
+    PricesMarketFormComponent,PricesMarketListComponent,
   ],
   providers: [DialogService],
   templateUrl: './priceMarket.component.html',
@@ -36,12 +36,8 @@ export class PriceMarketComponent implements OnInit {
 
   private priceMarketService: PriceMarketService = inject(PriceMarketService);
 
-  //private priceMarketService: PriceMarketService = inject(PriceMarketService);
-
   private messageService: MessageService = inject(MessageService);
   public confirmationService: ConfirmationService = inject(ConfirmationService);
-
-
 
   public modalService: ModalService = inject(ModalService);
   @ViewChild('marketPriceModal') public marketPriceModal: any;
@@ -51,8 +47,6 @@ export class PriceMarketComponent implements OnInit {
     price: ['', Validators.required],
     measureUnit: ['', Validators.required]
   });
-
-
 
   crops: ICrop[] = [];
   cropForm!: FormGroup;
@@ -67,11 +61,8 @@ export class PriceMarketComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCrops({ first: 0, rows: this.rows });
-    this.loadPrices({ first: 0, rows: this.priceRows }); // <--- AGREGADO
+    this.loadPrices({ first: 0, rows: this.priceRows });
   }
-  
-  
- // rowsPerPageOptions: number[] = [5, 10, 20, 100];
 
   defaultRowsPerPageOptions = [20, 100];
   rowsPerPageOptions = [...this.defaultRowsPerPageOptions];
@@ -84,12 +75,10 @@ export class PriceMarketComponent implements OnInit {
 
     this.cropService.getAllCrops(page, size).subscribe({
       next: (response) => {
-        console.log('Respuesta completa: ', response);
 
         this.crops = response.data;
         this.totalRecords = response.meta.totalElements;
-
-        // Agregar dinámicamente totalElements si no está en las opciones
+        
         if (!this.rowsPerPageOptions.includes(this.totalRecords)) {
           this.rowsPerPageOptions = [...this.defaultRowsPerPageOptions, this.totalRecords];
         }

@@ -26,7 +26,7 @@ export class MyPricesListComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
   private messageService = inject(MessageService);
   private priceToDelete: IPriceMarket | null = null;
-  //private priceMarketService = inject(PriceMarketService);
+
   ref: DynamicDialogRef | null = null;
   priceToEdit: IPriceMarket | null = null;
 
@@ -64,8 +64,8 @@ export class MyPricesListComponent implements OnInit {
   }
 
    /** 
-   * Este método se llama desde app-prices-market-list al hacer clic en el botón de eliminar.
-   * Solo muestra la confirmación.
+   * Este metodo se llama desde app-prices-market-list al hacer clic en el botón de eliminar.
+   * Solo muestra la confirmacion
    */
    deletePrice(id: number): void {
     this.priceToDelete = this.prices.find(p => p.id === id) ?? null;
@@ -129,7 +129,7 @@ export class MyPricesListComponent implements OnInit {
       header: 'Registrar nuevo precio',
       width: '30rem',
       data: {
-        crop: { id: null, cropName: '' } // Proporciona un valor por defecto si lo necesitas
+        crop: { id: null, cropName: '' }
       }
     });
   

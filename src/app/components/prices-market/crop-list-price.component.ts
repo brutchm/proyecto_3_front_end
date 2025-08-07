@@ -40,10 +40,6 @@ export class PriceListComponent {
 onPublishPrice(crop: ICrop): void {
   this.publishPrice.emit(crop);
 }
-ngOnChanges() {
-  console.log('Opciones de paginación recibidas:', this.rowsPerPageOptions);
-}
-
 
 @Output() lazyLoad: EventEmitter<any> = new EventEmitter();
 @Input() rowsPerPageOptions: number[] = [20, 100];
