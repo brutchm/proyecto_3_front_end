@@ -1,0 +1,94 @@
+<p-table
+  #dt
+  [value]="transactions"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  [paginator]="true"
+  [lazy]="false"
+  (onPage)="onPage($event)"
+  [globalFilterFields]="['transactionType', 'farmName', 'cropName']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  [rowHover]="true"
+  [loading]="isLoading"
+  paginatorPosition="bottom"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} transacciones"
+  [rowsPerPageOptions]="[10, 20, 50]"
+>
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="applyFilterGlobal($event, 'contains')"
+          placeholder="Buscar transacción..."
+        />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="transactionType" style="width: 12rem">
+        Tipo <p-sortIcon field="transactionType"></p-sortIcon>
+      </th>
+      <th pSortableColumn="farmName">
+        Finca <p-sortIcon field="farmName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="cropName">
+        Cultivo <p-sortIcon field="cropName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="totalValue" style="width: 12rem">
+        Valor Total <p-sortIcon field="totalValue"></p-sortIcon>
+      </th>
+      <th pSortableColumn="transactionDate" style="width: 12rem">
+        Fecha <p-sortIcon field="transactionDate"></p-sortIcon>
+      </th>
+      <th style="width: 8rem" class="text-center">Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-tx>
+    <tr>
+      <td>
+        <p-tag
+          [value]="tx.transactionType"
+          [severity]="getTransactionSeverity(tx.transactionType)"
+        ></p-tag>
+      </td>
+      <td>{{ tx.farmName || "N/A" }}</td>
+      <td>{{ tx.cropName || "N/A" }}</td>
+      <td>{{ tx.totalValue | currency : "CRC" : "symbol" : "1.2-2" }}</td>
+      <td>{{ tx.transactionDate | date : "dd/MM/yyyy" }}</td>
+      <td class="text-center">
+        <button
+          pButton
+          pRipple
+          pTooltip="Editar"
+          tooltipPosition="top"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text"
+          (click)="onEdit(tx)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Eliminar"
+          tooltipPosition="top"
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-text p-button-danger"
+          (click)="onDelete(tx)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6" class="text-center p-4">
+        No se encontraron transacciones.
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
