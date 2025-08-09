@@ -1,0 +1,45 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="price">Precio (En colones)</label>
+        <p-inputNumber id="price"
+          formControlName="price"
+          mode="currency"
+          currency="CRC"
+          locale="es-CR"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="2"
+          [useGrouping]="true"
+          inputId="price"
+          styleClass="w-full"
+        />
+        <small class="p-error" *ngIf="form.get('price')?.touched && form.get('price')?.invalid">
+          <ng-container *ngIf="form.get('price')?.errors?.['required']">
+            El precio es obligatorio.
+          </ng-container>
+          <ng-container *ngIf="form.get('price')?.errors?.['min']">
+            El precio debe ser mayor a 0.
+          </ng-container>
+          <p>{{ form.get('price')?.value | currency:'CRC':'symbol':'1.2-2' }}</p>
+
+        </small>
+      </div>
+      
+      <div class="p-field">
+        <label for="measureUnit">Unidad de Medida</label>
+        <p-dropdown 
+        inputId="measureUnit"
+        [options]="measureUnitOptions"
+        formControlName="measureUnit"
+        placeholder="Selecciona una unidad"
+        optionLabel="label"
+        optionValue="value" 
+      ></p-dropdown>
+      </div>
+      
+      <div class="p-field text-right mt-3">
+        <button type="submit" pButton label="Publicar Precio" [disabled]="form.invalid"></button>
+      </div>
+    </div>
+  </form>
+  
