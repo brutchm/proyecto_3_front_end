@@ -42,11 +42,14 @@ import {
   ManagementPlotPayload,
   ManagementPlotsService,
 } from "../../services/management-plots.service";
-import { CropService, ICrop } from "../../services/crop.service";
+import { CropService } from "../../services/crop.service";
+
+
 import {
   IPlotManagementRecord,
   PlotManagementService,
 } from "../../services/plot-management.service";
+import { ICrop } from "../../interfaces/crop.interface";
 
 @Component({
   selector: "app-farm-details",
