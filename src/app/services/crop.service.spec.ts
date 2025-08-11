@@ -25,7 +25,7 @@ describe('CropService', () => {
   });
 
   it('should get all crops', () => {
-    const mockCrop = { id: null, cropName: 'Maíz' };
+    const mockCrop = { id: 1, cropName: 'Maíz' };
     const mockResponse = { data: [mockCrop], totalPages: 1, totalElements: 1, number: 1, size: 5 };
     service.getAllCrops(1, 5).subscribe(res => {
       expect(res).toEqual(mockResponse);
