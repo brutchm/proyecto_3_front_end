@@ -1,3 +1,5 @@
+import { ICrop } from "./crop.interface";
+
 export interface ILoginResponse {
   accessToken: string;
   expiresIn: number
@@ -71,4 +73,10 @@ export interface ISearch {
   pageSize?: number;
   totalElements?: number;
   totalPages?:number;
+}
+export interface IPriceMarket {
+  id?: number;
+  crop?: ICrop;
+  price?: number;
+  measureUnit?: string;
 }

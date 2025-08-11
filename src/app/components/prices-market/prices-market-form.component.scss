@@ -1,0 +1,93 @@
+label{
+color: var(--color-text-primary);
+
+}
+
+:host ::ng-deep .p-fluid .p-field {
+  margin-bottom: 1.5rem;
+}
+
+input, p-dropdown {
+  width: 100%;
+}
+
+// PrimeNG Overrides
+::ng-deep .custom-dialog .p-dialog-content {
+    overflow-y: auto;
+  }
+  
+:host ::ng-deep .p-field {
+    margin-bottom: 1.25rem; 
+
+    .p-button {
+      background: var(--color-accent);
+    }
+  
+    .p-inputtext,
+    .p-dropdown,
+    .p-inputtextarea {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+    }
+  
+    .p-inputtextarea {
+      min-height: 85px;
+    }
+  
+    .p-accordion .p-accordion-header-link {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+    }
+    .p-accordion .p-accordion-content {
+      background: var(--card-bg);
+      border: 1px solid var(--input-border);
+      padding-top: 1.5rem;
+    }
+  
+    .p-dropdown {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+      width: 100%;
+      min-width: 50%;
+  
+      &:hover {
+        border-color: var(--color-accent);
+      }
+  
+      &.p-focus {
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 1px var(--color-accent);
+      }
+  
+      .p-dropdown-label {
+        color: var(--input-text);
+      }
+    }
+  }
+  
+  ::ng-deep .p-dropdown-panel {
+    background: var(--dropdown-bg);
+    border: 1px solid var(--input-border);
+  
+    .p-dropdown-item {
+      color: var(--dropdown-option-text);
+  
+      &:hover {
+        background-color: var(--dropdown-option-bg);
+      }
+  
+      &:focus {
+        background-color: var(--dropdown-option-hover-bg);
+        color: var(--dropdown-option-hover-text);
+      }
+  
+      &.p-highlight {
+        background: var(--color-accent);
+        color: var(--color-bg-main);
+      }
+    }
+  }
+  

@@ -1,4 +1,4 @@
-.crop-form {
+.transaction-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -16,33 +16,10 @@
   }
 }
 
-.conditional-input-group {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  > * {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-}
-
-.image-preview-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  .image-preview {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid var(--input-border);
-  }
-
-  input {
-    flex-grow: 1;
-  }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
 
 .form-actions {
@@ -52,33 +29,26 @@
 }
 
 :host ::ng-deep {
-  .p-inputtext {
+  .p-inputtext,
+  .p-dropdown,
+  .p-inputnumber,
+  .p-calendar {
+    width: 100%;
     background-color: var(--input-bg);
     border: 1px solid var(--input-border);
     color: var(--input-text);
 
-    &:focus {
+    &:focus-within {
       border-color: var(--color-accent);
       box-shadow: 0 0 0 1px var(--color-accent);
     }
   }
 
-  .p-dropdown {
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--input-text);
+  .p-inputnumber-input {
     width: 100%;
-    min-width: 50%;
+  }
 
-    &:hover {
-      border-color: var(--color-accent);
-    }
-
-    &.p-focus {
-      border-color: var(--color-accent);
-      box-shadow: 0 0 0 1px var(--color-accent);
-    }
-
+  .p-dropdown {
     .p-dropdown-label {
       color: var(--input-text);
     }

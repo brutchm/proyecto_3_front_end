@@ -9,10 +9,11 @@ import { DialogModule } from 'primeng/dialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { ICrop } from '../../interfaces/crop.interface';
-import { CropService, GlobalResponse } from '../../services/crop.service';
+import { CropService } from '../../services/crop.service';
 import { CropListComponent } from '../../components/crop/crop-list/crop-list.component';
 import { CropFormComponent } from '../../components/crop/crop-form/crop-form.component';
 import { TablePageEvent } from 'primeng/table';
+import { GlobalResponse } from '../../interfaces/GlobalResponse.interface';
 
 /**
  * @class CropsComponent
