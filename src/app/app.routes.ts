@@ -117,7 +117,24 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
-        
+      {
+        path: 'my-suggestion-list-ai',
+        component: SuggestionListComponent,
+        data: {
+          name: 'Mis Sugerencias',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'suggestion-ai',
+        component: SuggestionAIComponent,
+        data: {
+          name: 'Crear Sugerencia (IA)',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
       {
         path: "listCorporation",
         component: ListCorporationComponent,
@@ -142,6 +159,7 @@ export const routes: Routes = [
           showInSidebar: false,
         },
       },
+      
       {
         path: "transactions",
         component: TransactionsComponent,
@@ -183,24 +201,7 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
-      {
-        path: 'suggestion-ai',
-        component: SuggestionAIComponent,
-        data: {
-          name: 'Crear Sugerencia (IA)',
-          authorities: [IRoleType.user],
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'my-suggestion-list-ai',
-        component: SuggestionListComponent,
-        data: {
-          name: 'Mis Sugerencias',
-          authorities: [IRoleType.user],
-          showInSidebar: true
-        }
-      },
+      
       {
         path: "dashboard",
         component: DashboardComponent,
