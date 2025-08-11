@@ -1,0 +1,74 @@
+<form [formGroup]="suggestionForm" class="suggestion-ai-container p-fluid">
+
+  <div class="form-content">
+    <!-- Texto descriptivo -->
+    <div class="suggestion-description">
+      <h2>Generador de Sugerencias con IA</h2>
+      <p>
+        En esta sección puedes realizar preguntas o solicitudes relacionadas con las fincas seleccionadas.
+        La inteligencia artificial procesará tu petición y generará una sugerencia personalizada.
+      </p>
+      <img src="assets/img/img-AI/SuggestionIA.png" alt="Imagen IA" />
+    </div>
+
+    <!-- Campos del formulario -->
+    <div class="suggestion-fields">
+      <div class="form-group">
+        <label for="farmId">Seleccione una Finca</label>
+        <p-dropdown
+          [options]="farms"
+          optionLabel="farm.farmName"
+          optionValue="farm.id"
+          formControlName="farmId"
+          placeholder="Seleccione una finca"
+          class="custom-dropdown">
+        </p-dropdown>
+      </div>
+
+      <div class="form-group">
+        <label for="prompt">Escribe tu Pregunta o Solicitud</label>
+        <textarea
+          pInputTextarea
+          rows="4"
+          formControlName="prompt"
+          placeholder="Escribe tu pregunta o solicitud..."
+          class="custom-textarea">
+        </textarea>
+      </div>
+
+      <div class="form-group">
+        <button
+          pButton
+          type="button"
+          label="Generar Sugerencia"
+          icon="pi pi-send"
+          (click)="generateSuggestion()"
+          [disabled]="loading || suggestionForm.invalid"
+          class="custom-button">
+        </button>
+      </div>
+
+      <!-- Spinner -->
+      <div class="spinner-container" *ngIf="loading" style="text-align: center; margin: 1rem 0;">
+        <p>Por favor espere unos segundos mientras se procesa la sugerencia.</p>
+        <p-progressSpinner styleClass="custom-spinner"></p-progressSpinner>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Texto generado -->
+<div class="form-group" *ngIf="displayedText" [@fadeInOut]>
+  <label>Respuesta generada</label>
+  <pre class="output-text">{{ displayedText }}</pre>
+  <button
+    pButton
+    type="button"
+    label="Guardar Sugerencia"
+    icon="pi pi-save"
+    (click)="saveGeneratedSuggestion()"
+    [disabled]="isSuggestionSaved"
+    class="saveSuggestion"
+    style="margin-top: 1rem;">
+  </button>
+</div>

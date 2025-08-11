@@ -18,6 +18,8 @@ import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-cor
 import { ListCorporationComponent } from "./pages/users/corporation/list-corporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { CropsComponent } from './pages/crops/crops.component';
+import { SuggestionAIComponent } from "./pages/suggestionAI/suggestionAI.component";
+import { SuggestionListComponent } from "./pages/suggestionAI/suggestion-list.component";
 
 export const routes: Routes = [
   {
@@ -96,6 +98,24 @@ export const routes: Routes = [
         component: CropsComponent,
         data: {
           name: 'Mis Cultivos',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'suggestion-ai',
+        component: SuggestionAIComponent,
+        data: {
+          name: 'Crear Sugerencia (IA)',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'my-suggestion-list-ai',
+        component: SuggestionListComponent,
+        data: {
+          name: 'Mis Sugerencias',
           authorities: [IRoleType.user],
           showInSidebar: true
         }

@@ -1,0 +1,227 @@
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+  }
+.suggestion-ai-container {
+    background-color: var(--color-bg-main);
+    padding: 1.5rem;
+    border-radius: 10px;
+    color: var(--color-text-primary);
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  
+    .form-group {
+      margin-bottom: 1.5rem;
+  
+     
+    }
+  
+    /* Dropdown */
+    .custom-dropdown ::ng-deep .p-dropdown {
+      background-color: var(--dropdown-bg);
+      border: 1px solid var(--input-border);
+      color: var(--dropdown-option-text);
+      border-radius: 6px;
+  
+      .p-dropdown-label {
+        color: var(--input-text);
+      }
+  
+      .p-dropdown-items {
+        background-color: var(--dropdown-bg);
+  
+        .p-dropdown-item {
+          background-color: var(--dropdown-option-bg);
+          color: var(--dropdown-option-text);
+  
+          &:hover {
+            background-color: var(--color-accent);
+            color: var(--color-btn-primary-text);
+          }
+        }
+      }
+    }
+  
+    /* Textareas */
+    .custom-textarea {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+      border-radius: 6px;
+      padding: 0.75rem;
+      resize: vertical;
+  
+      &:focus {
+        border-color: var(--color-accent);
+        outline: none;
+      }
+    }
+  
+
+    .output-textarea {
+      min-height: 200px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  
+
+    .custom-button ::ng-deep .p-button {
+      background-color: var(--color-btn-primary);
+      color: var(--color-btn-primary-text);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: bold;
+  
+      &:hover {
+        background-color: var(--color-btn-primary-hover);
+      }
+  
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+    scrollbar-width: thin;
+    scrollbar-color: #7ED957 transparent;
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: #7ED957;
+      border-radius: 10px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+  .custom-spinner {
+    width: 50px !important;
+    height: 50px !important;
+    stroke-width: 5 !important;
+    stroke: var(--color-accent) !important;
+  }
+  
+  .suggestion-ai-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 1rem;
+    background-color: var(--color-bg-main);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  
+  .custom-textarea {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  .output-textarea {
+    font-family: monospace;
+    white-space: pre-wrap; 
+  }
+  
+  .custom-button {
+    background-color: var(--color-btn-primary);
+    color: var(--color-btn-primary-text);
+    border: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .custom-button:hover:not(:disabled) {
+    background-color: var(--color-btn-primary-hover);
+  }
+  
+  .custom-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .output-text {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    padding: 1rem;
+    white-space: pre-wrap;
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    user-select: text;
+    font-size: 1.1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #7ED957 transparent;
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: #7ED957;
+      border-radius: 10px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+  
+  button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .suggestion-ai-container {
+    .form-content {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+  
+    .suggestion-description {
+      flex: 1;
+      min-width: 250px;
+      background-color: var(--color-bg-main);
+      padding: 1rem;
+      text-align: center;
+    
+  
+      h2 {
+        color: var(--color-accent);
+        margin-bottom: 1rem;
+      }
+  
+      p {
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+      }
+  
+      img {
+        width: 100%;
+        max-width: 200px;
+        border-radius: 8px;
+       
+      }
+    }
+  
+    .suggestion-fields {
+      flex: 2;
+      min-width: 300px;
+    }
+  }
+  
