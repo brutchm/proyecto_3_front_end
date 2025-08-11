@@ -16,5 +16,5 @@ jobs:
         with:
           node-version: '18'
       - run: npm ci
-      - run: npm test -- --watch=false
+      - run: ng test --browsers=ChromeHeadless --watch=false
       - run: ng build --configuration=production
