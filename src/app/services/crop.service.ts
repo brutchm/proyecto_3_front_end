@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICrop } from '../interfaces/crop.interface';
+export { ICrop } from '../interfaces/crop.interface';
 /**
  * Interfaz para la respuesta global de la API.
  * Puedes ajustar los campos según la estructura real de tu backend.
