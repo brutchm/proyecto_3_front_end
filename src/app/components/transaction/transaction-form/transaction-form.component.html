@@ -1,0 +1,103 @@
+<form [formGroup]="form" (ngSubmit)="onSave()" class="transaction-form">
+  <div class="form-field">
+    <label for="transactionType">Tipo de Transacción</label>
+    <p-dropdown
+      id="transactionType"
+      formControlName="transactionType"
+      [options]="transactionTypes"
+      placeholder="Seleccione un tipo"
+    ></p-dropdown>
+  </div>
+
+  <div class="form-field">
+    <label for="farmId">Finca (Opcional)</label>
+    <p-dropdown
+      id="farmId"
+      formControlName="farmId"
+      [options]="farms"
+      optionLabel="farmName"
+      optionValue="id"
+      placeholder="Seleccione una finca"
+      [showClear]="true"
+    ></p-dropdown>
+  </div>
+
+  <div class="form-field">
+    <label for="cropId">Cultivo (Opcional)</label>
+    <p-dropdown
+      id="cropId"
+      formControlName="cropId"
+      [options]="crops"
+      optionLabel="cropName"
+      optionValue="id"
+      placeholder="Seleccione un cultivo"
+      [showClear]="true"
+    ></p-dropdown>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="quantity">Cantidad</label>
+      <p-inputNumber
+        id="quantity"
+        formControlName="quantity"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        (onInput)="calculateTotalValue()"
+      ></p-inputNumber>
+    </div>
+    <div class="form-field">
+      <label for="measureUnit">Unidad de Medida</label>
+      <p-dropdown
+        id="measureUnit"
+        formControlName="measureUnit"
+        [options]="measureUnits"
+        placeholder="Seleccione una unidad"
+      >
+      </p-dropdown>
+    </div>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="pricePerUnit">Precio por Unidad</label>
+      <p-inputNumber
+        id="pricePerUnit"
+        formControlName="pricePerUnit"
+        mode="currency"
+        currency="CRC"
+        (onInput)="calculateTotalValue()"
+      ></p-inputNumber>
+    </div>
+    <div class="form-field">
+      <label for="totalValue">Valor Total</label>
+      <p-inputNumber
+        id="totalValue"
+        formControlName="totalValue"
+        mode="currency"
+        currency="CRC"
+        [readonly]="true"
+      ></p-inputNumber>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="transactionDate">Fecha de la Transacción</label>
+    <p-calendar
+      id="transactionDate"
+      formControlName="transactionDate"
+      dateFormat="dd/mm/yy"
+    ></p-calendar>
+  </div>
+
+  <div class="form-actions">
+    <button
+      pButton
+      pRipple
+      type="submit"
+      [label]="isEditMode ? 'Guardar Cambios' : 'Registrar'"
+      [disabled]="form.invalid"
+    ></button>
+  </div>
+</form>

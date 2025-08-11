@@ -1,0 +1,102 @@
+:host {
+    display: block;
+    background-color: var(--color-bg-main);
+    padding: 2rem;
+    min-height: 100%;
+  }
+  
+  .toolbar {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+  
+    h2 {
+      color: var(--color-text-primary);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  
+    .p-button {
+      background-color: var(--color-btn-primary);
+      border: 1px solid var(--color-btn-primary);
+      color: var(--color-btn-primary-text);
+      font-weight: bold;
+  
+      &:hover {
+        background-color: var(--color-btn-primary-hover);
+        border-color: var(--color-btn-primary-hover);
+      }
+    }
+  }
+  
+  ::ng-deep {
+    .p-button {
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      height: 2.5rem;
+    }
+  
+    .p-dialog {
+      background-color: var(--color-accent);
+      border-radius: 12px;
+      border: 1px solid var(--color-divider);
+  
+      .p-dialog-header {
+        background-color: transparent;
+        color: var(--color-text-primary);
+        border-bottom: 1px solid var(--color-divider);
+        padding: 1.5rem;
+  
+        .p-dialog-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+  
+        .p-dialog-header-icon {
+          color: var(--color-text-primary);
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+  
+      .p-dialog-footer {
+        background: var(--color-bg-main);
+        padding: 1rem;
+        border-top: 1px solid var(--color-divider);
+      }
+  
+      .p-dialog-content {
+        background: var(--card-bg);
+        padding: 2rem;
+      }
+    }
+  
+    .p-confirm-dialog {
+      .p-confirm-dialog-message {
+        color: var(--color-text-primary);
+      }
+  
+      .p-confirm-dialog-icon {
+        color: var(--color-warning);
+      }
+  
+      .confirmation-buttons {
+        display: flex;
+        justify-content: end;
+        gap: 1rem;
+  
+        .p-button {
+          color: var(--color-btn-primary-text);
+          border-radius: 6px;
+          padding: 0.5rem 1.5rem;
+          font-weight: 500;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  

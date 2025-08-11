@@ -1,0 +1,91 @@
+
+    <p-table
+      #dt
+      [value]="prices"
+      [rows]="rows"
+      [totalRecords]="totalRecords"
+      [paginator]="true"
+      [lazy]="false"
+      [loading]="isLoading"
+      [globalFilterFields]="['crop.cropName', 'measureUnit', 'price']"
+      [rowsPerPageOptions]="rowsPerPageOptions"
+      (onPage)="onPage($event)"
+      [tableStyle]="{ 'min-width': '65rem' }"
+      class="p-datatable-sm p-datatable-striped p-datatable-gridlines rounded-table"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-header flex align-items-center justify-content-between px-3 py-2">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input 
+              pInputText 
+              type="text" 
+              (input)="applyFilterGlobal($event, 'contains')" 
+              placeholder="Buscar cultivo..." 
+              class="p-inputtext-sm search-input"
+            />
+          </span>
+        </div>
+      </ng-template>
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 8rem">Imagen</th>
+          <th pSortableColumn="crop.cropName">Cultivo <p-sortIcon field="crop.cropName"></p-sortIcon></th>
+          <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon></th>
+          <th pSortableColumn="measureUnit">Unidad <p-sortIcon field="measureUnit"></p-sortIcon></th>
+          <th pSortableColumn="createdAt">Fecha Publicación<p-sortIcon field="createdAt"></p-sortIcon></th>
+          <th style="width: 5rem;">Acciones</th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-price>
+        <tr>
+          <td>
+            <img 
+              [src]="price.crop?.cropPicture || 'https://placehold.co/100x100/373737/E0E0E0?text=Cultivo'" 
+              alt="Imagen de {{ price.crop?.cropName }}" 
+              class="crop-image"
+            />
+          </td>
+          <td>{{ price.crop?.cropName }}</td>
+          <td>₡ {{ price.price | number:'1.2-2' }}</td>
+          <td>{{ price.measureUnit }}</td>
+          <td>{{ price.updatedAt | date:'dd/MM/yyyy hh:mm a' }}</td>
+          <td class="text-center">
+            <div class="button-group">
+              <button 
+                pButton 
+                pRipple 
+                pTooltip="Editar" 
+                tooltipPosition="top" 
+                icon="pi pi-pencil" 
+                class="p-button-rounded p-button-text" 
+                (click)="onEditClick(price)">
+              </button>
+          
+              <button 
+                pButton 
+                pRipple 
+                pTooltip="Eliminar" 
+                tooltipPosition="top" 
+                icon="pi pi-trash" 
+                class="p-button-rounded p-button-text p-button-danger" 
+                (click)="onDeleteClick(price.id)">
+              </button>
+            </div>
+          </td>
+
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center p-4 text-muted">No se encontraron precios registrados.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  
+
+  
