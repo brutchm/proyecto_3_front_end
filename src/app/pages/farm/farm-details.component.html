@@ -552,7 +552,7 @@
             </div>
             <p-dialog [header]="editParcelaMode ? 'Editar Parcela' : 'Nueva Parcela'" [(visible)]="displayDialog"
               [modal]="true" [style]="{width: '70vw', 'min-width': '750px'}" [draggable]="false" [resizable]="false">
-              <app-parcelas-form *ngIf="displayDialog" [form]="parcelaForm" [farmLocation]="farm?.farmLocation"
+              <app-parcelas-form *ngIf="displayDialog" [form]="parcelaForm" [farmLocation]="farm.farmLocation"
                 [parcelasGeoJSON]="parcelasGeoJSON" [editMode]="editParcelaMode"
                 [title]="editParcelaMode ? 'Editar Parcela' : 'Nueva Parcela'" (save)="handleSave()"
                 (cancel)="displayDialog = false"></app-parcelas-form>
