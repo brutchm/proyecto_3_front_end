@@ -21,7 +21,7 @@ import { MessageService } from "primeng/api";
       ConfirmDialogModule, DialogModule, ToolbarModule, TooltipModule,DropdownModule, ProgressSpinnerModule
     ],
   templateUrl: "./suggestionAI.component.html",
-    styleUrls: ["./suggestionAI.component.scss"],
+    styleUrls: ["./suggestionStyle.component.scss"],
     animations: [
         trigger('fadeInOut', [
           state('void', style({ opacity: 0 })),
