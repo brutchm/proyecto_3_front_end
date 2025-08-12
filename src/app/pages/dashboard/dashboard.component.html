@@ -1,3 +1,120 @@
-<div>
-  <h1>Dashboard</h1>
+<!-- <p-toast></p-toast>
+<div class="dashboard-container">
+  <div class="toolbar">
+    <h2 class="page-title">Dashboard</h2>
+    <button pButton type="button" label="Generar Reporte" icon="pi pi-file-pdf" (click)="openReportGenerator()"></button>
+  </div>
+
+  <ng-container *ngIf="summary$ | async as summary; else kpiLoading">
+    <div class="widgets-grid">
+      <app-kpi-widget title="Ingresos Totales" [value]="summary.totalIncome" icon="pi pi-arrow-up" color="green" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Costos Totales" [value]="summary.totalExpenses" icon="pi pi-arrow-down" color="red" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Balance General" [value]="summary.netBalance" icon="pi pi-wallet" color="blue" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Transacciones" [value]="summary.transactionCount" icon="pi pi-list" color="orange"></app-kpi-widget>
+    </div>
+  </ng-container>
+  <ng-template #kpiLoading>
+    <div class="widgets-grid">
+      <div class="skeleton-widget"></div><div class="skeleton-widget"></div>
+      <div class="skeleton-widget"></div><div class="skeleton-widget"></div>
+    </div>
+  </ng-template>
+
+  <div class="charts-grid">
+    <div class="chart-section">
+      <ng-container *ngIf="monthlyChartData$ | async as chartData; else chartLoading">
+        <app-chart-widget *ngIf="chartData" [chartData]="chartData" title="Ingresos vs. Egresos (Mes Actual)" type="doughnut"></app-chart-widget>
+      </ng-container>
+      <ng-template #chartLoading>
+        <div class="skeleton-chart"></div>
+      </ng-template>
+    </div>
+
+    <div class="chart-section">
+      <ng-container *ngIf="cropYieldData$ | async as chartData; else chartLoading">
+        <app-chart-widget *ngIf="chartData" [chartData]="chartData" title="Top 5 Cultivos por Rendimiento" type="bar"></app-chart-widget>
+      </ng-container>
+      <ng-template #chartLoading>
+        <div class="skeleton-chart"></div>
+      </ng-template>
+    </div>
+  </div>
+
+  <ng-template #errorState>
+     <div class="error-message">No hay datos de transacciones disponibles para mostrar el resumen.</div>
+  </ng-template>
 </div>
+
+<app-report-generator
+  [(visible)]="displayReportGenerator"
+  [farms]="farms"
+  [crops]="crops"
+  (generate)="handleReportGeneration($event)">
+</app-report-generator> -->
+
+
+<p-toast></p-toast>
+<div class="dashboard-container">
+  <div class="toolbar">
+    <h2 class="page-title">Dashboard</h2>
+    <button pButton type="button" label="Generar Reporte" icon="pi pi-file-pdf" (click)="openReportGenerator()"></button>
+  </div>
+
+  <!-- Widgets de KPI -->
+  <ng-container *ngIf="summary$ | async as summary; else kpiLoading">
+    <div class="widgets-grid">
+      <app-kpi-widget title="Ingresos Totales" [value]="summary.totalIncome" icon="pi pi-arrow-up" color="green" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Costos Totales" [value]="summary.totalExpenses" icon="pi pi-arrow-down" color="red" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Balance General" [value]="summary.netBalance" icon="pi pi-wallet" color="blue" [currency]="true"></app-kpi-widget>
+      <app-kpi-widget title="Transacciones" [value]="summary.transactionCount" icon="pi pi-list" color="orange"></app-kpi-widget>
+    </div>
+  </ng-container>
+  <ng-template #kpiLoading>
+    <div class="widgets-grid">
+      <div class="skeleton-widget"></div><div class="skeleton-widget"></div>
+      <div class="skeleton-widget"></div><div class="skeleton-widget"></div>
+    </div>
+  </ng-template>
+
+  <!-- Fila de Gráficos -->
+  <div class="charts-grid">
+    <div class="chart-section">
+      <ng-container *ngIf="monthlyChartData$ | async as chartData; else chartLoading">
+        <app-chart-widget *ngIf="chartData" [chartData]="chartData" title="Ingresos vs. Egresos (Mes Actual)" type="doughnut"></app-chart-widget>
+      </ng-container>
+      <ng-template #chartLoading>
+        <div class="skeleton-chart"></div>
+      </ng-template>
+    </div>
+    <div class="chart-section">
+      <ng-container *ngIf="cropYieldData$ | async as chartData; else chartLoading">
+        <app-chart-widget *ngIf="chartData" [chartData]="chartData" title="Top 5 Cultivos por Rendimiento" type="bar"></app-chart-widget>
+      </ng-container>
+      <ng-template #chartLoading>
+        <div class="skeleton-chart"></div>
+      </ng-template>
+    </div>
+  </div>
+
+  <ng-template #errorState>
+     <div class="error-message">No hay datos de transacciones disponibles para mostrar el resumen.</div>
+  </ng-template>
+</div>
+
+<!-- Modal Generador de Reportes -->
+<app-report-generator
+  [(visible)]="displayReportGenerator"
+  [farms]="farms"
+  [crops]="crops"
+  (generate)="handleReportGeneration($event)">
+</app-report-generator>
+
+<!-- Modal Visualizador de Reportes Tabulares -->
+<p-dialog header="Visualizador de Reportes" [(visible)]="displayReportViewer" [modal]="true" [style]="{width: '70vw'}">
+  <app-table-report-viewer 
+    *ngIf="displayReportViewer"
+    [reportTitle]="tabularReportTitle"
+    [columns]="tabularReportColumns"
+    [data]="tabularReportData">
+  </app-table-report-viewer>
+</p-dialog>

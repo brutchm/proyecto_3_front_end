@@ -1,0 +1,181 @@
+// :host {
+//   display: block;
+//   background-color: var(--color-bg-main);
+//   padding: 2rem;
+//   min-height: 100%;
+// }
+
+// .dashboard-container {
+//   max-width: 1400px;
+//   margin: 0 auto;
+// }
+
+// .toolbar {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 2rem;
+// }
+
+// .page-title {
+//   color: var(--color-text-primary);
+//   font-size: 1.8rem;
+//   font-weight: bold;
+// }
+
+// .widgets-grid {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+//   gap: 1.5rem;
+// }
+
+// .skeleton-widget {
+//   height: 125px;
+//   background-color: var(--card-bg);
+//   border-radius: 12px;
+// }
+
+// .error-message {
+//   background-color: var(--card-bg);
+//   padding: 2rem;
+//   border-radius: 12px;
+//   text-align: center;
+//   color: var(--color-text-secondary);
+// }
+
+
+
+
+
+:host {
+  display: block;
+  background-color: var(--color-bg-main);
+  padding: 2rem;
+  min-height: 100%;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  color: var(--color-text-primary);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skeleton-widget {
+  height: 125px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+}
+
+.error-message {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+// **ESTILOS AÑADIDOS:** Copiados de 'transactions.component.scss' para el diálogo
+:host ::ng-deep {
+  .p-dialog {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--color-divider);
+
+    .p-dialog-header {
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border-bottom: 1px solid var(--color-divider);
+      padding: 1.5rem;
+
+      .p-dialog-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+
+    .p-dialog-content {
+      background: var(--card-bg);
+      padding: 2rem;
+    }
+    
+    .p-dialog-footer {
+      background-color: var(--card-bg);
+      border-top: 1px solid var(--color-divider);
+      text-align: right;
+      padding: 1rem 1.5rem;
+    }
+  }
+}
+
+// :host {
+//   display: block;
+//   background-color: var(--color-bg-main);
+//   padding: 2rem;
+//   min-height: 100%;
+// }
+
+// .dashboard-container {
+//   max-width: 1400px;
+//   margin: 0 auto;
+// }
+
+// .toolbar {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 2rem;
+// }
+
+// .page-title {
+//   color: var(--color-text-primary);
+//   font-size: 1.8rem;
+//   font-weight: bold;
+// }
+
+// .widgets-grid {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+//   gap: 1.5rem;
+// }
+
+// .chart-section {
+//   margin-top: 2rem;
+// }
+
+// .skeleton-widget {
+//   height: 125px;
+//   background-color: var(--card-bg);
+//   border-radius: 12px;
+// }
+
+// .skeleton-chart {
+//   height: 440px;
+//   background-color: var(--card-bg);
+//   border-radius: 12px;
+// }
+
+// .error-message {
+//   background-color: var(--card-bg);
+//   padding: 2rem;
+//   border-radius: 12px;
+//   text-align: center;
+//   color: var(--color-text-secondary);
+// }
