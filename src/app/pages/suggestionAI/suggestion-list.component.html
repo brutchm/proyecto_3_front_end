@@ -1,0 +1,70 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<h3>Listado de sugerencias de fincas</h3>
+<p>Aquí puedes ver todas las sugerencias registradas para las fincas.</p>
+<p-table
+  [value]="suggestions"
+  [paginator]="true"
+  [loading]="loading"
+  responsiveLayout="scroll"
+  styleClass="p-datatable-striped"
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  [lazy]="true"
+  (onPage)="onPageChange($event)"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Finca</th>
+      <th style="width:60%">Sugerencia</th>
+      <th>Fecha de Creación</th>
+      <th style="width:120px">Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-suggestion>
+    <tr>
+      <td>{{ suggestion.relatedFarm?.farmName || 'Sin nombre' }}</td>
+  
+
+      <span class="text-preview">{{ suggestion.suggestion }}</span>
+      <button pButton icon="pi pi-search" 
+              class="p-button-text p-button-sm" 
+              (click)="verSugerencia(suggestion.suggestion)"
+              pTooltip="Ver Sugerencia Completa"
+              tooltipPosition="top"
+              >
+      </button>
+
+      <td>{{ suggestion.createdAt ? (suggestion.createdAt | date: 'short') : '-' }}</td>
+      <td>
+        <button pButton icon="pi pi-trash" 
+                class="p-button-rounded p-button-danger p-button-sm"
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+                (click)="confirmDelete(suggestion)">
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="4">No hay sugerencias registradas</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- modal para ver toda la sugerencia-->
+  <p-dialog
+  header="Sugerencia completa"
+  [(visible)]="modalVisible"
+  [modal]="true"
+  [style]="{ width: '50vw', maxWidth: '700px' }"
+  [contentStyle]="{ 'background-color': '#222', color: '#fff', 'border-radius': '8px' }"
+  [dismissableMask]="true"
+>
+  <div class="sugerencia-modal-content">
+    <p>{{ sugerenciaSeleccionada }}</p>
+  </div>
+</p-dialog>
