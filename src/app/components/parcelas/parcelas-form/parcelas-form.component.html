@@ -1,0 +1,64 @@
+
+<form [formGroup]="form" (ngSubmit)="onSave()" class="parcela-create" novalidate autocomplete="off">
+  <div class="modal-body mb-4 dark-modal-body">
+    <div class="parcelas-indication-message">
+      <span class="parcela-tips-icon">💡</span>
+      <span class="parcela-tips-text">Consejo: Dibuja el polígono en el mapa para definir el área de la parcela. Todos los campos son obligatorios.</span>
+    </div>
+    <h2 class="modal-title-text">{{ title }}</h2>
+    <div class="form-row">
+      <div class="form-group mt-3 flex-grow-1">
+        <label>Nombre de la parcela</label>
+        <input pInputText formControlName="plotName" class="form-control farm-input"
+          [class.is-invalid]="form.get('plotName')?.invalid && (form.get('plotName')?.dirty || form.get('plotName')?.touched)" />
+        <div *ngIf="form.get('plotName')?.invalid && (form.get('plotName')?.dirty || form.get('plotName')?.touched)" class="invalid-feedback">
+          Este campo es requerido.
+        </div>
+      </div>
+      <div class="form-group mt-3 flex-grow-1">
+        <label>Descripción</label>
+        <textarea pInputTextarea formControlName="plotDescription" class="form-control farm-input"
+          [class.is-invalid]="form.get('plotDescription')?.invalid && (form.get('plotDescription')?.dirty || form.get('plotDescription')?.touched)"></textarea>
+        <div *ngIf="form.get('plotDescription')?.invalid && (form.get('plotDescription')?.dirty || form.get('plotDescription')?.touched)" class="invalid-feedback">
+          Este campo es requerido.
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group mt-3 flex-grow-1">
+        <label>Tipo de parcela</label>
+        <p-dropdown formControlName="plotType" [options]="plotTypeOptions" placeholder="Seleccione tipo" class="farm-input"></p-dropdown>
+        <div *ngIf="form.get('plotType')?.invalid && (form.get('plotType')?.dirty || form.get('plotType')?.touched)" class="invalid-feedback">
+          Este campo es requerido.
+        </div>
+      </div>
+      <div class="form-group mt-3 flex-grow-1">
+        <label>Uso actual</label>
+        <input pInputText formControlName="currentUsage" class="form-control farm-input"
+          [class.is-invalid]="form.get('currentUsage')?.invalid && (form.get('currentUsage')?.dirty || form.get('currentUsage')?.touched)" />
+        <div *ngIf="form.get('currentUsage')?.invalid && (form.get('currentUsage')?.dirty || form.get('currentUsage')?.touched)" class="invalid-feedback">
+          Este campo es requerido.
+        </div>
+      </div>
+    </div>
+    <div class="form-group mt-3">
+      <label>Polígono</label>
+      <div *ngIf="!editMode">
+        <div #mapContainer class="farm-location-map" style="height: 500px; border-radius: 8px; margin-bottom: 1rem;"></div>
+        <input pInputText style="visibility: hidden;" formControlName="geometryPolygon" class="form-control farm-input" readonly />
+        <div *ngIf="form.get('geometryPolygon')?.invalid && (form.get('geometryPolygon')?.dirty || form.get('geometryPolygon')?.touched)" class="invalid-feedback">
+          Debe dibujar el polígono en el mapa.
+        </div>
+      </div>
+      <div *ngIf="editMode">
+        <span>Edición de polígono habilitada. No se puede crear una nueva figura.</span>
+        <div #mapContainer class="farm-location-map" style="height: 500px; border-radius: 8px; margin-bottom: 1rem;"></div>
+        <input style="visibility: hidden;" pInputText formControlName="geometryPolygon" class="form-control farm-input" readonly />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer dark-modal-footer">
+    <button type="button" class="farm-btn-cancel btn btn-danger" (click)="$event.preventDefault(); form.reset(); onCancel();">Cancelar</button>
+    <button type="submit" style="background-color: var(--color-accent);" class="btn btn-edit farm-btn farm-btn-edit" [disabled]="form.invalid">Guardar</button>
+  </div>
+</form>
