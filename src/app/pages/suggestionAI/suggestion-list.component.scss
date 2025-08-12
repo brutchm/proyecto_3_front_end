@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+
+
+:host ::ng-deep .p-datatable {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-divider);
+}
+
+
+:host ::ng-deep .p-datatable thead th {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  font-weight: bold;
+  border-bottom: 2px solid var(--color-divider);
+  padding: 0.75rem;
+}
+
+
+:host ::ng-deep .p-datatable tbody tr {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+
+:host ::ng-deep .p-datatable tbody tr:nth-child(even) {
+  background-color: #252525;
+}
+
+
+:host ::ng-deep .p-datatable tbody tr:hover {
+  background-color: rgba(76, 175, 80, 0.1); 
+}
+
+
+:host ::ng-deep .p-datatable tbody td {
+  border-bottom: 1px solid var(--color-divider);
+  padding: 0.75rem;
+}
+
+
+:host ::ng-deep .p-button-danger {
+  background-color: var(--color-warning) !important;
+  border: none;
+  color: var(--color-btn-primary-text);
+}
+
+:host ::ng-deep .p-button-danger:hover {
+  background-color: #d32f2f !important;
+}
+
+
+:host ::ng-deep .p-button-rounded {
+  border-radius: 50% !important;
+}
+
+/* Paginador */
+:host ::ng-deep .p-paginator {
+  background-color: var(--color-bg-main);
+  border-top: 1px solid var(--color-divider);
+  color: var(--color-text-secondary);
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background-color: var(--color-accent);
+  color: var(--color-success-text);
+}
+
+
+:host ::ng-deep .p-tooltip {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-divider);
+}
+
+
+::ng-deep {
+  .p-button {
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 2.5rem;
+  }
+
+  .p-dialog {
+    background-color: var(--color-accent);
+    border-radius: 12px;
+    border: 1px solid var(--color-divider);
+
+    .p-dialog-header {
+      background-color: transparent;
+      color: var(--color-text-primary);
+      border-bottom: 1px solid var(--color-divider);
+      padding: 1.5rem;
+
+      .p-dialog-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      
+    }
+
+    .p-dialog-footer {
+      background: var(--color-bg-main);
+      padding: 1rem;
+      border-top: 1px solid var(--color-divider);
+    }
+
+    .p-dialog-content {
+      background: var(--card-bg);
+      padding: 2rem;
+    }
+  }
+
+  .p-confirm-dialog {
+    .p-confirm-dialog-message {
+      color: var(--color-text-primary);
+    }
+
+  
+
+    .confirmation-buttons {
+      display: flex;
+      justify-content: end;
+      gap: 1rem;
+
+      .p-button {
+        color: var(--color-btn-primary-text);
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.text-preview {
+  display: -webkit-box; 
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-width: 700px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  vertical-align: middle;
+}
+
+.sugerencia-modal-content {
+  white-space: pre-line;
+  word-wrap: break-word;
+  max-height: 60vh;
+  overflow-y: auto;
+  line-height: 1.6;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+/* Para la barra de scroll */
+.sugerencia-modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+.sugerencia-modal-content::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 4px;
+}
