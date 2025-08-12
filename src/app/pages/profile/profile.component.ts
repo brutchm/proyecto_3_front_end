@@ -6,11 +6,24 @@ import { IUser } from '../../interfaces';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountryEnum, GenderEnum, ProvinceEnum } from '../../enums/location.enum';
-
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { DataView, DataViewModule } from "primeng/dataview";
+import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { SkeletonModule } from "primeng/skeleton";
+import { DropdownModule } from 'primeng/dropdown';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ButtonModule,
+    DataViewModule,
+    DropdownModule,
+    DialogModule,
+    ToastModule,
+    InputTextModule,
+    SkeletonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -24,6 +37,7 @@ export class ProfileComponent implements AfterViewChecked {
   provinces = Object.values(ProvinceEnum);
   genderEnum = GenderEnum;
   gender = Object.values(GenderEnum);
+
   public hasValidLocation = false;
   private mapInitialized = false;
   private mapInstance: L.Map | null = null;
@@ -37,6 +51,7 @@ export class ProfileComponent implements AfterViewChecked {
   editableUser: IUser = {};
 
   formErrors: { [key: string]: boolean } = {};
+  private messageService = inject(MessageService);
 
   isFieldInvalid(field: string): boolean {
     return this.formErrors[field];
@@ -235,13 +250,11 @@ updateErrorStatus(): void {
 
     this.profileService.editUser(myUser).subscribe({
       next: (response) => {
-        this.snackBar.open(response.message || 'Perfil actualizado con éxito.', 'Cerrar', {
-          duration: 3000,
-          panelClass: ['success-snackbar'],
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
+       this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Perfil actualizado con éxito.",
         });
-
         localStorage.setItem('auth_user', JSON.stringify(this.editableUser));
         this.profileService.getUserInfoSignal();
         setTimeout(() => {
@@ -249,11 +262,10 @@ updateErrorStatus(): void {
         }, 2000);
       },
       error: (err) => {
-        this.snackBar.open(`Error al actualizar perfil: ${err.error?.message || err.message}`, 'Cerrar', {
-          duration: 5000,
-          panelClass: ['error-snackbar'],
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Error al actualizar perfil",
         });
       }
     });

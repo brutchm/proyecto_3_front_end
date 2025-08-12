@@ -1,0 +1,33 @@
+<p-toast></p-toast>
+
+<p-confirmDialog key="deletePrice">
+  <ng-template pTemplate="footer">
+    <div class="confirmation-buttons">
+      <p-button (click)="onRejectDelete()" label="Cancelar" severity="success" />
+      <p-button (click)="onConfirmDelete()" label="Eliminar" severity="danger" />
+    </div>
+  </ng-template>
+</p-confirmDialog>
+
+<div class="crops-page-container">
+  <div class="toolbar">
+    <h2 class="tittle">Mis precios publicados</h2>
+  </div>
+
+  <app-prices-market-list
+  [prices]="prices"
+  [isLoading]="isLoadingPrices"
+  [totalRecords]="priceTotalRecords"
+  [rows]="priceRows"
+  [rowsPerPageOptions]="[10, 20, 50]"
+  (pageChange)="loadPrices($event)"
+  (deletePrice)="deletePrice($event)"
+  (editPrice)="editPrice($event)" 
+  >
+  
+</app-prices-market-list>
+
+
+</div>
+
+

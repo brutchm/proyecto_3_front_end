@@ -1,0 +1,171 @@
+<form [formGroup]="form" (ngSubmit)="onSave()" class="farm-form">
+  <div class="form-grid">
+    <div class="form-column">
+      <div class="form-field">
+        <label for="farmName">Nombre de la Finca</label>
+        <input pInputText id="farmName" formControlName="farmName" />
+      </div>
+      <div class="form-field">
+        <label for="farmStateProvince">Provincia</label>
+        <p-dropdown
+          id="farmStateProvince"
+          formControlName="farmStateProvince"
+          [options]="provinces"
+          placeholder="Seleccione una provincia"
+        ></p-dropdown>
+      </div>
+      <div class="form-field">
+        <label for="farmOtherDirections">Otras Señas</label>
+        <textarea
+          pInputTextarea
+          id="farmOtherDirections"
+          formControlName="farmOtherDirections"
+          [autoResize]="true"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="form-field-group">
+        <div class="form-field">
+          <label for="farmSize">Tamaño</label>
+          <input
+            pInputText
+            id="farmSize"
+            type="number"
+            formControlName="farmSize"
+          />
+        </div>
+        <div class="form-field">
+          <label for="farmMeasureUnit">Unidad</label>
+          <p-dropdown
+            id="farmMeasureUnit"
+            formControlName="farmMeasureUnit"
+            [options]="measureUnits"
+            placeholder="Unidad"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-column">
+      <div class="form-field">
+        <label for="searchLocationInput">Buscar Ubicación</label>
+        <span class="p-input-icon-right">
+          <i *ngIf="isSearchingLocation" class="pi pi-spin pi-spinner"></i>
+          <i *ngIf="!isSearchingLocation" class="pi pi-search"></i>
+          <input
+            #searchLocationInput
+            pInputText
+            (input)="onLocationInput()"
+            placeholder="Ej: San José, Costa Rica"
+          />
+        </span>
+
+        <div #mapContainer class="location-map"></div>
+        <label for="farmLocation" class="mt-3"
+          >Coordenadas (haga clic en el mapa)</label
+        >
+        <input
+          pInputText
+          id="farmLocation"
+          formControlName="farmLocation"
+          readonly
+          placeholder="Latitud, Longitud"
+        />
+      </div>
+    </div>
+  </div>
+
+  <p-accordion>
+    <p-accordionTab header="Información Técnica (Opcional)">
+      <div class="form-grid">
+        <div class="form-column">
+          <div class="form-field">
+            <label>pH del Suelo</label>
+            <p-dropdown
+              formControlName="soilPh"
+              [options]="['Ácido', 'Neutro', 'Alcalino']"
+              placeholder="Seleccione pH"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-field">
+            <label>Nutrientes del Suelo</label>
+            <p-dropdown
+              formControlName="soilNutrients"
+              [options]="['Bajo', 'Medio', 'Alto']"
+              placeholder="Seleccione nutrientes"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-field">
+            <label>Uso de Fertilizantes/Pesticidas</label>
+            <p-dropdown
+              formControlName="fertilizerPesticideUse"
+              [options]="[
+                { label: 'Sí', value: true },
+                { label: 'No', value: false }
+              ]"
+              placeholder="¿Usa?"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="form-column">
+          <div class="form-field">
+            <label>Sistema de Riego</label>
+            <p-dropdown
+              formControlName="irrigationSystem"
+              [options]="[
+                { label: 'Sí', value: true },
+                { label: 'No', value: false }
+              ]"
+              placeholder="¿Tiene?"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-field">
+            <label>Tipo de Riego</label>
+            <p-dropdown
+              formControlName="irrigationSystemType"
+              [options]="irrigationTypes"
+              placeholder="Seleccione tipo"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-field">
+            <label>Agua Disponible</label>
+            <p-dropdown
+              formControlName="waterAvailable"
+              [options]="[
+                { label: 'Sí', value: true },
+                { label: 'No', value: false }
+              ]"
+              placeholder="¿Tiene?"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+          <div class="form-field">
+            <label>Tipo de Uso de Agua</label>
+            <p-dropdown
+              formControlName="waterUsageType"
+              [options]="waterUsageTypes"
+              placeholder="Seleccione uso"
+              [showClear]="true"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+  <div class="form-actions">
+    <button
+      pButton
+      pRipple
+      type="submit"
+      label="Crear Finca"
+      icon="pi pi-check"
+      [disabled]="form.invalid"
+    ></button>
+  </div>
+</form>

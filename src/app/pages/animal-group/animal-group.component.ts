@@ -1,10 +1,15 @@
-import { Component, EventEmitter, inject, NgModule, Output, ViewChild } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AnimalService } from "../../services/animal.service";
-import { AlertService } from "../../services/alert.service";
 import { IAnimal, IGroupAnimal } from "../../interfaces/group-animal.interface";
 import { CommonModule } from "@angular/common";
-
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { DataViewModule } from "primeng/dataview";
+import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { SkeletonModule } from "primeng/skeleton";
 import {
   FormBuilder,
   FormGroup,
@@ -23,6 +28,12 @@ import { FarmService } from "../../services/farm.service";
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ButtonModule,
+    DataViewModule,
+    DialogModule,
+    ToastModule,
+    InputTextModule,
+    SkeletonModule,
     FormsModule,
     LoaderComponent,
     ModalComponent,
@@ -46,13 +57,12 @@ export class AnimalGroupComponent {
   // Delete modal state
   showDeleteModal = false;
   deleteLoading = false;
-
+  private messageService = inject(MessageService);
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private animalService: AnimalService,
     private fb: FormBuilder,
-    private alertService: AlertService,
     private farmService: FarmService
   ) {}
 
@@ -84,6 +94,7 @@ export class AnimalGroupComponent {
         }
       });
     }
+    
   }
 
   fetchGroupAnimal() {
@@ -128,15 +139,12 @@ export class AnimalGroupComponent {
 
   submitEditGroup() {
     this.editGroupSubmitted = true;
-    console.log(this.editGroupForm);
     if (this.editGroupForm.invalid || !this.farmId || !this.groupId) {
-      this.alertService.displayAlert(
-        "error",
-        "Por favor complete todos los campos obligatorios correctamente antes de guardar.",
-        "center",
-        "top",
-        ["error-snackbar"],
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Por favor complete todos los campos obligatorios correctamente antes de guardar.",
+      });
       return;
     }
     this.editGroupLoading = true;
@@ -146,24 +154,20 @@ export class AnimalGroupComponent {
         next: (res) => {
           this.editGroupLoading = false;
           this.showEditModal = false;
-          this.alertService.displayAlert(
-            "success",
-            "Grupo de animales actualizado correctamente.",
-            "center",
-            "top",
-            ["success-snackbar"],
-          );
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "Grupo de animales actualizado correctamente.",
+          });
           this.fetchGroupAnimal();
         },
         error: () => {
           this.editGroupLoading = false;
-          this.alertService.displayAlert(
-            "error",
-            "No se pudo actualizar el grupo de animales.",
-            "center",
-            "top",
-            ["error-snackbar"],
-          );
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No se pudo actualizar el grupo de animales.",
+          })
         },
       });
   }
@@ -190,13 +194,11 @@ export class AnimalGroupComponent {
       error: () => {
         this.deleteLoading = false;
         this.showDeleteModal = false;
-        this.alertService.displayAlert(
-          "error",
-          "No se pudo eliminar el grupo de animales.",
-          "center",
-          "top",
-          ["error-snackbar"],
-        );
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo eliminar el grupo de animales.",
+        });
       },
     });
   }
@@ -220,13 +222,11 @@ submitAnimalForm() {
   this.animalSubmitted = true;
 
   if (this.animalForm.invalid || !this.farmId || !this.groupId) {
-    this.alertService.displayAlert(
-      "error",
-      "Por favor complete todos los campos correctamente.",
-      "center",
-      "top",
-      ["error-snackbar"]
-    );
+    this.messageService.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Por favor complete todos los campos correctamente.",
+    })
     return;
   }
 
@@ -241,56 +241,48 @@ submitAnimalForm() {
     animalGroup: { id: Number(this.groupId) },
     isActive: true,
   };
-  console.log("user 2: "+this.userId)
   this.animalService.createAnimal({ farmId: this.farmId, ...animalData }).subscribe({
     next: () => {
       this.animalLoading = false;
       this.animalForm.reset();
       this.animalSubmitted = false;
      this.fetchAnimals();
-      this.alertService.displayAlert(
-        "success",
-        "Animal registrado exitosamente.",
-        "center",
-        "top",
-        ["success-snackbar"]
-      );
+     this.messageService.add({
+      severity: "success",
+      summary: "Éxito",
+      detail: "Animal registrado exitosamente.",
+    });
     },
     error: () => {
       this.animalLoading = false;
-      this.alertService.displayAlert(
-        "error",
-        "No se pudo registrar el animal.",
-        "center",
-        "top",
-        ["error-snackbar"]
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se pudo registrar el animal.",
+      });
     }
   });
 }
 animals: IAnimal[] = [];
+searchTerm: string = '';
 fetchAnimals() {
   if (!this.farmId || !this.groupId) return;
 
   this.animalService.getAnimalsByGroup(this.farmId, this.groupId).subscribe({
     next: (res) => {
       this.animals = res.data;
-      console.log("Animales del grupo:", res.data);
     },
     error: () => {
-      this.alertService.displayAlert(
-        "error",
-        "No se pudieron cargar los animales del grupo.",
-        "center",
-        "top",
-        ["error-snackbar"]
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se pudieron cargar los animales del grupo.",
+      });
     }
   });
 }
   public modalService: ModalService = inject(ModalService);
 @ViewChild('editAnimalsModal') public editAnimalsModal: any;
-//  @Output() callUpdateModalMethod: EventEmitter<IAnimal> = new EventEmitter<IAnimal>();
 
   closeEditAnimalModal(): void {
     this.animalForm.reset();
@@ -299,14 +291,12 @@ fetchAnimals() {
   }
   
   openEditAnimalsModal(animal: IAnimal) {
-    console.log("openModal", animal);
     this.animalForm.patchValue({
       id: animal.id,
       species: animal.species,
       breed: animal.breed,
       count: animal.count
     })
-    console.log("Editando animal:", animal.id);
     this.modalService.displayModal('lg', this.editAnimalsModal);
   }
 
@@ -314,28 +304,23 @@ fetchAnimals() {
     this.animalSubmitted = true;
   
     if (this.animalForm.invalid || !this.farmId) {
-      this.alertService.displayAlert(
-        "error",
-        "Por favor complete todos los campos correctamente.",
-        "center",
-        "top",
-        ["error-snackbar"]
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Por favor complete todos los campos correctamente.",
+      });
       return;
     }
   
     const formValue = this.animalForm.value;
     const animalId = this.animalForm.value.id;
 
-    console.log("animalId  :", animalId);
     if (!animalId) {
-      this.alertService.displayAlert(
-        "error",
-        "No se pudo obtener el ID del animal a actualizar.",
-        "center",
-        "top",
-        ["error-snackbar"]
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se pudo obtener el ID del animal a actualizar.",
+      });
       return;
     }
   
@@ -356,23 +341,19 @@ fetchAnimals() {
         this.animalSubmitted = false;
         this.modalService.closeAll();
         this.fetchAnimals();
-        this.alertService.displayAlert(
-          "success",
-          "Animal actualizado correctamente.",
-          "center",
-          "top",
-          ["success-snackbar"]
-        );
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Animal actualizado correctamente.",
+        });
       },
       error: () => {
         this.animalLoading = false;
-        this.alertService.displayAlert(
-          "error",
-          "No se pudo actualizar el animal.",
-          "center",
-          "top",
-          ["error-snackbar"]
-        );
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo actualizar el animal.",
+        });
       }
     });
   }
@@ -396,23 +377,19 @@ confirmDeleteAnimal() {
 
   this.animalService.deleteAnimal(this.farmId, this.animalToDelete.id).subscribe({
     next: () => {
-      this.alertService.displayAlert(
-        'success',
-        'Animal eliminado correctamente.',
-        'center',
-        'top',
-        ['success-snackbar']
-      );
+      this.messageService.add({
+        severity: "success",
+        summary: "Éxito",
+        detail: "Animal eliminado correctamente.",
+      });
       this.fetchAnimals();
     },
     error: () => {
-      this.alertService.displayAlert(
-        'error',
-        'No se pudo eliminar el animal.',
-        'center',
-        'top',
-        ['error-snackbar']
-      );
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "No se pudo eliminar el animal.',",
+      });
     },
     complete: () => {
       this.animalLoading = false;
@@ -421,48 +398,13 @@ confirmDeleteAnimal() {
   });
 }
 
- /*deleteAnimal(animal: IAnimal) {
-    const confirmDelete = window.confirm(`¿Estás seguro que deseas eliminar el animal "${animal.species}"?`);
-  
-    if (!confirmDelete) return;
-  
-    if (!this.farmId || !animal.id) {
-      this.alertService.displayAlert(
-        "error",
-        "No se pudo identificar el animal a eliminar.",
-        "center",
-        "top",
-        ["error-snackbar"]
-      );
-      return;
-    }
-  
-    this.animalLoading = true;
-  
-    this.animalService.deleteAnimal(this.farmId, animal.id).subscribe({
-      next: () => {
-        this.animalLoading = false;
-        this.alertService.displayAlert(
-          "success",
-          "Animal eliminado correctamente.",
-          "center",
-          "top",
-          ["success-snackbar"]
-        );
-        this.fetchAnimals();
-      },
-      error: () => {
-        this.animalLoading = false;
-        this.alertService.displayAlert(
-          "error",
-          "No se pudo eliminar el animal.",
-          "center",
-          "top",
-          ["error-snackbar"]
-        );
-      }
-    });
-  }
-  */
-
+//Filtro para buscar animales asociados a un grupo en especifico
+get filteredAnimals(): IAnimal[] {
+  if (!this.searchTerm) return this.animals;
+  const term = this.searchTerm.toLowerCase();
+  return this.animals.filter(animal =>
+    animal.breed?.toLowerCase().includes(term) ||
+    animal.species.toLowerCase().includes(term)
+  );
+}
 }
