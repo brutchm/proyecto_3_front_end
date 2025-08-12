@@ -1,0 +1,63 @@
+<p-toast></p-toast>
+<p-confirmDialog key="deleteTransaction">
+  <ng-template pTemplate="footer">
+    <div class="confirmation-buttons">
+      <button
+        pButton
+        type="button"
+        (click)="onRejectDelete()"
+        label="No, Cancelar"
+        class="p-button-text"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="onConfirmDelete()"
+        label="Sí, Eliminar"
+        class="p-button-danger"
+      ></button>
+    </div>
+  </ng-template>
+</p-confirmDialog>
+
+<div class="page-container">
+  <div class="toolbar">
+    <h2>Transacciones</h2>
+    <button
+      pButton
+      type="button"
+      label="Crear Transacción"
+      icon="pi pi-plus"
+      (click)="showCreateDialog()"
+    ></button>
+  </div>
+
+  <app-transaction-list
+    [transactions]="transactions"
+    [isLoading]="isLoading"
+    [totalRecords]="totalRecords"
+    [rows]="rows"
+    (pageChange)="loadTransactions($event)"
+    (edit)="showEditDialog($event)"
+    (delete)="handleDelete($event)"
+  >
+  </app-transaction-list>
+</div>
+
+<p-dialog
+  [header]="isEditMode ? 'Editar Transacción' : 'Registrar Transacción'"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [style]="{ width: '40rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <app-transaction-form
+    [form]="transactionForm"
+    [isEditMode]="isEditMode"
+    [farms]="farms"
+    [crops]="crops"
+    (save)="handleSave()"
+  >
+  </app-transaction-form>
+</p-dialog>

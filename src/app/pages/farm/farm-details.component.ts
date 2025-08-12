@@ -2,14 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  inject,
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { CalendarModule } from "primeng/calendar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FarmService, IFarm } from "../../services/farm.service";
-import { AlertService } from "../../services/alert.service";
 import { LocationMapComponent } from "../../components/farm-map/farm-map.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { ModalComponent } from "../../components/modal/modal.component";
@@ -20,6 +21,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { FarmFormComponent } from "../../components/farm/farm-form/farm-form.component";
+import { ParcelasFormComponent } from "../../components/parcelas/parcelas-form/parcelas-form.component";
 import { AnimalService } from "../../services/animal.service";
 import {
   IGroupAnimal,
@@ -27,6 +30,26 @@ import {
 } from "../../interfaces/group-animal.interface";
 import { AnimalGroupCardComponent } from "../../components/animal-group/animal-group-card.component";
 import * as L from "leaflet";
+import { MessageService } from "primeng/api";
+import { ButtonModule } from "primeng/button";
+import { DialogModule } from "primeng/dialog";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { TableModule } from "primeng/table";
+import { TooltipModule } from "primeng/tooltip";
+import { ParcelasService } from "../../services/parcelas.service";
+import {
+  ManagementPlotPayload,
+  ManagementPlotsService,
+} from "../../services/management-plots.service";
+import { CropService } from "../../services/crop.service";
+
+
+import {
+  IPlotManagementRecord,
+  PlotManagementService,
+} from "../../services/plot-management.service";
+import { ICrop } from "../../interfaces/crop.interface";
 
 @Component({
   selector: "app-farm-details",
@@ -40,11 +63,35 @@ import * as L from "leaflet";
     ReactiveFormsModule,
     FormsModule,
     AnimalGroupCardComponent,
+    ButtonModule,
+    DialogModule,
+    ToastModule,
+    InputTextModule,
+    TableModule,
+    TooltipModule,
+    FarmFormComponent,
+    ParcelasFormComponent,
+    CalendarModule,
   ],
   templateUrl: "./farm-details.component.html",
   styleUrl: "./farm-details.component.scss",
 })
 export class FarmDetailsComponent implements OnInit, AfterViewInit {
+  parcelasGeoJSON: string[] = [];
+
+  // Parcelas creation dialog and form
+  displayDialog: boolean = false;
+  parcelaForm!: FormGroup;
+  parcelasLoading: boolean = false;
+
+  // Gestión de parcelas modal and form
+  gestionParcelaForm!: FormGroup;
+  gestionParcelaSubmitted: boolean = false;
+  gestionParcelaLoading: boolean = false;
+  displayGestionDialog: boolean = false;
+  gestionCrops: ICrop[] = [];
+  gestionCropsLoading: boolean = false;
+
   animalGroups: IGroupAnimal[] = [];
   animalGroupsLoading = false;
   animalGroupsError = "";
@@ -53,11 +100,36 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   showDeleteModal = false;
   deleteLoading = false;
 
+  // Gestión de parcelas data and loading states
+  gestionParcelas: IPlotManagementRecord[] = [];
+  gestionParcelasLoading: boolean = false;
+  gestionParcelasError: string = "";
+
+  get filteredGestionParcelas() {
+    // Use mapped gestion parcelas for table display
+    return this.gestionParcelas.map((record) => {
+      const found = this.gestionCrops.find((c) => c.id === record.cropId);
+      return found
+        ? { ...record, cropName: found.cropName }
+        : { ...record, cropName: "-" };
+    });
+  }
+
   farmId: string | null = null;
   farm: IFarm | null = null;
   technicalInfo: any = null;
   loading = false;
   error: string = "";
+  @ViewChild("searchLocationInput")
+  searchLocationInput!: ElementRef<HTMLInputElement>;
+  private readonly defaultIcon = L.icon({
+    iconUrl: "assets/leaflet/marker-icon.png",
+    shadowUrl: "assets/leaflet/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
 
   provinces: string[] = [
     "San José",
@@ -68,20 +140,35 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     "Puntarenas",
     "Limón",
   ];
+
   measureUnits: string[] = [
-    "hectáreas",
-    "manzanas",
-    "acres",
-    "m²",
-    "km²",
-    "cuadras",
+    "kg",
+    "litros",
+    "toneladas",
+    "unidades",
+    "metros",
+    "metros cúbicos",
+    "galones",
   ];
+
+  // Gestión de parcelas delete modal state
+  showDeleteGestionModal: boolean = false;
+  gestionToDelete: IPlotManagementRecord | null = null;
 
   showEditFarmModal = false;
   editFarmForm!: FormGroup;
   editFarmSubmitted = false;
   editFarmLoading = false;
   private editFarmMapInstance: L.Map | null = null;
+  private marker: L.Marker | null = null;
+
+  // Parcelas tab map logic
+  parcelasInfo: any[] = [];
+  selectedParcela: any = null;
+  indexCurrentSelectedParcela: number | null = null;
+  showDeleteParcelaModal: boolean = false;
+  editParcelaMode: boolean = false;
+  parcelaToEdit: any = null;
 
   // New group modal state
   showNewGroupModal = false;
@@ -90,15 +177,346 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
   newGroupLoading = false;
   // For production type select
   productionTypes = Object.values(ProductionTypeEnum);
+  private messageService = inject(MessageService);
+  private parcelasService = inject(ParcelasService);
+  private managementPlotsService = inject(ManagementPlotsService);
+  // Edit gestión parcela modal state and form
+  displayEditGestionDialog: boolean = false;
+  editGestionParcelaForm!: FormGroup;
+
+  private cropService = inject(CropService);
+  private plotManagementService = inject(PlotManagementService);
+  editingGestionId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private farmService: FarmService,
     private fb: FormBuilder,
-    private alertService: AlertService,
     private animalService: AnimalService,
   ) {
+  }
+
+  /**
+   * Submits the edit gestión parcela form and updates the record
+   */
+  submitEditGestionParcela() {
+    if (
+      this.editGestionParcelaForm.invalid || !this.selectedParcela ||
+      !this.farmId || !this.editingGestionId
+    ) return;
+    const formValue = this.editGestionParcelaForm.value;
+    const selectedCrop = this.gestionCrops.find((c) =>
+      c.id == formValue.cropId
+    );
+    if (!selectedCrop || typeof selectedCrop.id !== "number") {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Debe seleccionar un cultivo válido.",
+      });
+      return;
+    }
+    const payload: ManagementPlotPayload = {
+      cropId: `${selectedCrop.id}`,
+      actionName: formValue.actionName,
+      actionPictureUrl: formValue.actionPictureUrl,
+      measureUnit: formValue.measureUnit,
+      measureValue: formValue.measureValue,
+      valueSpent: formValue.valueSpent,
+      actionDate: formValue.actionDate,
+    };
+    this.managementPlotsService.update(
+      this.selectedParcela.id,
+      this.editingGestionId,
+      payload,
+    ).subscribe({
+      next: () => {
+        this.displayEditGestionDialog = false;
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Gestión de parcela editada correctamente.",
+        });
+        this.fetchGestionParcelas(this.selectedParcela.id);
+      },
+      error: () => {
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo editar la gestión de parcela.",
+        });
+      },
+    });
+  }
+
+  /**
+   * Opens the edit gestión parcela modal and patches the form with the selected record
+   */
+  openEditGestionModal(gestion: IPlotManagementRecord): void {
+    if (!this.editGestionParcelaForm) {
+      this.editGestionParcelaForm = this.fb.group({
+        cropId: ["", Validators.required],
+        actionName: ["", Validators.required],
+        actionPictureUrl: ["", Validators.required],
+        measureUnit: ["", Validators.required],
+        measureValue: [null, [Validators.required, Validators.min(0)]],
+        valueSpent: [null, [Validators.required, Validators.min(0)]],
+        actionDate: ["", Validators.required],
+      });
+    } else {
+      this.editGestionParcelaForm.reset();
+    }
+    if (gestion) {
+      // Patch the form with the selected record's values, ensuring cropId is a number
+      let cropIdValue: number | "";
+      if (
+        gestion.cropId !== null &&
+        typeof gestion.cropId === "object" &&
+        "id" in gestion.cropId &&
+        typeof (gestion.cropId as any).id === "number"
+      ) {
+        cropIdValue = Number((gestion.cropId as any).id);
+      } else if (typeof gestion.cropId === "number") {
+        cropIdValue = gestion.cropId;
+      } else if (typeof gestion.cropId === "string" && gestion.cropId !== "") {
+        cropIdValue = Number(gestion.cropId);
+      } else {
+        cropIdValue = "";
+      }
+      this.editGestionParcelaForm.patchValue({
+        cropId: cropIdValue,
+        actionName: gestion.actionName,
+        actionPictureUrl: gestion.actionPictureUrl,
+        measureUnit: gestion.measureUnit,
+        measureValue: gestion.measureValue,
+        valueSpent: gestion.valueSpent,
+        actionDate: gestion.actionDate ? new Date(gestion.actionDate) : null,
+      });
+      this.editingGestionId = gestion.id;
+    } else {
+      this.editingGestionId = null;
+    }
+    this.displayEditGestionDialog = true;
+  }
+
+  /**
+   * Closes the edit gestión parcela modal
+   */
+  closeEditGestionParcelaModal(): void {
+    this.displayEditGestionDialog = false;
+    if (this.editGestionParcelaForm) {
+      this.editGestionParcelaForm.reset();
+    }
+  }
+  /**
+   * Handler for editing a gestión parcela record
+   * @param gestion The management record to edit
+   */
+  onEditGestion(gestion: IPlotManagementRecord): void {
+    this.openGestionParcelaModal(gestion);
+  }
+
+  /**
+   * Handler for deleting a gestión parcela record
+   * @param gestion The management record to delete
+   */
+  onDeleteGestion(gestion: IPlotManagementRecord): void {
+    // TODO: Implement delete confirmation and API call
+    if (!gestion || !gestion.id || !this.selectedParcela) return;
+    if (confirm("¿Está seguro que desea eliminar este registro de gestión?")) {
+      this.gestionParcelasLoading = true;
+      this.plotManagementService.deletePlotManagementRecord(
+        this.selectedParcela.id,
+        gestion.id,
+      ).subscribe({
+        next: () => {
+          this.gestionParcelasLoading = false;
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "Registro de gestión eliminado correctamente.",
+          });
+          this.fetchGestionParcelas(this.selectedParcela.id);
+        },
+        error: () => {
+          this.gestionParcelasLoading = false;
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No se pudo eliminar el registro de gestión.",
+          });
+        },
+      });
+    }
+  }
+  // Helper for template: get crop name by cropId
+  getCropNameById(cropId: number): string {
+    const found = this.gestionCrops.find((c) => c.id === cropId);
+    return found ? found.cropName : "-";
+  }
+
+  /**
+   * Opens the gestión parcela delete confirmation modal
+   */
+  openDeleteGestionModal(gestion: IPlotManagementRecord): void {
+    this.gestionToDelete = gestion;
+    this.showDeleteGestionModal = true;
+  }
+
+  /**
+   * Closes the gestión parcela delete confirmation modal
+   */
+  closeDeleteGestionModal(): void {
+    this.showDeleteGestionModal = false;
+    this.gestionToDelete = null;
+  }
+
+  /**
+   * Confirms deletion of the selected gestión parcela record
+   */
+  confirmDeleteGestion(): void {
+    if (
+      !this.gestionToDelete || !this.gestionToDelete.id || !this.selectedParcela
+    ) return;
+    this.gestionParcelasLoading = true;
+    this.plotManagementService.deletePlotManagementRecord(
+      this.selectedParcela.id,
+      this.gestionToDelete.id,
+    ).subscribe({
+      next: () => {
+        this.gestionParcelasLoading = false;
+        this.showDeleteGestionModal = false;
+        this.gestionToDelete = null;
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Registro de gestión eliminado correctamente.",
+        });
+        this.fetchGestionParcelas(this.selectedParcela.id);
+      },
+      error: () => {
+        this.gestionParcelasLoading = false;
+        this.showDeleteGestionModal = false;
+        this.gestionToDelete = null;
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo eliminar el registro de gestión.",
+        });
+      },
+    });
+  }
+
+  // Handler for polygon clicks in map
+  onClickFigures(idx: number) {
+    this.indexCurrentSelectedParcela = idx;
+    this.selectedParcela = this.parcelasInfo[idx];
+    // Load management records for the selected parcela
+    this.fetchGestionParcelas(this.selectedParcela.id);
+  }
+
+  /**
+   * Fetch management records for a specific plot
+   * @param plotId The ID of the plot to fetch records for
+   */
+  private fetchGestionParcelas(plotId: number): void {
+    if (!plotId) {
+      this.gestionParcelas = [];
+      this.gestionParcelasLoading = false;
+      this.gestionParcelasError = "";
+      return;
+    }
+
+    this.gestionParcelasLoading = true;
+    this.gestionParcelasError = "";
+
+    this.plotManagementService.getPlotManagementRecords(plotId).subscribe({
+      next: (response) => {
+        // Merge cropName from gestionCrops into each management record
+        this.gestionParcelas = (response.data || []).map((record) => {
+          console.log("DEBUG record:", record, this.gestionCrops);
+          const crop = this.gestionCrops.find((c) => c.id === record.cropId);
+          return crop ? { ...record, cropName: crop.cropName } : record;
+        });
+        console.log("DEBUG gestionParcelas:", this.gestionParcelas);
+        this.gestionParcelasLoading = false;
+      },
+      error: (error) => {
+        console.error("Error loading management records:", error);
+        this.gestionParcelasError =
+          "No se pudieron cargar los registros de gestión.";
+        this.gestionParcelas = [];
+        this.gestionParcelasLoading = false;
+      },
+    });
+  }
+
+  onClickEliminarParcela() {
+    this.showDeleteParcelaModal = true;
+  }
+
+  closeDeleteParcelaModal() {
+    this.showDeleteParcelaModal = false;
+  }
+
+  confirmDeleteParcela() {
+    if (!this.selectedParcela || !this.farmId) return;
+    this.parcelasService.eliminarParcela(this.farmId, this.selectedParcela.id)
+      .subscribe({
+        next: () => {
+          this.showDeleteParcelaModal = false;
+          this.selectedParcela = null;
+          this.getParcelas();
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "Parcela eliminada correctamente.",
+          });
+        },
+        error: () => {
+          this.showDeleteParcelaModal = false;
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No se pudo eliminar la parcela.",
+          });
+        },
+      });
+  }
+
+  public getParcelas(): void {
+    if (!this.farmId) return;
+    this.parcelasService.getParcelas(this.farmId).subscribe({
+      next: (res) => {
+        const parcelas = res.data || [];
+        this.parcelasGeoJSON = parcelas.map((p) =>
+          typeof p.geometryPolygon === "string" ? p.geometryPolygon : ""
+        ).filter((g) => !!g);
+        this.parcelasInfo = parcelas;
+        if (
+          this.indexCurrentSelectedParcela !== null &&
+          this.parcelasInfo[this.indexCurrentSelectedParcela]
+        ) {
+          this.selectedParcela =
+            this.parcelasInfo[this.indexCurrentSelectedParcela];
+          // Reload management records for the currently selected parcela
+          this.fetchGestionParcelas(this.selectedParcela.id);
+        } else {
+          this.selectedParcela = null;
+          // Clear management records when no parcela is selected
+          this.gestionParcelas = [];
+          this.gestionParcelasError = "";
+        }
+      },
+      error: () => {
+        this.parcelasGeoJSON = [];
+        this.parcelasInfo = [];
+        this.selectedParcela = null;
+        this.gestionParcelas = [];
+        this.gestionParcelasError = "";
+      },
+    });
   }
 
   openNewGroupModal() {
@@ -112,8 +530,104 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     this.showNewGroupModal = true;
   }
 
+  // Called when tab button is clicked to trigger a window resize event for map refresh
+  triggerResizeEvent() {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 300);
+  }
+
   closeNewGroupModal() {
     this.showNewGroupModal = false;
+  }
+
+  // Gestión de parcelas modal handlers
+  openGestionParcelaModal(gestion?: IPlotManagementRecord) {
+    // Always initialize the form before opening modal
+    this.gestionParcelaForm = this.fb.group({
+      cropId: ["", Validators.required],
+      actionName: ["", Validators.required],
+      actionPictureUrl: ["", Validators.required],
+      measureUnit: ["", Validators.required],
+      measureValue: [null, [Validators.required, Validators.min(0)]],
+      valueSpent: [null, [Validators.required, Validators.min(0)]],
+      actionDate: ["", Validators.required],
+    });
+    if (gestion) {
+      this.gestionParcelaForm.patchValue({
+        cropId: gestion.cropId,
+        actionName: gestion.actionName,
+        actionPictureUrl: gestion.actionPictureUrl,
+        measureUnit: gestion.measureUnit,
+        measureValue: gestion.measureValue,
+        valueSpent: gestion.valueSpent,
+        actionDate: gestion.actionDate,
+      });
+      this.editingGestionId = gestion.id;
+    } else {
+      this.editingGestionId = null;
+    }
+    this.gestionParcelaSubmitted = false;
+    this.displayGestionDialog = true;
+  }
+
+  closeGestionParcelaModal() {
+    this.displayGestionDialog = false;
+  }
+
+  submitGestionParcela() {
+    this.gestionParcelaSubmitted = true;
+    if (
+      this.gestionParcelaForm.invalid || !this.selectedParcela || !this.farmId
+    ) return;
+    this.gestionParcelaLoading = true;
+    const formValue = this.gestionParcelaForm.value;
+    // Find the selected crop object by id
+    const selectedCrop = this.gestionCrops.find((c) =>
+      c.id == formValue.cropId
+    );
+    // Build payload with crop object
+    if (!selectedCrop || typeof selectedCrop.id !== "number") {
+      this.gestionParcelaLoading = false;
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Debe seleccionar un cultivo válido.",
+      });
+      return;
+    }
+    const payload: ManagementPlotPayload = {
+      cropId: `${selectedCrop.id}`,
+      actionName: formValue.actionName,
+      actionPictureUrl: formValue.actionPictureUrl,
+      measureUnit: formValue.measureUnit,
+      measureValue: formValue.measureValue,
+      valueSpent: formValue.valueSpent,
+      actionDate: formValue.actionDate,
+    };
+    // Use selectedParcela.id as plotId
+    this.managementPlotsService.create(this.selectedParcela.id, payload)
+      .subscribe({
+        next: () => {
+          this.gestionParcelaLoading = false;
+          this.displayGestionDialog = false;
+          this.messageService.add({
+            severity: "success",
+            summary: "Éxito",
+            detail: "Gestión de parcela creada correctamente.",
+          });
+          // Refresh the management records list
+          this.fetchGestionParcelas(this.selectedParcela.id);
+        },
+        error: () => {
+          this.gestionParcelaLoading = false;
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No se pudo crear la gestión de parcela.",
+          });
+        },
+      });
   }
 
   submitNewGroup() {
@@ -138,17 +652,14 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.newGroupLoading = false;
         this.showNewGroupModal = false;
         this.fetchAnimalGroups();
-        this.alertService.displayAlert(
-          "success",
-          "Grupo de animales creado correctamente",
-          "center",
-          "top",
-          ["success-snackbar"],
-        );
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Grupo de animales creado correctamente",
+        });
       },
       error: () => {
         this.newGroupLoading = false;
-        // Optionally show error
       },
     });
   }
@@ -163,13 +674,145 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }, 0);
         this.fetchFarm();
-        //this.fetchAnimalGroups();
       }
     });
+
+    // Parcelas form setup
+    this.parcelaForm = this.fb.group({
+      plotName: ["", Validators.required],
+      plotDescription: ["", Validators.required],
+      plotType: ["", Validators.required],
+      currentUsage: ["", Validators.required],
+      geometryPolygon: ["", Validators.required],
+    });
+    // Fetch parcelas for the map and crops for the parcelas tab
+    if (this.farmId) {
+      this.parcelasService.getParcelas(this.farmId).subscribe({
+        next: (res) => {
+          this.parcelasInfo = res.data || [];
+          this.parcelasGeoJSON = (res.data || [])
+            .map((p) =>
+              typeof p.geometryPolygon === "string" ? p.geometryPolygon : ""
+            )
+            .filter((g) => !!g);
+        },
+        error: () => {
+          this.parcelasGeoJSON = [];
+        },
+      });
+      // Fetch crops for the parcelas tab
+      this.gestionCropsLoading = true;
+      this.cropService.getCrops(1, 100).subscribe({
+        next: (res) => {
+          this.gestionCrops = res.data || [];
+          this.gestionCropsLoading = false;
+        },
+        error: () => {
+          this.gestionCrops = [];
+          this.gestionCropsLoading = false;
+        },
+      });
+    }
+  }
+
+  onImageError(event: Event) {
+    const img = event?.target as HTMLImageElement;
+    const placeholder =
+      "https://blocks.astratic.com/img/general-img-landscape.png";
+    if (img && img.src !== placeholder) {
+      img.src = placeholder;
+    }
+  }
+
+  onClickEditarParcela() {
+    this.editParcelaMode = true;
+    this.parcelaToEdit = this.selectedParcela;
+    this.displayDialog = true;
+    // Patch form with parcela data
+    if (this.parcelaForm && this.parcelaToEdit) {
+      this.parcelaForm.patchValue({
+        plotName: this.parcelaToEdit.plotName || "",
+        plotDescription: this.parcelaToEdit.plotDescription || "",
+        plotType: this.parcelaToEdit.plotType || "",
+        currentUsage: this.parcelaToEdit.currentUsage || "",
+        geometryPolygon: this.parcelaToEdit.geometryPolygon || "",
+      });
+    }
+  }
+
+  showCreateParcelaDialog() {
+    this.parcelaForm.reset();
+    this.editParcelaMode = false;
+    this.parcelaToEdit = null;
+    this.displayDialog = true;
+  }
+
+  handleSave() {
+    if (this.parcelaForm.invalid) {
+      this.parcelaForm.markAllAsTouched();
+      return;
+    }
+    this.parcelasLoading = true;
+    const parcelaData = {
+      ...this.parcelaForm.value,
+      isActive: true, // Always active on creation
+    };
+    const farmId = this.farm?.id || this.farmId;
+    if (this.editParcelaMode && this.parcelaToEdit) {
+      // Call updateParcela (to be implemented in service)
+      this.parcelasService.updateParcela(
+        farmId as string,
+        this.parcelaToEdit.id,
+        parcelaData,
+      ).subscribe({
+        next: () => {
+          this.displayDialog = false;
+          this.parcelasLoading = false;
+          this.editParcelaMode = false;
+          this.parcelaToEdit = null;
+          this.messageService.add({
+            severity: "success",
+            summary: "Parcela editada",
+            detail: "La parcela fue editada exitosamente.",
+          });
+          this.getParcelas();
+        },
+        error: () => {
+          this.parcelasLoading = false;
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "No se pudo editar la parcela.",
+          });
+        },
+      });
+    } else {
+      // Create mode
+      this.parcelasService.createParcela(farmId as string, parcelaData)
+        .subscribe({
+          next: () => {
+            this.displayDialog = false;
+            this.parcelasLoading = false;
+            this.messageService.add({
+              severity: "success",
+              summary: "Parcela creada",
+              detail: "La parcela fue creada exitosamente.",
+            });
+            this.getParcelas();
+          },
+          error: () => {
+            this.parcelasLoading = false;
+            this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: "No se pudo crear la parcela.",
+            });
+          },
+        });
+    }
   }
 
   ngAfterViewInit(): void {
-    // Optionally, initialize map if modal is open
     if (this.showEditFarmModal) {
       setTimeout(() => this.initEditFarmMap(), 300);
     }
@@ -319,18 +962,20 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       next: () => {
         this.editFarmLoading = false;
         this.showEditFarmModal = false;
-        this.alertService.displayAlert(
-          "success",
-          "Finca editada correctamente",
-          "center",
-          "top",
-          ["success-snackbar"],
-        );
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Finca editada correctamente.",
+        });
         this.fetchFarm();
       },
       error: () => {
         this.editFarmLoading = false;
-        // Optionally show error
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo editar la finca.",
+        });
       },
     });
   }
@@ -385,12 +1030,94 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.router.navigate(["/app/farm"]);
+        this.messageService.add({
+          severity: "success",
+          summary: "Éxito",
+          detail: "Finca eliminada correctamente.",
+        });
       },
       error: () => {
         this.deleteLoading = false;
         this.showDeleteModal = false;
         this.error = "No se pudo eliminar la finca.";
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "No se pudo eliminar la finca.",
+        });
       },
     });
   }
+
+  groupSearchTerm: string = "";
+  filteredAnimalGroups(): IGroupAnimal[] {
+    if (!this.groupSearchTerm) return this.animalGroups;
+
+    const term = this.groupSearchTerm.toLowerCase();
+    return this.animalGroups.filter((group) =>
+      group.groupName.toLowerCase().includes(term)
+    );
+  }
+
+  isSearchingLocation = false;
+  private debounceTimer: any;
+  onLocationInput(): void {
+    this.isSearchingLocation = true;
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => {
+      this.searchLocation();
+    }, 500);
+  }
+
+  async searchLocation(): Promise<void> {
+    const query = this.searchLocationInput.nativeElement.value;
+    if (!query || query.length < 3) {
+      this.isSearchingLocation = false;
+      return;
+    }
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${
+      encodeURIComponent(
+        query,
+      )
+    }`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        const newLatLng: L.LatLng = L.latLng(parseFloat(lat), parseFloat(lon));
+        this.editFarmMapInstance?.setView(newLatLng, 14);
+        this.addOrMoveMarker(newLatLng);
+        this.editFarmForm
+          .get("farmLocation")
+          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
+        this.editFarmForm.markAsDirty();
+      }
+    } catch (error) {
+      console.error("Error en la búsqueda de ubicación:", error);
+    } finally {
+      this.isSearchingLocation = false;
+    }
+  }
+
+  private addOrMoveMarker(latlng: L.LatLng | [number, number]): void {
+    if (this.marker) {
+      this.marker.setLatLng(latlng);
+    } else {
+      this.marker = L.marker(latlng, {
+        draggable: true,
+        icon: this.defaultIcon,
+      }).addTo(this.editFarmMapInstance!);
+      this.marker.on("dragend", (e) => {
+        const newLatLng = e.target.getLatLng();
+        this.editFarmForm
+          .get("farmLocation")
+          ?.setValue(`${newLatLng.lat.toFixed(6)},${newLatLng.lng.toFixed(6)}`);
+        this.editFarmForm.markAsDirty();
+      });
+    }
+  }
+
 }

@@ -12,11 +12,11 @@ import { ModalService } from "../../../services/modal.service";
 import { ModalComponent } from "../../../components/modal/modal.component";
 import { environment } from '../../../../environments/environment';
 import { validateEmail } from '../../../utils/emailValidator.utils'
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: "app-login",
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent,RouterModule],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.scss",
 })
