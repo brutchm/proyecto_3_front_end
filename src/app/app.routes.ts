@@ -23,12 +23,18 @@ import { SuggestionListComponent } from "./pages/suggestionAI/suggestion-list.co
 import { PriceMarketComponent } from "./pages/prices-market/priceMarket.component";
 import { MyPricesListComponent } from "./pages/prices-market/myPrices.component";
 import { TransactionsComponent } from "./pages/transactions/transactions.component";
+import { LandingPageComponent } from "./pages/landingPage/landingPage.component";
 
 
 export const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
+    canActivate: [GuestGuard],
+  },
+  {
+    path: "landing-page-agrisync",
+    component: LandingPageComponent,
     canActivate: [GuestGuard],
   },
   {
