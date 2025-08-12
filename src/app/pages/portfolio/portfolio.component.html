@@ -53,8 +53,11 @@
     <p>¿Quieres saber más? ¡Contáctanos!</p>
     <a href="mailto:info@devsync.com" class="btn btn-primary mb-3">Enviar correo</a>
     <br />
-    <p>¡Ingresa en nuestra aplicación Agrisync! Puedes iniciar sesión en el siguiente enlace o crear una cuenta nueva.</p>
-    <a [routerLink]="['/login']" class="btn btn-outline-light">Ingresar en AgriSync</a>
+    <p>¡Ingresa en nuestra aplicación Agrisync! Puedes iniciar sesión en el siguiente enlace de la izquierda o ver nuestro sitio en el enlace de la derecha</p>
+    <div class="btn-group d-flex justify-content-center gap-3">
+      <a [routerLink]="['/login']" class="btn btn-outline-light">Ingresar en AgriSync</a>
+      <a [routerLink]="['/landing-page-agrisync']" class="btn btn-outline-light">Ir a la Página Inicial</a>
+    </div>
   </section>
   
 </div>
