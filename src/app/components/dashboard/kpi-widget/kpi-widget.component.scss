@@ -14,13 +14,43 @@
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
 
-  &.green { border-color: var(--color-success); .icon-container { background-color: var(--color-success-light); i { color: var(--color-success); } } }
-  &.red { border-color: var(--color-warning); .icon-container { background-color: var(--color-warning-light); i { color: var(--color-warning); } } }
-  &.blue { border-color: var(--color-info); .icon-container { background-color: var(--color-info-light); i { color: var(--color-info); } } }
-  &.orange { border-color: var(--color-orange); .icon-container { background-color: var(--color-orange-light); i { color: var(--color-orange); } } }
+  &.green {
+    border-color: var(--color-success);
+    .icon-container {
+      background-color: var(--color-success-light);
+      i {
+        color: var(--color-success);
+      }
+    }
+  }
+  &.red {
+    border-color: var(--color-warning);
+    .icon-container {
+      background-color: var(--color-warning-light);
+      i {
+        color: var(--color-warning);
+      }
+    }
+  }
+  &.blue {
+    border-color: var(--color-btn-blue);
+    .icon-container {
+      i {
+        color: var(--color-btn-blue);
+      }
+    }
+  }
+  &.orange {
+    border-color: #FFA500;
+    .icon-container {
+      i {
+        color: #FFA500;
+      }
+    }
+  }
 }
 
 .icon-container {

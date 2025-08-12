@@ -6,7 +6,7 @@
     <div class="title">{{ title }}</div>
     <div class="value">
       <ng-container *ngIf="currency; else noCurrency">
-        {{ value | currency:'CRC':'symbol':'1.0-0' }}
+        {{ value | currency : "CRC" : "symbol" : "1.0-0" }}
       </ng-container>
       <ng-template #noCurrency>
         {{ value }}
