@@ -1,0 +1,132 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    color: var(--color-text-primary);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-field-group {
+  display: flex;
+  gap: 1rem;
+  > .form-field {
+    flex: 1;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+
+  .p-button {
+    background: var(--color-btn-blue);
+    color: var(--color-text-primary);
+    border: none;
+    border-radius: 10px;
+
+    &:hover {
+      background: var(--color-btn-blue-hover);
+    }
+  }
+}
+
+.image-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .image-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--input-border);
+  }
+
+  input {
+    flex-grow: 1;
+  }
+}
+
+:host ::ng-deep {
+  .p-inputtext,
+  .p-dropdown,
+  .p-inputnumber,
+  .p-calendar,
+  .p-inputtextarea {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
+
+    &:focus-within {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 1px var(--color-accent);
+    }
+  }
+
+  .p-inputnumber-input {
+    width: 100%;
+  }
+
+  .p-inputtextarea {
+    min-height: 85px;
+  }
+
+  .p-accordion .p-accordion-header-link {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+  }
+  .p-accordion .p-accordion-content {
+    background: var(--card-bg);
+    border: 1px solid var(--input-border);
+    padding-top: 1.5rem;
+  }
+
+  .p-dropdown {
+    .p-dropdown-label {
+      color: var(--input-text);
+    }
+  }
+}
+
+::ng-deep .p-dropdown-panel {
+  background: var(--dropdown-bg, #2a2a2a);
+  border: 1px solid var(--input-border);
+
+  .p-dropdown-item {
+    color: var(--dropdown-option-text, #e0e0e0);
+
+    &:hover {
+      background-color: var(--dropdown-option-hover-bg, #424242);
+      color: var(--dropdown-option-text, #e0e0e0);
+    }
+
+    &.p-focus {
+      background-color: var(--dropdown-option-hover-bg, #424242);
+      color: var(--dropdown-option-text, #e0e0e0);
+    }
+
+    &.p-highlight {
+      background: var(--color-accent);
+      color: var(--color-bg-main, #ffffff);
+    }
+  }
+}
