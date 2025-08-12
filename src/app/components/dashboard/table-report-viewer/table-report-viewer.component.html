@@ -1,7 +1,13 @@
 <div class="report-viewer-container">
   <div class="report-header">
     <h3>{{ reportTitle }}</h3>
-    <button pButton type="button" label="Descargar PDF" icon="pi pi-download" (click)="downloadPdf()"></button>
+    <button
+      pButton
+      type="button"
+      label="Descargar PDF"
+      icon="pi pi-download"
+      (click)="downloadPdf()"
+    ></button>
   </div>
 
   <p-table [value]="data" [columns]="columns" [rows]="10" [paginator]="true">
