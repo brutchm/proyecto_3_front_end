@@ -1,3 +1,55 @@
+// --- Parcelas indication message and details box (scoped) ---
+.parcelas-indication-message {
+  background: var(--card-bg);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+  text-align: start;
+}
+
+.parcelas-details-box {
+  background: var(--card-bg);
+  color: var(--color-text-primary);
+  border-radius: 14px;
+  padding: 2rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-divider);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.parcelas-details-box .details-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.parcelas-details-box .details-row {
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.parcelas-details-box .details-label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.parcelas-details-box .details-value {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
 .centered-modal.create-farm {
     min-width: 678px !important;
 }
@@ -47,6 +99,65 @@ button.btn.btn-edit.farm-btn.farm-btn-edit {
 
 .modal-content.custom-bg {
   min-width: 388px !important;
+}
+
+// --- PrimeNG Calendar Custom Styles ---
+::ng-deep .p-calendar {
+  width: 100%;
+}
+
+::ng-deep .p-inputtext {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--font-family-base);
+  transition: border-color 0.2s;
+  box-shadow: none;
+}
+::ng-deep .p-inputtext:focus {
+  border-color: var(--color-accent);
+}
+
+::ng-deep .p-datepicker {
+  background: var(--card-bg);
+  color: var(--color-text-primary);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+
+::ng-deep .p-datepicker-header {
+  background: var(--color-bg-main);
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-divider);
+  font-weight: 600;
+}
+
+::ng-deep .p-datepicker-calendar td {
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: 1rem;
+}
+
+::ng-deep .p-datepicker-calendar .p-highlight {
+  background: var(--color-accent);
+  color: var(--color-btn-primary-text);
+  border-radius: 8px;
+}
+
+::ng-deep .p-datepicker-calendar .p-datepicker-today {
+  background: var(--color-success);
+  color: var(--color-success-text);
+  border-radius: 8px;
+}
+
+::ng-deep .p-datepicker-title {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 /* Ensure the edit farm modal map is always visible and usable */
@@ -276,4 +387,121 @@ button.btn.btn-edit.farm-btn.farm-btn-edit {
   transform: translateY(-50%);
   color: var(--color-text-secondary);
   font-size: 1.2rem;
+}
+
+
+:host ::ng-deep {
+  .p-datatable .p-datatable-header {
+    background: transparent;
+    border: none;
+    padding: 1rem 0;
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--color-text-primary);
+
+    &:focus {
+      border-color: var(--color-accent);
+    }
+  }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    background: var(--card-bg);
+    color: var(--color-text-secondary);
+    border: none;
+    border-bottom: 2px solid var(--color-divider);
+  }
+
+  .p-datatable .p-datatable-tbody > tr {
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: rgba(var(--color-accent-rgb, 76, 175, 80), 0.05) !important;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    border: none;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .crop-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .p-paginator {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+
+    
+    .p-paginator-first, .p-paginator-prev, .p-paginator-next, .p-paginator-last {
+      color: var(--color-text-secondary);
+
+      &:hover {
+        background-color: var(--dropdown-option-bg);
+      }
+    }
+    
+    .p-paginator-page {
+      color: var(--color-text-secondary);
+
+      &:hover {
+        background-color: var(--dropdown-option-bg);
+      }
+      &.p-highlight {
+        background: var(--color-accent);
+        color: var(--color-bg-main);
+      }
+    }
+
+    .p-dropdown {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      
+      &:hover {
+        border-color: var(--color-accent);
+      }
+
+      .p-dropdown-label {
+        border: none;
+      }
+
+      .p-dropdown-trigger {
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .p-dropdown-panel {
+      background: var(--dropdown-bg);
+      border: 1px solid var(--input-border);
+
+      .p-dropdown-item {
+        color: var(--dropdown-option-text);
+        text-align: center;
+        padding: 0.75rem 0rem;
+
+        &:hover {
+          background-color: var(--dropdown-option-bg);
+        }
+
+        &.p-highlight {
+          background: var(--color-accent);
+          color: var(--color-bg-main);
+        }
+      }
+    }
+  }
 }

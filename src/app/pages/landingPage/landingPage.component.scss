@@ -1,0 +1,188 @@
+:host {
+    --color-bg-main: #1E1E1E;
+    --color-text-primary: #E0E0E0;
+    --color-text-secondary: #B0B0B0;
+    --color-accent: #4CAF50;
+    --color-btn-primary: #4CAF50;
+    --color-btn-primary-hover: #388E3C;
+  }
+  
+  .landing-container {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-primary);
+    font-family: 'Segoe UI', sans-serif;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .landing-header {
+    margin-bottom: 3rem;
+  
+    h1 {
+      font-size: 3rem;
+      color: var(--color-accent);
+    }
+  
+    p {
+      font-size: 1.2rem;
+      color: var(--color-text-secondary);
+    }
+
+  }
+  
+  .features-section {
+    margin-bottom: 3rem;
+  
+    h2 {
+      color: var(--color-accent);
+      margin-bottom: 2rem;
+    }
+  
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+  
+      .feature-card {
+        background: #2E2E2E;
+        padding: 1.5rem;
+        border-radius: 12px;
+        transition: transform 0.3s;
+  
+        img {
+          width: 64px;
+          margin-bottom: 1rem;
+        }
+  
+        h3 {
+          margin-bottom: 0.5rem;
+          color: var(--color-text-primary);
+        }
+  
+        p {
+          color: var(--color-text-secondary);
+        }
+  
+        &:hover {
+          transform: translateY(-5px);
+        }
+      }
+    }
+  }
+  
+  .gallery-section {
+    margin-bottom: 3rem;
+  
+    h2 {
+      margin-bottom: 1.5rem;
+      color: var(--color-accent);
+    }
+  
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+  
+      img {
+        width: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        height: 200px;
+      }
+    }
+  }
+  
+  .landing-footer {
+    margin-top: 3rem;
+  
+    h2 {
+      margin-bottom: 1rem;
+      color: var(--color-text-primary);
+    }
+  
+    .btn-primary {
+      background-color: var(--color-btn-primary);
+      color: var(--color-text-primary);
+    }
+  
+    .btn-primary:hover {
+      background-color: var(--color-btn-primary-hover);
+    }
+  }
+  .about-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  
+    .about-card {
+      flex: 1 1 45%;
+      background-color: #2E2E2E;
+      padding: 1.5rem;
+      border-radius: 10px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      min-width: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      
+      strong {
+        color: var(--color-accent);
+      }
+    }
+  }
+  
+    
+  a {
+    background-color: var(--color-btn-primary);
+    color: var(--color-text-primary);
+    margin-top: 1rem;
+  }
+
+  a:hover {
+    background-color: var(--color-btn-primary-hover);
+  }
+
+ 
+  /* Barra de navegación */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,1.5);
+    z-index: 1000;
+  
+    .navbar-logo {
+      color: var(--color-btn-primary-text);
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+  
+    .navbar-links a {
+    
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+  
+   
+    }
+  }
+  .landing-container {
+    padding-top: 4.5rem;
+  }
+  copyright-footer {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--color-divider);
+    margin-top: 1rem;
+  }
+  
