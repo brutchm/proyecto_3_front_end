@@ -119,7 +119,7 @@
                     <div class="modal-body mb-4 dark-modal-body">
                       <h2 class="modal-title-text">Nuevo grupo de animales</h2>
                       <div class="form-group mt-3">
-                        <label>Nombre del grupo</label>
+                        <label style="color: white">Nombre del grupo</label>
                         <input formControlName="groupName" class="form-control farm-input"
                           [class.is-invalid]="newGroupForm.controls['groupName'].invalid && (newGroupForm.controls['groupName'].dirty || newGroupForm.controls['groupName'].touched)" />
                         <div
@@ -129,7 +129,7 @@
                       </div>
 
                       <div class="form-group mt-3">
-                        <label>Unidad de medida</label>
+                        <label style="color: white">Unidad de medida</label>
                         <select formControlName="measure" class="form-control farm-input"
                           [class.is-invalid]="newGroupForm.controls['measure'].invalid && (newGroupForm.controls['measure'].dirty || newGroupForm.controls['measure'].touched)">
                           <option value="">Seleccione unidad</option>
@@ -142,7 +142,7 @@
                           Este campo es requerido.</div>
                       </div>
                       <div class="form-group mt-3">
-                        <label>Tipo de producción</label>
+                        <label style="color: white">Tipo de producción</label>
                         <select formControlName="productionType" class="form-control farm-input"
                           [class.is-invalid]="newGroupForm.controls['productionType'].invalid && (newGroupForm.controls['productionType'].dirty || newGroupForm.controls['productionType'].touched)">
                           <option value="">Seleccione tipo</option>
@@ -316,7 +316,7 @@
                       <div class="modal-body mb-4 dark-modal-body">
                         <h2 class="modal-title-text">Crear gestión de parcela</h2>
                         <div class="form-group mt-3">
-                          <label>Cultivo</label>
+                          <label style="color: white">Cultivo</label>
                           <select formControlName="cropId" class="form-control farm-input"
                             [class.is-invalid]="gestionParcelaForm.controls['cropId'].invalid && (gestionParcelaForm.controls['cropId'].dirty || gestionParcelaForm.controls['cropId'].touched)">
                             <option value="" disabled>Seleccione un cultivo</option>
@@ -328,7 +328,7 @@
                             Seleccione un cultivo.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Nombre de la acción</label>
+                          <label style="color: white">Nombre de la acción</label>
                           <input formControlName="actionName" class="form-control farm-input"
                             [class.is-invalid]="gestionParcelaForm.controls['actionName'].invalid && (gestionParcelaForm.controls['actionName'].dirty || gestionParcelaForm.controls['actionName'].touched)" />
                           <div
@@ -337,7 +337,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>URL de la imagen</label>
+                          <label style="color: white">URL de la imagen</label>
                           <div style="display: flex; gap: 1rem; align-items: flex-start;">
                             <input formControlName="actionPictureUrl" class="form-control farm-input" style="flex: 1;"
                               [class.is-invalid]="gestionParcelaForm.controls['actionPictureUrl'].invalid && (gestionParcelaForm.controls['actionPictureUrl'].dirty || gestionParcelaForm.controls['actionPictureUrl'].touched)" />
@@ -356,7 +356,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Unidad de medida</label>
+                          <label style="color: white">Unidad de medida</label>
                           <select formControlName="measureUnit" class="form-control farm-input"
                             [class.is-invalid]="gestionParcelaForm.controls['measureUnit'].invalid && (gestionParcelaForm.controls['measureUnit'].dirty || gestionParcelaForm.controls['measureUnit'].touched)">
                             <option value="" disabled>Seleccione una unidad</option>
@@ -368,7 +368,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Valor de medida</label>
+                          <label style="color: white">Valor de medida</label>
                           <input formControlName="measureValue" class="form-control farm-input" type="number" min="0"
                             step="0.01"
                             [class.is-invalid]="gestionParcelaForm.controls['measureValue'].invalid && (gestionParcelaForm.controls['measureValue'].dirty || gestionParcelaForm.controls['measureValue'].touched)" />
@@ -378,7 +378,7 @@
                             Ingrese un número válido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Valor gastado</label>
+                          <label style="color: white">Valor gastado</label>
                           <input formControlName="valueSpent" class="form-control farm-input" type="number" min="0"
                             step="0.01"
                             [class.is-invalid]="gestionParcelaForm.controls['valueSpent'].invalid && (gestionParcelaForm.controls['valueSpent'].dirty || gestionParcelaForm.controls['valueSpent'].touched)" />
@@ -388,7 +388,7 @@
                             Ingrese un número válido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Fecha de la acción</label>
+                          <label style="color: white">Fecha de la acción</label>
                           <p-calendar formControlName="actionDate" class="farm-input" [showTime]="true"
                             [showIcon]="true" dateFormat="yy-mm-dd" hourFormat="24" inputId="actionDate"
                             [class.is-invalid]="gestionParcelaForm.controls['actionDate'].invalid && (gestionParcelaForm.controls['actionDate'].dirty || gestionParcelaForm.controls['actionDate'].touched)"></p-calendar>
@@ -417,7 +417,7 @@
                       <div class="modal-body mb-4 dark-modal-body">
                         <h2 class="modal-title-text">Editar gestión de parcela</h2>
                         <div class="form-group mt-3">
-                          <label>Cultivo</label>
+                          <label style="color: white">Cultivo</label>
                           <select formControlName="cropId" class="form-control farm-input"
                             [class.is-invalid]="editGestionParcelaForm.controls['cropId'].invalid && (editGestionParcelaForm.controls['cropId'].dirty || editGestionParcelaForm.controls['cropId'].touched)">
                             <option value="" disabled>Seleccione un cultivo</option>
@@ -429,7 +429,7 @@
                             Seleccione un cultivo.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Nombre de la acción</label>
+                          <label style="color: white">Nombre de la acción</label>
                           <input formControlName="actionName" class="form-control farm-input"
                             [class.is-invalid]="editGestionParcelaForm.controls['actionName'].invalid && (editGestionParcelaForm.controls['actionName'].dirty || editGestionParcelaForm.controls['actionName'].touched)" />
                           <div
@@ -438,7 +438,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>URL de la imagen</label>
+                          <label style="color: white">URL de la imagen</label>
                           <div style="display: flex; gap: 1rem; align-items: flex-start;">
                             <input formControlName="actionPictureUrl" class="form-control farm-input" style="flex: 1;"
                               [class.is-invalid]="editGestionParcelaForm.controls['actionPictureUrl'].invalid && (editGestionParcelaForm.controls['actionPictureUrl'].dirty || editGestionParcelaForm.controls['actionPictureUrl'].touched)" />
@@ -457,7 +457,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Unidad de medida</label>
+                          <label style="color: white">Unidad de medida</label>
                           <select formControlName="measureUnit" class="form-control farm-input"
                             [class.is-invalid]="editGestionParcelaForm.controls['measureUnit'].invalid && (editGestionParcelaForm.controls['measureUnit'].dirty || editGestionParcelaForm.controls['measureUnit'].touched)">
                             <option value="" disabled>Seleccione una unidad</option>
@@ -469,7 +469,7 @@
                             Este campo es requerido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Valor de medida</label>
+                          <label style="color: white">Valor de medida</label>
                           <input formControlName="measureValue" class="form-control farm-input" type="number" min="0"
                             step="0.01"
                             [class.is-invalid]="editGestionParcelaForm.controls['measureValue'].invalid && (editGestionParcelaForm.controls['measureValue'].dirty || editGestionParcelaForm.controls['measureValue'].touched)" />
@@ -479,7 +479,7 @@
                             Ingrese un número válido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Valor gastado</label>
+                          <label style="color: white">Valor gastado</label>
                           <input formControlName="valueSpent" class="form-control farm-input" type="number" min="0"
                             step="0.01"
                             [class.is-invalid]="editGestionParcelaForm.controls['valueSpent'].invalid && (editGestionParcelaForm.controls['valueSpent'].dirty || editGestionParcelaForm.controls['valueSpent'].touched)" />
@@ -489,7 +489,7 @@
                             Ingrese un número válido.</div>
                         </div>
                         <div class="form-group mt-3">
-                          <label>Fecha de la acción</label>
+                          <label style="color: white">Fecha de la acción</label>
                           <p-calendar formControlName="actionDate" class="farm-input" [showTime]="true"
                             [showIcon]="true" dateFormat="yy-mm-dd" hourFormat="24" inputId="actionDate"
                             [class.is-invalid]="editGestionParcelaForm.controls['actionDate'].invalid && (editGestionParcelaForm.controls['actionDate'].dirty || editGestionParcelaForm.controls['actionDate'].touched)"></p-calendar>
@@ -575,14 +575,14 @@
             <div class="modal-body mb-4 dark-modal-body">
               <h2 class="modal-title-text">Editar finca</h2>
               <div class="form-group mt-3">
-                <label>Nombre de la finca</label>
+                <label style="color: white">Nombre de la finca</label>
                 <input formControlName="farmName" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmName'].invalid" />
                 <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmName'].invalid" class="invalid-feedback">
                   Este campo es requerido.</div>
               </div>
               <div class="form-group mt-3">
-                <label>Provincia</label>
+                <label style="color: white">Provincia</label>
                 <select formControlName="farmStateProvince" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmStateProvince'].invalid">
                   <option
@@ -596,14 +596,14 @@
                   class="invalid-feedback">Este campo es requerido.</div>
               </div>
               <div class="form-group mt-3">
-                <label>Otras direcciones</label>
+                <label style="color: white">Otras direcciones</label>
                 <input formControlName="farmOtherDirections" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmOtherDirections'].invalid" />
                 <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmOtherDirections'].invalid"
                   class="invalid-feedback">Este campo es requerido.</div>
               </div>
               <div class="form-group mt-3">
-                <label>Ubicación (seleccione en el mapa)</label>
+                <label style="color: white">Ubicación (seleccione en el mapa)</label>
                 <div class="d-flex align-items-center gap-2">
                   <span class="p-input-icon-right">
                     <i *ngIf="isSearchingLocation" class="pi pi-spin pi-spinner"></i>
@@ -620,14 +620,14 @@
                   class="invalid-feedback">Debe seleccionar una ubicación en el mapa.</div>
               </div>
               <div class="form-group mt-3">
-                <label>Tamaño</label>
+                <label style="color: white">Tamaño</label>
                 <input formControlName="farmSize" class="form-control farm-input" type="number" min="0" step="0.01"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmSize'].invalid" />
                 <div *ngIf="editFarmSubmitted && editFarmForm.controls['farmSize'].invalid" class="invalid-feedback">
                   Ingrese un número válido.</div>
               </div>
               <div class="form-group mt-3 mb-3">
-                <label>Unidad de medida</label>
+                <label style="color: white">Unidad de medida</label>
                 <select formControlName="farmMeasureUnit" class="form-control farm-input"
                   [class.is-invalid]="editFarmSubmitted && editFarmForm.controls['farmMeasureUnit'].invalid">
                   <option
@@ -651,7 +651,7 @@
                 </summary>
                 <div class="accordion-content">
                   <div class="form-group mt-2">
-                    <label>pH del suelo</label>
+                    <label style="color: white">pH del suelo</label>
                     <select formControlName="soilPh" class="form-control farm-input">
                       <option
                         *ngIf="editFarmForm.value.soilPh && ['Ácido','Neutro','Alcalino'].indexOf(editFarmForm.value.soilPh) === -1 && editFarmForm.value.soilPh !== ''"
@@ -665,7 +665,7 @@
                     </select>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Nutrientes del suelo</label>
+                    <label style="color: white">Nutrientes del suelo</label>
                     <select formControlName="soilNutrients" class="form-control farm-input">
                       <option
                         *ngIf="editFarmForm.value.soilNutrients && ['Bajo','Medio','Alto'].indexOf(editFarmForm.value.soilNutrients) === -1 && editFarmForm.value.soilNutrients !== ''"
@@ -683,7 +683,7 @@
                       (click)="showCreateParcelaDialog()">Nueva parcela</button>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Sistema de riego</label>
+                    <label style="color: white">Sistema de riego</label>
                     <select formControlName="irrigationSystem" class="form-control farm-input boolean-select">
                       <option
                         *ngIf="editFarmForm.value.irrigationSystem !== null && editFarmForm.value.irrigationSystem !== true && editFarmForm.value.irrigationSystem !== false"
@@ -696,7 +696,7 @@
                     </select>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Tipo de sistema de riego</label>
+                    <label style="color: white">Tipo de sistema de riego</label>
                     <select formControlName="irrigationSystemType" class="form-control farm-input">
                       <option
                         *ngIf="editFarmForm.value.irrigationSystemType && ['Goteo','Aspersión','Superficie','Otro'].indexOf(editFarmForm.value.irrigationSystemType) === -1 && editFarmForm.value.irrigationSystemType !== ''"
@@ -711,7 +711,7 @@
                     </select>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Agua disponible</label>
+                    <label style="color: white">Agua disponible</label>
                     <select formControlName="waterAvailable" class="form-control farm-input boolean-select">
                       <option
                         *ngIf="editFarmForm.value.waterAvailable !== null && editFarmForm.value.waterAvailable !== true && editFarmForm.value.waterAvailable !== false"
@@ -724,7 +724,7 @@
                     </select>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Tipo de uso de agua</label>
+                    <label style="color: white">Tipo de uso de agua</label>
                     <select formControlName="waterUsageType" class="form-control farm-input">
                       <option
                         *ngIf="editFarmForm.value.waterUsageType && ['Riego','Consumo animal','Procesos','Otro'].indexOf(editFarmForm.value.waterUsageType) === -1 && editFarmForm.value.waterUsageType !== ''"
@@ -739,7 +739,7 @@
                     </select>
                   </div>
                   <div class="form-group mt-2">
-                    <label>Uso de fertilizantes/pesticidas</label>
+                    <label style="color: white">Uso de fertilizantes/pesticidas</label>
                     <select formControlName="fertilizerPesticideUse" class="form-control farm-input boolean-select">
                       <option
                         *ngIf="editFarmForm.value.fertilizerPesticideUse !== null && editFarmForm.value.fertilizerPesticideUse !== true && editFarmForm.value.fertilizerPesticideUse !== false"

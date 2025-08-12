@@ -67,7 +67,7 @@
   label {
     font-weight: bold;
     font-size: 0.9rem;
-    color: var(--color-text-primary);
+    color:white
   }
 }
 
@@ -76,6 +76,11 @@
   gap: 1rem;
   > .form-field {
     flex: 1;
+  }
+  label {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color:white
   }
 }
 
