@@ -1,15 +1,14 @@
-
-
 /**
  * Enum para identificar de forma única cada tipo de reporte.
  * Esto se usará en el backend para saber qué lógica ejecutar.
  */
 export enum ReportType {
-  INCOME_VS_EXPENSES = 'INCOME_VS_EXPENSES',
-  CROP_YIELD = 'CROP_YIELD',
-  OPERATIONAL_COSTS = 'OPERATIONAL_COSTS',
-  PLOT_YIELD = 'PLOT_YIELD',
-  // Añadir más tipos de reporte aquí en el futuro
+  INCOME_VS_EXPENSES = "INCOME_VS_EXPENSES",
+  CROP_YIELD = "CROP_YIELD",
+  OPERATIONAL_COSTS = "OPERATIONAL_COSTS",
+  PLOT_YIELD = "PLOT_YIELD",
+  CROP_COSTS = "CROP_COSTS",
+  FARM_COSTS = "FARM_COSTS",
 }
 
 /**
@@ -37,36 +36,46 @@ export interface ReportDefinition {
  */
 export const AVAILABLE_REPORTS: ReportDefinition[] = [
   {
-    label: 'Ingresos vs Egresos (Gráfico)',
+    label: "Ingresos vs Egresos",
     value: ReportType.INCOME_VS_EXPENSES,
-    params: { dateRange: true, farmId: true }
+    params: { dateRange: true, farmId: true },
   },
   {
-    label: 'Rendimiento por Cultivo (Gráfico)',
+    label: "Rendimiento por Cultivo",
     value: ReportType.CROP_YIELD,
-    params: { dateRange: true, farmId: true, cropId: true }
-  },
-  { // <-- NUEVO REPORTE AÑADIDO A LA LISTA
-    label: 'Rendimiento por Parcela (Tabla)',
-    value: ReportType.PLOT_YIELD,
-    params: { dateRange: true, farmId: true }
+    params: { dateRange: true, farmId: true, cropId: true },
   },
   {
-    label: 'Costos Operativos',
+    label: "Rendimiento por Parcela",
+    value: ReportType.PLOT_YIELD,
+    params: { dateRange: true, farmId: true },
+  },
+  {
+    label: "Costos Operativos por Mes",
     value: ReportType.OPERATIONAL_COSTS,
-    params: { dateRange: true }
-  }
+    params: { dateRange: true, farmId: true },
+  },
+  {
+    label: "Costos por Cultivo",
+    value: ReportType.CROP_COSTS,
+    params: { dateRange: true, farmId: true },
+  },
+  {
+    label: "Costos por Finca",
+    value: ReportType.FARM_COSTS,
+    params: { dateRange: true },
+  },
 ];
 
 /**
  * @interface IIncomeVsExpensesData
- * @description Define la estructura de datos para el reporte de Ingresos vs. Egresos.
+ * @description Define la estructura de datos para el reporte de Ingresos vs Egresos.
  * Coincide con el DTO del backend.
  */
 export interface IIncomeVsExpensesData {
-  labels: string[];       // Eje X: Meses (ej: "2025-07")
-  incomeData: number[];   // Datos de Ingresos
-  expensesData: number[]; // Datos de Egresos
+  labels: string[];
+  incomeData: number[];
+  expensesData: number[];
 }
 
 /**
@@ -78,4 +87,44 @@ export interface IPlotYieldData {
   cropName: string;
   totalQuantitySold: number;
   measureUnit: string;
+}
+
+/**
+ * @interface ICropYieldData
+ * @description Define la estructura de una fila en el reporte de rendimiento por cultivo.
+ */
+export interface ICropYieldData {
+  cropName: string;
+  totalQuantitySold: number;
+  measureUnit: string;
+  totalIncome: number;
+  totalExpenses: number;
+  netProfit: number;
+}
+
+/**
+ * @interface ICropCostData
+ * @description Define la estructura de una fila en el reporte de costos por cultivo.
+ */
+export interface ICropCostData {
+  cropName: string;
+  totalCost: number;
+}
+
+/**
+ * @interface IOperationalCostData
+ * @description Define la estructura de una fila en el reporte de costos operativos.
+ */
+export interface IOperationalCostData {
+  month: string;
+  totalCost: number;
+}
+
+/**
+ * @interface IFarmCostData
+ * @description Define la estructura de una fila en el reporte de costos por finca.
+ */
+export interface IFarmCostData {
+  farmName: string;
+  totalCost: number;
 }
