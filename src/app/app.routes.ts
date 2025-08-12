@@ -18,6 +18,8 @@ import { GoogleCorporationSignupComponent } from "./pages/auth/google-signup-cor
 import { ListCorporationComponent } from "./pages/users/corporation/list-corporations.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { CropsComponent } from './pages/crops/crops.component';
+import { SuggestionAIComponent } from "./pages/suggestionAI/suggestionAI.component";
+import { SuggestionListComponent } from "./pages/suggestionAI/suggestion-list.component";
 import { PriceMarketComponent } from "./pages/prices-market/priceMarket.component";
 import { MyPricesListComponent } from "./pages/prices-market/myPrices.component";
 import { TransactionsComponent } from "./pages/transactions/transactions.component";
@@ -88,6 +90,7 @@ export const routes: Routes = [
         redirectTo: "users",
         pathMatch: "full",
       },
+      
       {
         path: "profile",
         component: ProfileComponent,
@@ -120,7 +123,24 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
-        
+      {
+        path: 'my-suggestion-list-ai',
+        component: SuggestionListComponent,
+        data: {
+          name: 'Mis Sugerencias',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'suggestion-ai',
+        component: SuggestionAIComponent,
+        data: {
+          name: 'Crear Sugerencia (IA)',
+          authorities: [IRoleType.user],
+          showInSidebar: true
+        }
+      },
       {
         path: "listCorporation",
         component: ListCorporationComponent,
@@ -145,6 +165,7 @@ export const routes: Routes = [
           showInSidebar: false,
         },
       },
+      
       {
         path: "transactions",
         component: TransactionsComponent,
@@ -186,6 +207,7 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
+      
       {
         path: "dashboard",
         component: DashboardComponent,
