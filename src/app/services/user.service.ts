@@ -28,7 +28,6 @@ export class UserService extends BaseService<IUser> {
         this.userListSignal.set(response.data);
       },
       error: (err: any) => {
-        console.error('error', err);
       }
     });
   }
@@ -42,7 +41,6 @@ export class UserService extends BaseService<IUser> {
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred adding the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
       }
     });
   }
@@ -55,7 +53,6 @@ export class UserService extends BaseService<IUser> {
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred updating the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
       }
     });
   }
@@ -68,7 +65,6 @@ export class UserService extends BaseService<IUser> {
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred deleting the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
       }
     });
   }

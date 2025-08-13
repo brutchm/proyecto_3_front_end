@@ -435,11 +435,9 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       next: (response) => {
         // Merge cropName from gestionCrops into each management record
         this.gestionParcelas = (response.data || []).map((record) => {
-          console.log("DEBUG record:", record, this.gestionCrops);
           const crop = this.gestionCrops.find((c) => c.id === record.cropId);
           return crop ? { ...record, cropName: crop.cropName } : record;
         });
-        console.log("DEBUG gestionParcelas:", this.gestionParcelas);
         this.gestionParcelasLoading = false;
       },
       error: (error) => {
