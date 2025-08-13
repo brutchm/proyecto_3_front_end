@@ -22,6 +22,7 @@ import { PriceMarketComponent } from "./pages/prices-market/priceMarket.componen
 import { MyPricesListComponent } from "./pages/prices-market/myPrices.component";
 import { TransactionsComponent } from "./pages/transactions/transactions.component";
 import { LandingPageComponent } from "./pages/landingPage/landingPage.component";
+import { DashboardCorporationComponent } from "./pages/dashboard-corporation/dashboard-corporation.component";
 
 
 export const routes: Routes = [
@@ -187,11 +188,21 @@ export const routes: Routes = [
         }
       },
       {
+        path: "dashboard-corporation",
+        component: DashboardCorporationComponent,
+        data: {
+          authorities: [
+            IRoleType.admin,
+          ],
+          name: "Dashboard",
+          showInSidebar: true,
+        },
+      },
+      {
         path: "dashboard",
         component: DashboardComponent,
         data: {
           authorities: [
-            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user,
           ],

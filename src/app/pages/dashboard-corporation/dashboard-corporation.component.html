@@ -1,0 +1,29 @@
+<div class="dashboard-container">
+  <div class="header-section">
+    <h2 class="welcome-title">{{ welcomeMessage }}</h2>
+    <p class="welcome-subtitle">Desde aquí puedes acceder a las principales funcionalidades de gestión de tu corporación.</p>
+  </div>
+
+  <div class="quick-actions-grid">
+    <div *ngFor="let action of quickActions" class="action-card-wrapper">
+      <a [routerLink]="action.link" class="action-card-link">
+        <p-card styleClass="action-card">
+          <div class="card-content">
+            <i [class]="action.icon"></i>
+            <span class="card-label">{{ action.label }}</span>
+          </div>
+        </p-card>
+      </a>
+    </div>
+  </div>
+
+  <div class="info-panel">
+    <div class="info-icon">
+      <i class="pi pi-info-circle"></i>
+    </div>
+    <div class="info-text">
+      <h4>Panel de Administración</h4>
+      <p>Utiliza los accesos directos de arriba para navegar a las diferentes secciones. Podrás gestionar fincas, cultivos, usuarios y analizar las transacciones de toda tu operación desde un solo lugar.</p>
+    </div>
+  </div>
+</div>
