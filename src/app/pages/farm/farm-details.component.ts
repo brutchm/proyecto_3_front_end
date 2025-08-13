@@ -887,7 +887,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
     let marker: L.Marker | null = null;
     // Only the edit modal map uses a draggable marker
     if (this.farm?.farmLocation) {
-      marker = L.marker([lat, lng], { draggable: true, icon: markerIcon })
+      marker = L.marker([lat, lng], { draggable: true, icon: markerIcon, title: "Arrastre para mover" })
         .addTo(this.editFarmMapInstance);
       marker.on("dragend", (event: any) => {
         const position = event.target.getLatLng();
@@ -902,7 +902,7 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
       if (marker) {
         marker.setLatLng([lat, lng]);
       } else {
-        marker = L.marker([lat, lng], { draggable: true, icon: markerIcon })
+        marker = L.marker([lat, lng], { draggable: true, icon: markerIcon, title: "Arrastre para mover" })
           .addTo(this.editFarmMapInstance!);
         marker.on("dragend", (event: any) => {
           const position = event.target.getLatLng();
