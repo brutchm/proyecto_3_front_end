@@ -13,6 +13,7 @@ class MockAuthService {
   login() { return { subscribe: (handlers: any) => handlers.next({}) }; }
   resetPasswordRequest() { return { subscribe: (handlers: any) => handlers.next({}) }; }
   resetPassword() { return { subscribe: (handlers: any) => handlers.next({}) }; }
+  getHomeUrlForUser() { return '/app/dashboard'; } 
 }
 class MockModalService {
   displayModal() {}
