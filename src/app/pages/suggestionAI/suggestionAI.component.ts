@@ -42,7 +42,8 @@ export class SuggestionAIComponent implements OnInit {
   displayedText = "";
   private messageService: MessageService = inject(MessageService);
   isSuggestionSaved: boolean = false;
-
+  maxChars = 500;//limite de caracteres
+  charCount = 0;
   constructor(
     private fb: FormBuilder,
     private suggestionService: SuggestionAIService,
@@ -51,9 +52,14 @@ export class SuggestionAIComponent implements OnInit {
 
   ngOnInit() {
     this.suggestionForm = this.fb.group({
-      prompt: ["", Validators.required],
+      prompt: ["", [Validators.required, Validators.maxLength(this.maxChars)]],
       farmId: [null, Validators.required],
     });
+
+    this.suggestionForm.get('prompt')?.valueChanges.subscribe(value => {
+      this.charCount = value?.length || 0;
+    });
+  
 
     this.loadFarms();
   }
