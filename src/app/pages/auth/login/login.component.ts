@@ -121,7 +121,9 @@ export class LoginComponent {
     this.authService.login(this.loginForm).subscribe({
       next: (data) => {
         this.loading = false;
-        this.router.navigateByUrl("/app/dashboard");
+        // this.router.navigateByUrl("/app/dashboard");
+        const homeUrl = this.authService.getHomeUrlForUser();
+        this.router.navigateByUrl(homeUrl);
       },
       error: (err) => {
         this.loading = false;

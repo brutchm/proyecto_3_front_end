@@ -1,0 +1,13 @@
+<div class="chart-widget-container">
+  <h3 class="widget-title">{{ title }}</h3>
+  <div class="chart-wrapper">
+    <canvas
+      *ngIf="chartConfiguration"
+      baseChart
+      [data]="chartConfiguration.data"
+      [options]="chartConfiguration.options"
+      [type]="chartType"
+    >
+    </canvas>
+  </div>
+</div>

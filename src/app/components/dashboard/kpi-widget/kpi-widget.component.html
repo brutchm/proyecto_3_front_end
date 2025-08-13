@@ -1,0 +1,16 @@
+<div class="kpi-widget" [ngClass]="color">
+  <div class="icon-container">
+    <i [ngClass]="icon"></i>
+  </div>
+  <div class="content-container">
+    <div class="title">{{ title }}</div>
+    <div class="value">
+      <ng-container *ngIf="currency; else noCurrency">
+        {{ value | currency : "CRC" : "symbol" : "1.0-0" }}
+      </ng-container>
+      <ng-template #noCurrency>
+        {{ value }}
+      </ng-template>
+    </div>
+  </div>
+</div>

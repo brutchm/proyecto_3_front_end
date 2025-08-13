@@ -51,7 +51,9 @@ export class AuthCallbackComponent implements OnInit {
         next: (response) => {
           if (response.status === 'LOGIN_SUCCESS' && response.authUser) {
             this.authService.storeSession(response.token, response.authUser);
-            this.router.navigateByUrl('/app/dashboard');
+            // this.router.navigateByUrl('/app/dashboard');
+            const homeUrl = this.authService.getHomeUrlForUser();
+            this.router.navigateByUrl(homeUrl);
           } else if (response.status === 'REGISTRATION_REQUIRED') {
             localStorage.setItem('registration_token', response.token);
             this.router.navigate(['/auth/finish-registration']);

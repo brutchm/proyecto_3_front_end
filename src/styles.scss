@@ -14,7 +14,7 @@
     text-decoration: underline;
   }
 }
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
 
 body[class="dark-only"] {
   --light-background: rgba(31, 32, 40, 0.65);
@@ -32,70 +32,75 @@ body[class="dark-only"] {
   --view-border-marker: #2c2c45d4;
 }
 
-:root, body {
+:root,
+body {
   /* Base Colors */
-  --color-bg-main: #1E1E1E; /* Fondo Principal */
-  --color-text-primary: #E0E0E0; /* Texto Primario */
-  --color-text-secondary: #B0B0B0; /* Texto Secundario */
-  --color-accent: #4CAF50; /* Color de Acento */
-  --color-btn-primary: #4CAF50; /* Botón Primario */
-  --color-btn-primary-text: #E0E0E0;
-  --color-btn-primary-hover: #388E3C;
-  --color-btn-secondary: #388E3C; /* Botón Secundario */
-  --color-btn-blue: #07508b; /* Botón Azul */
-  --color-btn-secondary-text: #E0E0E0;
-  --color-btn-secondary-hover: #4CAF50;
-  --color-warning: #F44336; /* Advertencias */
-  --color-success: #98CC67; /* Éxito/Confirmación */
-  --color-success-text: #1E1E1E;
-  --color-link-active: #4CAF50; /* Enlace Activo */
-  --color-divider: #2E2E2E; /* Divisores/Bordes */
+  --color-bg-main: #1e1e1e; /* Fondo Principal */
+  --color-text-primary: #e0e0e0; /* Texto Primario */
+  --color-text-secondary: #b0b0b0; /* Texto Secundario */
+  --color-accent: #4caf50; /* Color de Acento */
+  --color-btn-primary: #4caf50; /* Botón Primario */
+  --color-btn-primary-text: #e0e0e0;
+  --color-btn-primary-hover: #388e3c;
+  --color-btn-secondary: #388e3c; /* Botón Secundario */
+  --color-btn-blue: #1b73bb; /* Botón Azul */
+  --color-btn-blue-hover: #155a8a; /* Botón Azul Hover */
+  --color-btn-secondary-text: #e0e0e0;
+  --color-btn-secondary-hover: #4caf50;
+  --color-warning: #f44336; /* Advertencias */
+  --color-success: #98cc67; /* Éxito/Confirmación */
+  --color-success-text: #1e1e1e;
+  --color-link-active: #4caf50; /* Enlace Activo */
+  --color-divider: #2e2e2e; /* Divisores/Bordes */
 
   /* Inputs & Dropdowns */
   --input-bg: #252523;
   --input-border: #494947;
-  --input-text: #E0E0E0;
-  --dropdown-bg: #1E1E1E;
-  --dropdown-option-bg: #2E2E2E;
-  --dropdown-option-text: #E0E0E0;
+  --input-text: #e0e0e0;
+  --dropdown-bg: #1e1e1e;
+  --dropdown-option-bg: #2e2e2e;
+  --dropdown-option-text: #e0e0e0;
 
   /* Table */
   --table-header-font-weight: 700;
-  --table-row-bg: #1E1E1E;
-  --table-border: #2E2E2E;
-  --table-text: #E0E0E0;
+  --table-row-bg: #1e1e1e;
+  --table-border: #2e2e2e;
+  --table-text: #e0e0e0;
 
   /* Card */
-  --card-bg: #1E1E1E;
-  --card-border: #2E2E2E;
+  --card-bg: #1e1e1e;
+  --card-border: #2e2e2e;
 
   /* Progress Bar */
-  --progress-bar-color: #2E2E2E;
-  --progress-bar-bg: #1E1E1E;
-  --progress-bar-text: #E0E0E0;
+  --progress-bar-color: #2e2e2e;
+  --progress-bar-bg: #1e1e1e;
+  --progress-bar-text: #e0e0e0;
 
   /* Alerts */
-  --alert-error-bg: #F44336;
-  --alert-error-text: #E0E0E0;
-  --alert-success-bg: #98CC67;
-  --alert-success-text: #1E1E1E;
+  --alert-error-bg: #f44336;
+  --alert-error-text: #e0e0e0;
+  --alert-success-bg: #98cc67;
+  --alert-success-text: #1e1e1e;
 
   /* Misc */
-  --font-family-base: 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-base: "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 // scss variables
 @import "./assets/utils/variables";
-//start template styles
 @import "./assets/layout/layout.scss";
-//end template styles
+@import "./assets/layout/_dialog.scss";
+@import "./assets/layout/_toolbar.scss";
+@import "./assets/layout/_form.scss";
+@import "./assets/layout/_list.scss";
 
-html, body { 
-  height: 100%; 
+html,
+body {
+  height: 100%;
   background-color: var(--color-bg-main);
 }
 
-.error-snackbar .mdc-snackbar__surface{
+.error-snackbar .mdc-snackbar__surface {
   background-color: rgb(197, 49, 49) !important;
 }
 
@@ -104,71 +109,44 @@ body {
 }
 
 main {
-   font-family: var(--font-family-base) !important;
+  font-family: var(--font-family-base) !important;
 }
 
-.success-snackbar .mdc-snackbar__surface{
+.success-snackbar .mdc-snackbar__surface {
   background-color: rgb(54, 197, 49) !important;
 }
 
-
-.page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li .sidebar-link {
-body { margin: 0; background-color: var(--color-bg-main); }
+.page-wrapper.compact-wrapper
+  .page-body-wrapper
+  div.sidebar-wrapper
+  .sidebar-main
+  .sidebar-links
+  .simplebar-wrapper
+  .simplebar-mask
+  .simplebar-content-wrapper
+  .simplebar-content
+  > li
+  .sidebar-link {
+  body {
+    margin: 0;
+    background-color: var(--color-bg-main);
+  }
 }
 
-
-.page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links {
+.page-wrapper.compact-wrapper
+  .page-body-wrapper
+  div.sidebar-wrapper
+  .sidebar-main
+  .sidebar-links {
   background-color: var(--alert-error-bg) !important;
   height: calc(93vh - 115px) !important;
   left: -300px;
   z-index: 99;
   transition: color 1s ease;
-  /* overflow: auto; */
   background-color: var(--color-bg-main) !important;
   color: var(--alert-success-text) !important;
-  /* color: rgba(0, 0, 0, 0); */
   margin-top: 0px;
   margin-bottom: 30px;
 }
 
 
-
-// --- PrimeNG Overrides ---
-::ng-deep .p-dataview-emptymessage {
-  background-color: #1e1e1e;
-  color: var(--color-text-primary);
-  padding: 1.5rem;
-  text-align: center;
-}
-
-:host ::ng-deep {
-  .p-dialog {
-    background-color: var(--color-accent);
-    border-radius: 12px;
-    border: 1px solid var(--color-divider);
-
-    .p-dialog-header {
-      background-color: transparent;
-      color: var(--color-text-primary);
-      border-bottom: 1px solid var(--color-divider);
-      padding: 1.5rem;
-
-      .p-dialog-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-
-      .p-dialog-header-icon {
-        color: var(--color-text-primary);
-        &:hover {
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-      }
-    }
-
-    .p-dialog-content {
-      background: var(--card-bg);
-      padding: 2rem;
-    }
-  }
-}

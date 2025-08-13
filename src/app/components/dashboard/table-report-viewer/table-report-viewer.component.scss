@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+.report-viewer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+:host ::ng-deep {
+  .report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--color-text-primary);
+    }
+
+    button {
+      background: var(--color-btn-blue);
+      color: var(--color-text-primary);
+      border: none;
+      border-radius: 10px;
+
+      &:hover {
+        background: var(--color-btn-blue-hover);
+      }
+    }
+  }
+}

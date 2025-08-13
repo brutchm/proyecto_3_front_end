@@ -10,7 +10,7 @@
   </div>
 
   <div class="form-field">
-    <label for="farmId">Finca (Opcional)</label>
+    <label for="farmId">Finca</label>
     <p-dropdown
       id="farmId"
       formControlName="farmId"
@@ -23,7 +23,7 @@
   </div>
 
   <div class="form-field">
-    <label for="cropId">Cultivo (Opcional)</label>
+    <label for="cropId">Cultivo</label>
     <p-dropdown
       id="cropId"
       formControlName="cropId"
@@ -45,6 +45,7 @@
         [minFractionDigits]="2"
         [maxFractionDigits]="2"
         (onInput)="calculateTotalValue()"
+        [min]="1"
       ></p-inputNumber>
     </div>
     <div class="form-field">
@@ -68,6 +69,7 @@
         mode="currency"
         currency="CRC"
         (onInput)="calculateTotalValue()"
+        [min]="1"
       ></p-inputNumber>
     </div>
     <div class="form-field">

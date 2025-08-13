@@ -1,0 +1,31 @@
+.toolbar {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+
+  h2 {
+    color: var(--color-text-primary);
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .p-button {
+    background-color: var(--color-btn-primary);
+    border: 1px solid var(--color-btn-primary);
+    color: var(--color-btn-primary-text);
+    font-weight: bold;
+
+    &:hover {
+      background-color: var(--color-btn-primary-hover);
+      border-color: var(--color-btn-primary-hover);
+    }
+  }
+
+  .p-button {
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 2.5rem;
+  }
+}
