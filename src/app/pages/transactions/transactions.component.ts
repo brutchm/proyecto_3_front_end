@@ -119,7 +119,7 @@ export class TransactionsComponent implements OnInit {
       cropId: [null, Validators.required],
       quantity: [null, [Validators.required, Validators.min(0.01)]],
       measureUnit: ["", Validators.required],
-      pricePerUnit: [null, Validators.required],
+      pricePerUnit: [null, [Validators.required, Validators.min(0)]],
       totalValue: [null, Validators.required],
       transactionDate: [new Date(), Validators.required],
     });
