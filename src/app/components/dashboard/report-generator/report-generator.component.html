@@ -1,0 +1,78 @@
+<p-dialog
+  header="Generador de Reportes"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '40rem' }"
+  (onHide)="closeDialog()"
+>
+  <form [formGroup]="reportForm" (ngSubmit)="onGenerate()" class="report-form">
+    <div class="form-field">
+      <label for="reportType">Seleccione el tipo de reporte</label>
+      <p-dropdown
+        id="reportType"
+        formControlName="reportType"
+        [options]="availableReports"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Seleccione un reporte"
+        [appendTo]="'body'"
+      >
+      </p-dropdown>
+    </div>
+
+    <!-- Filtros Dinámicos -->
+    <ng-container *ngIf="selectedReport">
+      <div *ngIf="selectedReport.params.dateRange" class="form-field">
+        <label for="dateRange">Rango de Fechas</label>
+        <p-calendar
+          id="dateRange"
+          formControlName="dateRange"
+          selectionMode="range"
+          [readonlyInput]="true"
+          dateFormat="dd/mm/yy"
+          [appendTo]="'body'"
+        >
+        </p-calendar>
+      </div>
+
+      <div *ngIf="selectedReport.params.farmId" class="form-field">
+        <label for="farmId">Finca</label>
+        <p-dropdown
+          id="farmId"
+          formControlName="farmId"
+          [options]="farms"
+          optionLabel="farmName"
+          optionValue="id"
+          placeholder="Seleccione una finca"
+          [appendTo]="'body'"
+        >
+        </p-dropdown>
+      </div>
+
+      <div *ngIf="selectedReport.params.cropId" class="form-field">
+        <label for="cropId">Cultivo</label>
+        <p-dropdown
+          id="cropId"
+          formControlName="cropId"
+          [options]="crops"
+          optionLabel="cropName"
+          optionValue="id"
+          placeholder="Seleccione un cultivo"
+          [appendTo]="'body'"
+        >
+        </p-dropdown>
+      </div>
+    </ng-container>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      type="submit"
+      label="Generar Reporte"
+      icon="pi pi-check"
+      (click)="onGenerate()"
+      [disabled]="reportForm.invalid"
+    ></button>
+  </ng-template>
+</p-dialog>

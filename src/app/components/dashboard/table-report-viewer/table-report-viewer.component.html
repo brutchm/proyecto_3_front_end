@@ -1,0 +1,34 @@
+<div class="report-viewer-container">
+  <div class="report-header">
+    <h3>{{ reportTitle }}</h3>
+    <button
+      pButton
+      type="button"
+      label="Descargar PDF"
+      icon="pi pi-download"
+      (click)="downloadPdf()"
+    ></button>
+  </div>
+
+  <p-table [value]="data" [columns]="columns" [rows]="10" [paginator]="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">{{ col.header }}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          {{ rowData[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="columns.length" class="text-center p-4">
+          No se encontraron datos para este reporte.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

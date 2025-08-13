@@ -59,6 +59,19 @@ export class AuthService {
     }
   }
 
+  /**
+   * Determina la URL del dashboard apropiado basado en el rol del usuario.
+   * @returns La URL del dashboard correspondiente.
+   */
+  public getHomeUrlForUser(): string {
+    // Usamos IRoleType.admin como lo tienes en tus rutas para el dashboard de corporación.
+    if (this.hasRole(IRoleType.admin)) {
+      return '/app/dashboard-corporation';
+    }
+    // Para cualquier otro rol autenticado, se dirige al dashboard estándar.
+    return '/app/dashboard';
+  }
+
   public login(credentials: {
     userEmail: string;
     userPassword: string;
