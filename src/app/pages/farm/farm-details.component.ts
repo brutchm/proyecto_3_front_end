@@ -438,7 +438,6 @@ export class FarmDetailsComponent implements OnInit, AfterViewInit {
           const crop = this.gestionCrops.find((c) => c.id === record.cropId);
           return crop ? { ...record, cropName: crop.cropName } : record;
         });
-        
         this.gestionParcelasLoading = false;
       },
       error: (error) => {

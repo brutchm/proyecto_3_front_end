@@ -47,7 +47,6 @@ export class CorporationService extends BaseService<ICorporation> {
           "top",
           ["error-snackbar"]
         );
-        console.error("error", err);
       },
     });
   }
@@ -71,7 +70,6 @@ export class CorporationService extends BaseService<ICorporation> {
           "top",
           ["error-snackbar"]
         );
-        console.error("error", err);
       },
     });
   }
