@@ -14,7 +14,7 @@
     <!-- Campos del formulario -->
     <div class="suggestion-fields">
       <div class="form-group">
-        <label for="farmId">Seleccione una Finca</label>
+        <label for="farmId">Elige una Finca</label>
         <p-dropdown
           [options]="farms"
           optionLabel="farm.farmName"
@@ -26,14 +26,24 @@
       </div>
 
       <div class="form-group">
-        <label for="prompt">Escribe tu Pregunta o Solicitud</label>
+        <label for="prompt">Escribe tu Pregunta</label>
         <textarea
           pInputTextarea
           rows="4"
           formControlName="prompt"
-          placeholder="Escribe tu pregunta o solicitud..."
+          placeholder="Escribe tu pregunta o solicitud para obtener una sugerencia en base a tu finca..."
+      
           class="custom-textarea">
         </textarea>
+        <div class="char-counter" [ngClass]="{'over-limit': charCount > maxChars}">
+          {{ charCount }}/{{ maxChars }} caracteres disponibles
+        </div>
+        <small 
+    *ngIf="suggestionForm.get('prompt')?.errors?.['maxlength'] 
+           && suggestionForm.get('prompt')?.dirty" 
+    style="color: red;">
+    Máximo {{ maxChars }} caracteres permitidos.
+  </small>
       </div>
 
       <div class="form-group">
